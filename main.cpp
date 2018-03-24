@@ -1,6 +1,8 @@
 #include<iostream>
 #include<stdio.h>
 #include"punkt.h"
+//#include"wierzcholek.h"
+//#include"linia.h"
 
 
 using namespace std;

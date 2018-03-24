@@ -1,13 +1,13 @@
-#ifndef PUNKT_H_
-#define PUNKT_H_
+#ifndef punkt_hpp
+#define punkt_hpp
 
 class Punkt {
 	int x;
 	int y;
 public:
-	Punkt(int x, int y);
-	int getX();
-	int getY();
+	Punkt(int , int );
+	int getX() const;
+	int getY() const;
 };
 
 #endif
