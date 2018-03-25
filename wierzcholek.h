@@ -6,14 +6,15 @@
 
 
 class Wierzcholek {
-	Punkt p;
+	Punkt *p;
 	Linia *l1;
 	Linia *l2;
 	Wierzcholek *nastepny;
 	Wierzcholek *poprzedni;
 public:
-	Wierzcholek(Punkt, Linia*, Linia*, Wierzcholek*, Wierzcholek*);
-
+	Wierzcholek(Punkt* p, Linia* l1, Linia* l2 = nullptr, Wierzcholek* nastepny = nullptr, Wierzcholek* poprzedni = nullptr);
+	void setNastepny(Wierzcholek*);
+	void setPoprzedni(Wierzcholek*);
 };
 
 #endif

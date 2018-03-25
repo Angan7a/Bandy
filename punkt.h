@@ -2,12 +2,12 @@
 #define punkt_hpp
 
 class Punkt {
-	int x;
-	int y;
+	float x;
+	float y;
 public:
-	Punkt(int , int );
-	int getX() const;
-	int getY() const;
+	Punkt(float , float );
+	float getX() const;
+	float getY() const;
 };
 
 #endif

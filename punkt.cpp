@@ -1,13 +1,13 @@
 #include"punkt.h"
 
-Punkt::Punkt(int x, int y) : x(x), y(y) {
+Punkt::Punkt(float x, float y) : x(x), y(y) {
 
 }
 
-int Punkt::getX() const {
+float Punkt::getX() const {
 	return x;
 }
 
-int Punkt::getY() const {
+float Punkt::getY() const {
 	return y;
 }
