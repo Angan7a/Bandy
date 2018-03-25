@@ -1,11 +1,11 @@
 #include"linia.h"
 
 
-Linia::Linia(Punkt* p1, Punkt* p2) : p1(p1), p2(p2) {
+Linia::Linia(Punkt* p1, Punkt* p2, const char* kierunek) : p1(p1), p2(p2), kierunek(kierunek) {
 
 }
 
-Punkt* Linia::getP1() const{
+Punkt* Linia::getP1() const {
 	return p1;
 }
 
