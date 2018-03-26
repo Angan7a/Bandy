@@ -87,15 +87,22 @@ int main() {
 						if((*itr)->getSrodekPo() == "prawej") {
 							Linia* nowaLiniaGorna = new Linia(po, (*itr)->getPunktDalejX(), "prawej");
 							Linia* nowaLiniaLewa = new Linia(l2->getP1(), po, "dol");
-							l2->setP1(ps);
-							(*itr)->getPunktBlizejX()->setNastepny(ps);
-							ps->setNastepny(l2->getP2());
+							l2->setP1(po);
+							//flow
 							nowaLiniaLewa->getP1()->setNastepny(po);
 							po->setNastepny(nowaLiniaGorna->getPunktDalejX());
+							(*itr)->getPunktBlizejX()->setNastepny(ps);
+							ps->setNastepny(l2->getP2());
 
 						} else 	if((*itr)->getSrodekPo() == "lewej") {
 							Linia* nowaLiniaGorna = new Linia(po, (*itr)->getPunktDalejX(), "lewej");
+							Linia* nowaLiniaLewa = new Linia(l2->getP1(), ps, "dol");
 							l2->setP1(ps);
+							//flow
+							nowaLiniaLewa->getP1()->setNastepny(ps);
+							ps->setNastepny((*itr)->getPunktBlizejX());
+							nowaLiniaGorna->getPunktDalejX()->setNastepny(po);
+							po->setNastepny(l2->getP2());
 						}
 					}
 
