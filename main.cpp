@@ -73,6 +73,13 @@ int main() {
 						   x == (*itr)->getP2()->getX()	  ) {
 							cout << "Punkt przeciecia znajduje sie w punktcie P1 lub P2" << endl;
 						}
+					} else {
+						//utwórz dwa punkty - po(punkt obwiedni), ps(do skasowania)
+						Punkt* po = new Punkt(x, y);
+						Punkt* ps = new Punkt(x, y);
+						// skróc linie l2 do punktu przecia 
+						l2->setP1(po);
+//						(*itr)->getP1(
 					}
 
 
