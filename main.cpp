@@ -30,9 +30,9 @@ int main() {
                 Punkt *p3 = new Punkt(p3x, p3y);
                 Punkt *p4 = new Punkt(p4x, p4y);
 
-		Linia *l1 = new Linia(p1, p2, "pionowa");
-		Linia *l2 = new Linia(p2, p3, "pozioma");
-		Linia *l3 = new Linia(p3, p4, "pionowa");
+		Linia *l1 = new Linia(p1, p2, "prawej");
+		Linia *l2 = new Linia(p2, p3, "dol");
+		Linia *l3 = new Linia(p3, p4, "lewej");
 
 		p1->setNastepny(p2);
 		p2->setNastepny(p3);
@@ -77,9 +77,26 @@ int main() {
 						//utwórz dwa punkty - po(punkt obwiedni), ps(do skasowania)
 						Punkt* po = new Punkt(x, y);
 						Punkt* ps = new Punkt(x, y);
-						// skróc linie l2 do punktu przecia 
-						l2->setP1(po);
-//						(*itr)->getP1(
+						// skróc linie l2 do punktu przecia
+						if((*itr)->getPunktBlizejX() == (*itr)->getP1()) {
+							(*itr)->setP2(ps);
+						} else {
+							(*itr)->setP1(ps);
+						}
+
+						if((*itr)->getSrodekPo() == "prawej") {
+							Linia* nowaLiniaGorna = new Linia(po, (*itr)->getPunktDalejX(), "prawej");
+							Linia* nowaLiniaLewa = new Linia(l2->getP1(), po, "dol");
+							l2->setP1(ps);
+							(*itr)->getPunktBlizejX()->setNastepny(ps);
+							ps->setNastepny(l2->getP2());
+							nowaLiniaLewa->getP1()->setNastepny(po);
+							po->setNastepny(nowaLiniaGorna->getPunktDalejX());
+
+						} else 	if((*itr)->getSrodekPo() == "lewej") {
+							Linia* nowaLiniaGorna = new Linia(po, (*itr)->getPunktDalejX(), "lewej");
+							l2->setP1(ps);
+						}
 					}
 
 

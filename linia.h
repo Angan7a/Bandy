@@ -15,6 +15,9 @@ public:
 	Punkt* getP2() const;
 	void setP1(Punkt*);
 	void setP2(Punkt*);
+	const char* getSrodekPo();
+	Punkt* getPunktBlizejX() const;
+	Punkt* getPunktDalejX() const;
 
 };
 
