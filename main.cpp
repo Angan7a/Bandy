@@ -15,12 +15,20 @@ int main() {
 	set<Linia*> liniePionowe;
 	set<Linia*> liniePoziome;
 	char a[12];
-	float center, width, alarm;
+/*	float center, width, alarm;
 	while((scanf("%12s - %f, %f, %f", a, &center, &width, &alarm)) != EOF) {
 		Punkt *p1 = new Punkt(center - width/2, 0);
 		Punkt *p2 = new Punkt(center - width/2, alarm);
 		Punkt *p3 = new Punkt(center + width/2, alarm);
 		Punkt *p4 = new Punkt(center + width/2, 0);
+*/
+
+        float p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y;
+        while((scanf("%12s - (%f, %f)(%f, %f)(%f, %f)(%f, %f)", a, &p1x, &p1y, &p2x, &p2y, &p3x, &p3y, &p4x, &p4y)) != EOF) {
+                Punkt *p1 = new Punkt(p1x, p1y);
+                Punkt *p2 = new Punkt(p2x, p2y);
+                Punkt *p3 = new Punkt(p3x, p3y);
+                Punkt *p4 = new Punkt(p4x, p4y);
 
 		Linia *l1 = new Linia(p1, p2, "pionowa");
 		Linia *l2 = new Linia(p2, p3, "pozioma");
@@ -45,20 +53,21 @@ int main() {
 			liniePionowe.insert( l1 );
 			liniePionowe.insert( l3 );
 		} else {
-					cout << "dodaj ta linie" << endl;
-
 			// znajdz linie pionowe w zbiorze wielokata przeciecinajaca sie z linia pozioma l2
+			cout << "Linia pozima l2: " << l2->getP1()->getX() << "," << l2->getP1()->getY() << "        " << l2->getP2()->getX() << "," << l2->getP2()->getY()  << endl;
 			for(auto itr = liniePionowe.begin(); itr != liniePionowe.end(); ++itr) {
-				cout << (*itr)->getP1()->getY() << endl;
-				cout << l2->getP1()->getY() << endl;
-				int c;
-				cin >> c;
-				if((*itr)->getP1()->getY() <= l2->getP1()->getY() &&
+				cout << "Rozpatruje teraz linie pionowa: " << (*itr)->getP1()->getX() << "," << (*itr)->getP1()->getY() << "        " << (*itr)->getP2()->getX() << "," << (*itr)->getP2()->getY()  << endl;
+				if( ((*itr)->getP1()->getY() <= l2->getP1()->getY() &&
 				   l2->getP1()->getY() <= (*itr)->getP2()->getY() &&
 				   l2->getP1()->getX() <= (*itr)->getP1()->getX() &&
-				   (*itr)->getP1()->getX() <= l2->getP2()->getX()  ) {
+				   (*itr)->getP1()->getX() <= l2->getP2()->getX() ) ||
+
+				  ((*itr)->getP1()->getY() >= l2->getP1()->getY() &&
+				   l2->getP1()->getY() >= (*itr)->getP2()->getY() &&
+				   l2->getP1()->getX() <= (*itr)->getP1()->getX() &&
+				   (*itr)->getP1()->getX() <= l2->getP2()->getX() )  ){
 					cout << "dodaj ta linie" << endl;
-				}
+				} else { cout << "nie dodaje taj linii" << endl; }
 			}
 		// znajdz linie pioziome w zbiorze wielokata przeciecinajaca sie z linia pozioma l1
 		// znajdz linie pioziome w zbiorze wielokata przeciecinajaca sie z linia pozioma l3
@@ -69,3 +78,4 @@ int main() {
 
 return 0;
 }
+
