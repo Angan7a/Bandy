@@ -21,4 +21,6 @@ void Linia::setP2(Punkt* p) {
 	p2 = p;
 }
 
-
+Wielokat* Linia::getNastepny() {
+	return nastepny;
+}

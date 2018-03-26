@@ -11,3 +11,8 @@ float Punkt::getX() const {
 float Punkt::getY() const {
 	return y;
 }
+
+
+Wielokat* Punkt::getNastepny() {
+	return nastepny;
+}

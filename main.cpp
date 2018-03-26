@@ -6,6 +6,7 @@
 #include"punkt.h"
 #include"wierzcholek.h"
 #include"linia.h"
+#include"wielokat.h"
 
 
 using namespace std;
