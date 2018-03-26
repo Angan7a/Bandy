@@ -6,13 +6,12 @@
 #include"punkt.h"
 #include"wierzcholek.h"
 #include"linia.h"
-#include"wielokat.h"
 
 
 using namespace std;
 
 int main() {
-	vector<Wierzcholek*> wielokat;
+	vector<Punkt*> pierwszyPunkt;
 	set<Linia*> liniePionowe;
 	set<Linia*> liniePoziome;
 	char a[12];
@@ -31,25 +30,21 @@ int main() {
                 Punkt *p3 = new Punkt(p3x, p3y);
                 Punkt *p4 = new Punkt(p4x, p4y);
 
-		Linia *l1 = new Linia(p1, p2, "pionowa");
-		Linia *l2 = new Linia(p2, p3, "pozioma");
-		Linia *l3 = new Linia(p3, p4, "pionowa");
+		Linia *l1 = new Linia(p1, p2, "prawej");
+		Linia *l2 = new Linia(p2, p3, "dol");
+		Linia *l3 = new Linia(p3, p4, "lewej");
 
-		Wierzcholek *w1 = new Wierzcholek(p1, l1);
-		Wierzcholek *w2 = new Wierzcholek(p2, l1, l2);
-		Wierzcholek *w3 = new Wierzcholek(p3, l2, l3);
-		Wierzcholek *w4 = new Wierzcholek(p4, nullptr, l3);
+		p1->setNastepny(p2);
+		p2->setNastepny(p3);
+		p3->setNastepny(p4);
 
-		w1->setNastepny(w2);
-		w2->setNastepny(w3);
-		w3->setNastepny(w4);
+		p4->setPoprzedni(p3);
+		p3->setPoprzedni(p2);
+		p2->setPoprzedni(p1);
 
-		w4->setPoprzedni(w3);
-		w3->setPoprzedni(w2);
-		w2->setPoprzedni(w1);
 
-		if(wielokat.empty()) {
-			wielokat.push_back(w1);
+		if(pierwszyPunkt.empty()) {
+			pierwszyPunkt.push_back(p1);
 			liniePoziome.insert( l2 );
 			liniePionowe.insert( l1 );
 			liniePionowe.insert( l3 );
@@ -68,6 +63,50 @@ int main() {
 				   l2->getP1()->getX() <= (*itr)->getP1()->getX() &&
 				   (*itr)->getP1()->getX() <= l2->getP2()->getX() )  ){
 					cout << "dodaj ta linie" << endl;
+					// punkt przeciecia
+					float x = (*itr)->getP1()->getX();
+					float y = l2->getP1()->getY();
+					cout << "Punkt przeciecia: " << x << "  " << y << endl;
+					if(y == (*itr)->getP1()->getY()) {
+						cout << "Punkt przeciecia znajduje sie na linii pionowej" << endl;
+						if(x == (*itr)->getP1()->getX() ||
+						   x == (*itr)->getP2()->getX()	  ) {
+							cout << "Punkt przeciecia znajduje sie w punktcie P1 lub P2" << endl;
+						}
+					} else {
+						//utwórz dwa punkty - po(punkt obwiedni), ps(do skasowania)
+						Punkt* po = new Punkt(x, y);
+						Punkt* ps = new Punkt(x, y);
+						// skróc linie l2 do punktu przecia
+						if((*itr)->getPunktBlizejX() == (*itr)->getP1()) {
+							(*itr)->setP2(ps);
+						} else {
+							(*itr)->setP1(ps);
+						}
+
+						if((*itr)->getSrodekPo() == "prawej") {
+							Linia* nowaLiniaGorna = new Linia(po, (*itr)->getPunktDalejX(), "prawej");
+							Linia* nowaLiniaLewa = new Linia(l2->getP1(), po, "dol");
+							l2->setP1(po);
+							//flow
+							nowaLiniaLewa->getP1()->setNastepny(po);
+							po->setNastepny(nowaLiniaGorna->getPunktDalejX());
+							(*itr)->getPunktBlizejX()->setNastepny(ps);
+							ps->setNastepny(l2->getP2());
+
+						} else 	if((*itr)->getSrodekPo() == "lewej") {
+							Linia* nowaLiniaGorna = new Linia(po, (*itr)->getPunktDalejX(), "lewej");
+							Linia* nowaLiniaLewa = new Linia(l2->getP1(), ps, "dol");
+							l2->setP1(ps);
+							//flow
+							nowaLiniaLewa->getP1()->setNastepny(ps);
+							ps->setNastepny((*itr)->getPunktBlizejX());
+							nowaLiniaGorna->getPunktDalejX()->setNastepny(po);
+							po->setNastepny(l2->getP2());
+						}
+					}
+
+
 				} else { cout << "nie dodaje taj linii" << endl; }
 			}
 		// znajdz linie pioziome w zbiorze wielokata przeciecinajaca sie z linia pozioma l1

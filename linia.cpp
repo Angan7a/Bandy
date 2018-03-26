@@ -21,6 +21,20 @@ void Linia::setP2(Punkt* p) {
 	p2 = p;
 }
 
-Wielokat* Linia::getNastepny() {
-	return nastepny;
+const char* Linia::getSrodekPo() {
+	return kierunek;
+}
+
+Punkt* Linia::getPunktBlizejX() const {
+	if(this->getP1()->getY() < this->getP2()->getY()) {
+		return this->getP1();
+	}
+	return this->getP2();
+}
+
+Punkt* Linia::getPunktDalejX() const {
+	if(this->getP1()->getY() > this->getP2()->getY()) {
+		return this->getP1();
+	}
+	return this->getP2();
 }
