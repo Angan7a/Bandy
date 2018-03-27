@@ -104,8 +104,38 @@ int main() {
 									(*itr)->setSkasowac('T');
 								}
 							} else {
-								
-							}   
+								Punkt* po = new Punkt(x, y);
+//								Punkt* ps = new Punkt(x, y);
+								if((*itr)->getSrodekPo() == "prawej") {
+									Skasowac* n1 = new Linia(po, (*itr)->getPunktDalejX(), "prawej");
+									Linia* nowaLiniaGorna = dynamic_cast<Linia*>(n1);
+									//flow obwiedni
+									l2->getPunktL()->setNastepny(po);
+									l2->getPunktL()->getNastepny()->setNastepny(nowaLiniaGorna->getPunktDalejX());
+									l2->setNastepny(nowaLiniaGorna);
+									//czy skasowac
+									l2->setSkasowac('N'); // linia
+									l2->getNastepny()->setSkasowac('N'); // linia
+									l2->getPunktL()->setSkasowac('N'); //reszta to punkty
+									l2->getPunktL()->getNastepny()->setSkasowac('N');
+									l2->getPunktL()->getNastepny()->getNastepny()->setSkasowac('N');
+									//flow do skasowania
+									(*itr)->getPunktBlizejX()->setNastepny( l3->getPunktDalejX() );
+//									(*itr)->getPunktBlizejX()->getNastepny()->setNastepny(l3->getPunktDalejX());
+									(*itr)->setNastepny(l3);
+									//czy skasowac
+									(*itr)->setSkasowac('T'); //linia
+									(*itr)->getNastepny()->setSkasowac('T'); //linia
+									(*itr)->getPunktBlizejX()->setSkasowac('T'); //reszta to punkty
+									(*itr)->getPunktBlizejX()->getNastepny()->setSkasowac('T');
+									(*itr)->getPunktBlizejX()->getNastepny()->getNastepny()->setSkasowac('T');
+								} else {
+										
+										
+										
+
+								}
+							}
 						} else {
 						cout << "Punkt przeciecia znajduje sie na linii pionowej" << endl;
 						}
