@@ -2,9 +2,10 @@
 #define linia_hpp
 
 #include"punkt.h"
+#include"skasowac.h"
 
 
-class Linia {
+class Linia : public Skasowac {
 	Punkt *p1;
 	Punkt *p2;
 	const char* kierunek;

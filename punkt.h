@@ -1,7 +1,9 @@
 #ifndef punkt_hpp
 #define punkt_hpp
 
-class Punkt {
+#include"skasowac.h"
+
+class Punkt : public Skasowac {
 	float x;
 	float y;
 	Punkt* nastepny;

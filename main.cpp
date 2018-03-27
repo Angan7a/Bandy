@@ -26,14 +26,22 @@ int main() {
 
         float p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y;
         while((scanf("%12s - (%f, %f)(%f, %f)(%f, %f)(%f, %f)", a, &p1x, &p1y, &p2x, &p2y, &p3x, &p3y, &p4x, &p4y)) != EOF) {
-                Punkt *p1 = new Punkt(p1x, p1y);
-                Punkt *p2 = new Punkt(p2x, p2y);
-                Punkt *p3 = new Punkt(p3x, p3y);
-                Punkt *p4 = new Punkt(p4x, p4y);
+                Skasowac *p11 = new Punkt(p1x, p1y);
+                Skasowac *p22 = new Punkt(p2x, p2y);
+                Skasowac *p33 = new Punkt(p3x, p3y);
+                Skasowac *p44 = new Punkt(p4x, p4y);
+		Punkt* p1 = dynamic_cast<Punkt*>(p11);
+		Punkt* p2 = dynamic_cast<Punkt*>(p22);
+		Punkt* p3 = dynamic_cast<Punkt*>(p33);
+		Punkt* p4 = dynamic_cast<Punkt*>(p44);
 
-		Linia *l1 = new Linia(p1, p2, "prawej");
-		Linia *l2 = new Linia(p2, p3, "dol");
-		Linia *l3 = new Linia(p3, p4, "lewej");
+
+		Skasowac *l11 = new Linia(p1, p2, "prawej");
+		Skasowac *l22 = new Linia(p2, p3, "dol");
+		Skasowac *l33 = new Linia(p3, p4, "lewej");
+		Linia* l1 = dynamic_cast<Linia*>(l11);
+		Linia* l2 = dynamic_cast<Linia*>(l22);
+		Linia* l3 = dynamic_cast<Linia*>(l33);
 
 		p1->setNastepny(p2);
 		p2->setNastepny(p3);
@@ -69,10 +77,11 @@ int main() {
 					float y = l2->getP1()->getY();
 					cout << "Punkt przeciecia: " << x << "  " << y << endl;
 					if(y == (*itr)->getP1()->getY()) {
-						cout << "Punkt przeciecia znajduje sie na linii pionowej" << endl;
 						if(x == (*itr)->getP1()->getX() ||
 						   x == (*itr)->getP2()->getX()	  ) {
 							cout << "Punkt przeciecia znajduje sie w punktcie P1 lub P2" << endl;
+						} else {
+						cout << "Punkt przeciecia znajduje sie na linii pionowej" << endl;
 						}
 					} else {
 						//utwórz dwa punkty - po(punkt obwiedni), ps(do skasowania)
