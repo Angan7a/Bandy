@@ -14,6 +14,7 @@ int main() {
 	vector<Punkt*> pierwszyPunkt;
 	set<Linia*> liniePionowe;
 	set<Linia*> liniePoziome;
+	set<Linia*> linieDoSkasowania;
 	char a[12];
 /*	float center, width, alarm;
 	while((scanf("%12s - %f, %f, %f", a, &center, &width, &alarm)) != EOF) {
@@ -89,20 +90,26 @@ int main() {
 							Linia* nowaLiniaLewa = new Linia(l2->getP1(), po, "dol");
 							l2->setP1(po);
 							//flow
-							nowaLiniaLewa->getP1()->setNastepny(po);
+							nowaLiniaLewa->getPunktL()->setNastepny(po);
 							po->setNastepny(nowaLiniaGorna->getPunktDalejX());
 							(*itr)->getPunktBlizejX()->setNastepny(ps);
-							ps->setNastepny(l2->getP2());
+							ps->setNastepny(l2->getPunktR());
+							//dodaj punkty i linie
+							liniePionowe.insert(nowaLiniaGorna);
+							liniePoziome.insert(nowaLiniaLewa);
 
 						} else 	if((*itr)->getSrodekPo() == "lewej") {
 							Linia* nowaLiniaGorna = new Linia(po, (*itr)->getPunktDalejX(), "lewej");
 							Linia* nowaLiniaLewa = new Linia(l2->getP1(), ps, "dol");
 							l2->setP1(ps);
 							//flow
-							nowaLiniaLewa->getP1()->setNastepny(ps);
+							nowaLiniaLewa->getPunktL()->setNastepny(ps);
 							ps->setNastepny((*itr)->getPunktBlizejX());
 							nowaLiniaGorna->getPunktDalejX()->setNastepny(po);
-							po->setNastepny(l2->getP2());
+							po->setNastepny(l2->getPunktR());
+							//dodaj punkty i linie
+							liniePionowe.insert(nowaLiniaGorna);
+							linieDoSkasowania.insert(nowaLiniaLewa);
 						}
 					}
 

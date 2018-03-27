@@ -38,3 +38,17 @@ Punkt* Linia::getPunktDalejX() const {
 	}
 	return this->getP2();
 }
+
+Punkt* Linia::getPunktL() const {
+	if(this->getP1()->getX() < this->getP2()->getX()) {
+		return this->getP1();
+	}
+	return this->getP2();
+}
+
+Punkt* Linia::getPunktR() const {
+	if(this->getP1()->getX() > this->getP2()->getX()) {
+		return this->getP1();
+	}
+	return this->getP2();
+}

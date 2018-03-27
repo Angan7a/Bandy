@@ -18,6 +18,8 @@ public:
 	const char* getSrodekPo();
 	Punkt* getPunktBlizejX() const;
 	Punkt* getPunktDalejX() const;
+	Punkt* getPunktL() const;
+	Punkt* getPunktR() const;
 };
 
 #endif
