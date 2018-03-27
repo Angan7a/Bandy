@@ -12,6 +12,10 @@ float Punkt::getY() const {
 	return y;
 }
 
+Punkt* Punkt::getNastepny() const {
+	return nastepny;
+}
+
 void Punkt::setNastepny(Punkt* p) {
 	nastepny = p;
 }

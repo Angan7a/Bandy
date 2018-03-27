@@ -13,6 +13,8 @@ public:
 	float getX() const;
 	float getY() const;
 
+
+	Punkt* getNastepny() const;
 	void setNastepny(Punkt*);
 	void setPoprzedni(Punkt*);
 };

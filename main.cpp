@@ -80,6 +80,19 @@ int main() {
 						if(x == (*itr)->getP1()->getX() ||
 						   x == (*itr)->getP2()->getX()	  ) {
 							cout << "Punkt przeciecia znajduje sie w punktcie P1 lub P2" << endl;
+							// zaznacz ktore linie i punkty maja zostac a ktora maja byc skasowane (wybor nie ma znaczenia)
+							if(l2->getPunktL()->getX() < x) {
+								l2->getPunktL()->setSkasowac('T');
+								l2->getPunktL()->getNastepny()->setSkasowac('T');
+								l2->getPunktL()->getNastepny()->getNastepny()->setSkasowac('T');
+								l2->setSkasowac('T');
+//								linieDoSkasowania.insert(nowaLiniaLewa);
+								(*itr)->getPunktBlizejX()->setSkasowac('N');
+								(*itr)->getPunktBlizejX()->getNastepny()->setSkasowac('N');
+								(*itr)->getPunktBlizejX()->getNastepny()->getNastepny()->setSkasowac('N');
+							} else {
+								
+							}
 						} else {
 						cout << "Punkt przeciecia znajduje sie na linii pionowej" << endl;
 						}
