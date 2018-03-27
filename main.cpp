@@ -58,6 +58,22 @@ int main() {
 			liniePionowe.insert( l1 );
 			liniePionowe.insert( l3 );
 		} else {
+			//rozpatruje linie l1
+			for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
+				if( l1->getP1()->getX() < (*itr)->getX() &&
+				    (*itr)->getX() < l3->getP1()->getX() ){
+					l1->setSkasowac('N');
+					(*itr)->setSkasowac('T');
+					// znajdz linie pionowa ktora zawiera x == 
+					for(auto it = liniePionowe.begin(); it != liniePionowe.end(); ++it) {
+						if((*it)->getP1()->getX() == (*itr)->getX()) {
+							(*it)->setSkasowac('T');
+						}
+					}
+
+					//cout << "Pierwszy punkt wielokata znajduj sie miedzy l1 i l3" << endl;
+				}
+			}
 			// znajdz linie pionowe w zbiorze wielokata przeciecinajaca sie z linia pozioma l2
 			cout << "Linia pozima l2: " << l2->getP1()->getX() << "," << l2->getP1()->getY() << "        " << l2->getP2()->getX() << "," << l2->getP2()->getY()  << endl;
 			for(auto itr = liniePionowe.begin(); itr != liniePionowe.end(); ++itr) {
