@@ -130,9 +130,17 @@ int main() {
 									(*itr)->getPunktBlizejX()->getNastepny()->setSkasowac('T');
 									(*itr)->getPunktBlizejX()->getNastepny()->getNastepny()->setSkasowac('T');
 								} else {
-										
-										
-										
+									//nie trzeba zmieniac flow, tylko zaznaczyc czy skasowac
+										l2->getPunktL()->setSkasowac('T');
+										l2->getPunktL()->getNastepny()->setSkasowac('T');
+										l2->getPunktL()->getNastepny()->getNastepny()->setSkasowac('T');
+										//linie
+										l2->setSkasowac('T');
+										l2->getNastepny()->setSkasowac('T');
+										//obwiednia
+										(*itr)->getPunktDalejX()->setSkasowac('N');
+										(*itr)->getPunktBlizejX()->setSkasowac('N');
+										(*itr)->setSkasowac('N');
 
 								}
 							}
