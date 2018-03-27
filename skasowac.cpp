@@ -3,7 +3,7 @@
 Skasowac::Skasowac(Skasowac* n, char w) : skasowac(w), nastepny(n) {
 }
 
-char Skasowac::czySkasowac() const {
+char Skasowac::getSkasowac() const {
 	return skasowac;
 }
 

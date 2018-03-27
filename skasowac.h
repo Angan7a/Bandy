@@ -8,7 +8,7 @@ protected:
 public:
 	Skasowac(Skasowac* n = nullptr, char skasowac = '0');
 
-	char czySkasowac() const;
+	char getSkasowac() const;
 	void setSkasowac(char);
 
         Skasowac* getNastepny() const;

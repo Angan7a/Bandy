@@ -12,6 +12,7 @@ using namespace std;
 
 int main() {
 	vector<Punkt*> pierwszyPunkt;
+	vector<Linia*> pierwszaLinia;
 	set<Linia*> liniePionowe;
 	set<Linia*> liniePoziome;
 	set<Linia*> linieDoSkasowania;
@@ -47,8 +48,12 @@ int main() {
 		p2->setNastepny(p3);
 		p3->setNastepny(p4);
 
+		l1->setNastepny(l2);
+		l2->setNastepny(l3);
+
 		if(pierwszyPunkt.empty()) {
 			pierwszyPunkt.push_back(p1);
+			pierwszaLinia.push_back(l1);
 			liniePoziome.insert( l2 );
 			liniePionowe.insert( l1 );
 			liniePionowe.insert( l3 );
@@ -57,7 +62,7 @@ int main() {
 			cout << "Linia pozima l2: " << l2->getP1()->getX() << "," << l2->getP1()->getY() << "        " << l2->getP2()->getX() << "," << l2->getP2()->getY()  << endl;
 			for(auto itr = liniePionowe.begin(); itr != liniePionowe.end(); ++itr) {
 				cout << "Rozpatruje teraz linie pionowa: " << (*itr)->getP1()->getX() << "," << (*itr)->getP1()->getY() << "        " << (*itr)->getP2()->getX() << "," << (*itr)->getP2()->getY()  << endl;
-				if( ((*itr)->getP1()->getY() <= l2->getP1()->getY() &&
+				  if( ((*itr)->getP1()->getY() <= l2->getP1()->getY() &&
 				   l2->getP1()->getY() <= (*itr)->getP2()->getY() &&
 				   l2->getP1()->getX() <= (*itr)->getP1()->getX() &&
 				   (*itr)->getP1()->getX() <= l2->getP2()->getX() ) ||
@@ -77,17 +82,30 @@ int main() {
 							cout << "Punkt przeciecia znajduje sie w punktcie P1 lub P2" << endl;
 							// zaznacz ktore linie i punkty maja zostac a ktora maja byc skasowane (wybor nie ma znaczenia)
 							if(l2->getPunktL()->getX() < x) {
-								l2->getPunktL()->setSkasowac('T');
-								l2->getPunktL()->getNastepny()->setSkasowac('T');
-								l2->getPunktL()->getNastepny()->getNastepny()->setSkasowac('T');
-								l2->setSkasowac('T');
-//								linieDoSkasowania.insert(nowaLiniaLewa);
-								(*itr)->getPunktBlizejX()->setSkasowac('N');
-								(*itr)->getPunktBlizejX()->getNastepny()->setSkasowac('N');
-								(*itr)->getPunktBlizejX()->getNastepny()->getNastepny()->setSkasowac('N');
+								if(l2->getPunktL()->getSkasowac() == 'T') {
+									l2->getPunktL()->setSkasowac('T');
+									l2->getPunktL()->getNastepny()->setSkasowac('T');
+									l2->getPunktL()->getNastepny()->getNastepny()->setSkasowac('T');
+									l2->setSkasowac('T');
+									l2->getNastepny()->setSkasowac('T');
+//									linieDoSkasowania.insert(nowaLiniaLewa);
+									(*itr)->getPunktDalejX()->setSkasowac('N');
+									(*itr)->getPunktBlizejX()->setSkasowac('N');
+									(*itr)->setSkasowac('N');
+								} else {
+									l2->getPunktL()->setSkasowac('N');
+									l2->getPunktL()->getNastepny()->setSkasowac('N');
+									l2->getPunktL()->getNastepny()->getNastepny()->setSkasowac('N');
+									l2->setSkasowac('N');
+									l2->getNastepny()->setSkasowac('N');
+//									linieDoSkasowania.insert(nowaLiniaLewa);
+									(*itr)->getPunktDalejX()->setSkasowac('T');
+									(*itr)->getPunktBlizejX()->setSkasowac('T');
+									(*itr)->setSkasowac('T');
+								}
 							} else {
 								
-							}
+							}   
 						} else {
 						cout << "Punkt przeciecia znajduje sie na linii pionowej" << endl;
 						}
@@ -131,7 +149,7 @@ int main() {
 					}
 
 
-				} else { cout << "nie dodaje taj linii" << endl; }
+				} else { cout << "nie dodaje taj linii" << endl; } 
 			}
 		// znajdz linie pioziome w zbiorze wielokata przeciecinajaca sie z linia pozioma l1
 		// znajdz linie pioziome w zbiorze wielokata przeciecinajaca sie z linia pozioma l3
