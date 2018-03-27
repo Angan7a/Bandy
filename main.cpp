@@ -47,11 +47,6 @@ int main() {
 		p2->setNastepny(p3);
 		p3->setNastepny(p4);
 
-		p4->setPoprzedni(p3);
-		p3->setPoprzedni(p2);
-		p2->setPoprzedni(p1);
-
-
 		if(pierwszyPunkt.empty()) {
 			pierwszyPunkt.push_back(p1);
 			liniePoziome.insert( l2 );

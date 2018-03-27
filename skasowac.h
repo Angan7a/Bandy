@@ -3,15 +3,16 @@
 
 class Skasowac {
 	char skasowac;
+protected:
 	Skasowac *nastepny;
-	Skasowac *poprzedni;
 public:
-	Skasowac(char skasowac = '0');
+	Skasowac(Skasowac* n = nullptr, char skasowac = '0');
 
 	char czySkasowac() const;
 	void setSkasowac(char);
+
+        Skasowac* getNastepny() const;
         void setNastepny(Skasowac*);
-        void setPoprzedni(Skasowac*);
 
 	virtual ~Skasowac();
 };
