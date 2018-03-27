@@ -63,6 +63,7 @@ int main() {
 				if( l1->getP1()->getX() < (*itr)->getX() &&
 				    (*itr)->getX() < l3->getP1()->getX() ){
 					l1->setSkasowac('N');
+					l1->getPunktBlizejX()->setSkasowac('N');
 					(*itr)->setSkasowac('T');
 					// znajdz linie pionowa ktora zawiera x == 
 					for(auto it = liniePionowe.begin(); it != liniePionowe.end(); ++it) {
@@ -70,8 +71,18 @@ int main() {
 							(*it)->setSkasowac('T');
 						}
 					}
-
 					//cout << "Pierwszy punkt wielokata znajduj sie miedzy l1 i l3" << endl;
+				} else if( l1->getP1()->getX() == (*itr)->getX() ) {
+					l1->setSkasowac('T');
+					l1->getPunktBlizejX()->setSkasowac('T');
+					(*itr)->setSkasowac('N');
+					// znajdz linie pionowa ktora zawiera x == 
+					for(auto it = liniePionowe.begin(); it != liniePionowe.end(); ++it) {
+						if((*it)->getP1()->getX() == (*itr)->getX()) {
+							(*it)->setSkasowac('N');
+						}
+						cout << "Pierwszy Punkt pokrywa sie z l1" << endl;
+					}
 				}
 			}
 			// znajdz linie pionowe w zbiorze wielokata przeciecinajaca sie z linia pozioma l2
