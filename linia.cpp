@@ -39,6 +39,16 @@ Punkt* Linia::getPunktDalejX() const {
 	return this->getP2();
 }
 
+void Linia::setPunktBlizejX(Punkt* p) {
+	Punkt* p1 = this->getPunktBlizejX();
+	p1 = p;
+}
+
+void Linia::setPunktDalejX(Punkt* p) {
+	Punkt* p1 =this->getPunktDalejX();
+	p1 = p;
+}
+
 Punkt* Linia::getPunktL() const {
 	if(this->getP1()->getX() < this->getP2()->getX()) {
 		return this->getP1();
@@ -51,4 +61,15 @@ Punkt* Linia::getPunktR() const {
 		return this->getP1();
 	}
 	return this->getP2();
+}
+
+void Linia::setPunktL(Punkt* p) {
+	Punkt* p1 =this->getPunktL();
+	p1 = p;
+
+}
+
+void Linia::setPunktR(Punkt* p) {
+	Punkt* p1 =this->getPunktR();
+	p1 = p;
 }

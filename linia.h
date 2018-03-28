@@ -19,8 +19,12 @@ public:
 	const char* getSrodekPo();
 	Punkt* getPunktBlizejX() const;
 	Punkt* getPunktDalejX() const;
+	void setPunktBlizejX(Punkt*);
+	void setPunktDalejX(Punkt*);
 	Punkt* getPunktL() const;
 	Punkt* getPunktR() const;
+	void setPunktL(Punkt*);
+	void setPunktR(Punkt*);
 };
 
 #endif
