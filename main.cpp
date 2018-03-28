@@ -84,13 +84,19 @@ int main() {
 						cout << "Pierwszy Punkt pokrywa sie z l1" << endl;
 					}
 				} else {
-					l1->setSkasowac('T');
-					l1->getPunktBlizejX()->setSkasowac('T');
-					(*itr)->setSkasowac('N');
-					// znajdz linie pionowa ktora zawiera x == 
-					for(auto it = liniePionowe.begin(); it != liniePionowe.end(); ++it) {
-						if((*it)->getP1()->getX() == (*itr)->getX()) {
-							(*it)->setSkasowac('N');
+					Punkt* pKoncowy = (*itr);
+					while( pKoncowy->getNastepny() != nullptr) {
+						pKoncowy = dynamic_cast<Punkt*> (pKoncowy->getNastepny());
+					}
+					if( l1->getP1()->getX() < pKoncowy->getX() ) {
+						l1->setSkasowac('T');
+						l1->getPunktBlizejX()->setSkasowac('T');
+						(*itr)->setSkasowac('N');
+						// znajdz linie pionowa ktora zawiera x == 
+						for(auto it = liniePionowe.begin(); it != liniePionowe.end(); ++it) {
+							if((*it)->getP1()->getX() == (*itr)->getX()) {
+								(*it)->setSkasowac('N');
+							}
 						}
 					}
 					cout << "dddddddddddddddddddddddddd" << endl;
