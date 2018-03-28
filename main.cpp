@@ -83,6 +83,17 @@ int main() {
 						}
 						cout << "Pierwszy Punkt pokrywa sie z l1" << endl;
 					}
+				} else {
+					l1->setSkasowac('T');
+					l1->getPunktBlizejX()->setSkasowac('T');
+					(*itr)->setSkasowac('N');
+					// znajdz linie pionowa ktora zawiera x == 
+					for(auto it = liniePionowe.begin(); it != liniePionowe.end(); ++it) {
+						if((*it)->getP1()->getX() == (*itr)->getX()) {
+							(*it)->setSkasowac('N');
+						}
+					}
+					cout << "dddddddddddddddddddddddddd" << endl;
 				}
 			}
 			// znajdz linie pionowe w zbiorze wielokata przeciecinajaca sie z linia pozioma l2
