@@ -2,6 +2,7 @@
 #include<iostream>
 #include<cstring>
 Linia* dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
+
 	float x =  liniaPionowa->getPunktBlizejX()->getX();
 	float y = liniaPozioma->getPunktL()->getY();
 
@@ -11,9 +12,9 @@ Linia* dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
 	Punkt* po = dynamic_cast<Punkt*>(poq);
 	Punkt* ps = dynamic_cast<Punkt*>(psq);
         // skróc linie pozioma do punktu przecia
+std::cout << "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" << x << "    " << y << std::endl; 
 
         if(std::strcmp(liniaPionowa->getSrodekPo(), "prawej") == 0) {
-std::cout << "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" << std::endl; 
 		Linia* nextLG = dynamic_cast<Linia*> (liniaPionowa->getNastepny());
 		Linia* nextLR = dynamic_cast<Linia*> (liniaPozioma->getNastepny());
 		Punkt* nextPG = dynamic_cast<Punkt*> (liniaPionowa->getPunktDalejX()->getNastepny());
@@ -49,20 +50,14 @@ std::cout << "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" << std::endl;
 		Punkt* nextPD = dynamic_cast<Punkt*> (liniaPionowa->getPunktBlizejX()->getNastepny());
 		Punkt* nextPR = dynamic_cast<Punkt*> (liniaPozioma->getPunktR()->getNastepny());
 
-		Skasowac* nr = new Linia(po, liniaPozioma->getPunktR(), "dol");
+		Skasowac* nr = new Linia(liniaPozioma->getPunktR(), po, "dol");
 		Linia* nowaLiniaPrawa = dynamic_cast<Linia*>(nr);
-		Skasowac* nd = new Linia(ps, liniaPionowa->getPunktDalejX(), "lewej");
+		Skasowac* nd = new Linia(ps, liniaPionowa->getPunktBlizejX(), "lewej");
 		Linia* nowaLiniaDolna = dynamic_cast<Linia*>(nd);
+
 
         	liniaPozioma->setPunktR(ps);
 		liniaPionowa->setPunktBlizejX(po);
-
-		//flow do skasowania
-		liniaPozioma->getPunktL()->setNastepny(ps);
-		ps->setNastepny(nowaLiniaDolna->getPunktBlizejX());
-		nowaLiniaDolna->getPunktBlizejX()->setNastepny(nextPD);
-		liniaPozioma->setNastepny(nowaLiniaDolna);
-		nowaLiniaDolna->setNastepny(nextLD);
 
 		//flow obwiedni
 		liniaPionowa->getPunktDalejX()->setNastepny(po);
@@ -70,6 +65,19 @@ std::cout << "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" << std::endl;
 		nowaLiniaPrawa->getPunktR()->setNastepny(nextPR);
 		liniaPionowa->setNastepny(nowaLiniaPrawa);
 		nowaLiniaPrawa->setNastepny(nextLR);
+
+
+		//flow do skasowania
+		liniaPozioma->getPunktL()->setNastepny(ps);
+
+		std::cout << "LiniaPozioma->getPunktL() " << liniaPozioma->getPunktL()->getX()  << "     " << liniaPozioma->getPunktL()->getY() << std::endl;
+		std::cout << "LiniaPozioma->getPunktR() " << liniaPozioma->getPunktR()->getX()  << "     " << liniaPozioma->getPunktR()->getY() << std::endl;
+
+		ps->setNastepny(nowaLiniaDolna->getPunktBlizejX());
+		nowaLiniaDolna->getPunktBlizejX()->setNastepny(nextPD);
+		liniaPozioma->setNastepny(nowaLiniaDolna);
+		nowaLiniaDolna->setNastepny(nextLD);
+
 
 	//	liniePoziome->insert(nowaLiniaPrawa);
 		return nowaLiniaPrawa;

@@ -58,6 +58,7 @@ int main() {
 			liniePionowe.push_back( l1 );
 			liniePionowe.push_back( l3 );
 		} else {
+			pierwszyPunkt.push_back(p1);
 			//rozpatruje linie pionowa l1
 			for( auto itr = liniePoziome.begin(); itr != liniePoziome.end(); ++itr) {
 				if( (*itr)->getPunktL()->getX() < l1->getPunktBlizejX()->getX() &&
@@ -67,38 +68,42 @@ int main() {
 				    (*itr)->getPunktL()->getY() < l1->getPunktDalejX()->getY()	) {
 					cout << "rrrrrrrrrrrrrrrrrrrrrrrrrrl1 przecina sie z linia pionowa" << endl;
 					dekompozycjaKrzyzowa((*itr), l1);
-
 				}
 			}
+
 			// znajdz linie pionowe w zbiorze wielokata przeciecinajaca sie z linia pozioma l2
 			cout << "Linia pozima l2: " << l2->getP1()->getX() << "," << l2->getP1()->getY() << "        " << l2->getP2()->getX() << "," << l2->getP2()->getY()  << endl;
 			for(auto itr = liniePionowe.begin(); itr != liniePionowe.end(); ++itr) {
 				cout << "Rozpatruje teraz linie pionowa: " << (*itr)->getPunktBlizejX()->getX() << "," << (*itr)->getPunktBlizejX()->getY() << "        " << (*itr)->getPunktDalejX()->getX() << "," << (*itr)->getPunktDalejX()->getY()  << endl;
-				  if( ((*itr)->getP1()->getY() <= l2->getP1()->getY() &&
-				   l2->getP1()->getY() <= (*itr)->getP2()->getY() &&
-				   l2->getP1()->getX() <= (*itr)->getP1()->getX() &&
-				   (*itr)->getP1()->getX() <= l2->getP2()->getX() ) ||
+				  if( l2->getPunktL()->getX() < (*itr)->getPunktBlizejX()->getX() &&
+				      (*itr)->getPunktBlizejX()->getX() < l2->getPunktR()->getX() &&
 
-				  ((*itr)->getP1()->getY() >= l2->getP1()->getY() &&
-				   l2->getP1()->getY() >= (*itr)->getP2()->getY() &&
-				   l2->getP1()->getX() <= (*itr)->getP1()->getX() &&
-				   (*itr)->getP1()->getX() <= l2->getP2()->getX() )  ){
+				      (*itr)->getPunktBlizejX()->getY() < l2->getPunktL()->getY() &&
+				      l2->getPunktL()->getY() < (*itr)->getPunktDalejX()->getY() ){
 					cout << "dodaj ta linie" << endl;
 					// punkt przeciecia
 					float x = (*itr)->getP1()->getX();
 					float y = l2->getP1()->getY();
 					cout << "Punkt przeciecia: " << x << "  " << y << endl;
-					l2 = dekompozycjaKrzyzowa(l2, (*itr));
-					if((*itr)->getSrodekPo() == "lewej") {
+					dekompozycjaKrzyzowa(l2, (*itr));
+//					if((*itr)->getSrodekPo() == "lewej") {
 						liniePoziome.push_back(l2);
-					}
+//					}
 
 				} else { cout << "nie dodaje tej linii" << endl; } 
 			}
-		// znajdz linie pioziome w zbiorze wielokata przeciecinajaca sie z linia pozioma l1
-		// znajdz linie pioziome w zbiorze wielokata przeciecinajaca sie z linia pozioma l3
+		// rozpatruje linie pozioma l3
+			for( auto itr = liniePoziome.begin(); itr != liniePoziome.end(); ++itr) {
+				if( (*itr)->getPunktL()->getX() < l3->getPunktBlizejX()->getX() &&
+				    l3->getPunktBlizejX()->getX() < (*itr)->getPunktR()->getX() &&
 
-		
+				    l3->getPunktBlizejX()->getY() < (*itr)->getPunktL()->getY() &&
+				    (*itr)->getPunktL()->getY() < l3->getPunktDalejX()->getY()	) {
+					cout << "A3    rrrrrrrrrrrrrrrrrrrrrrrrrrl1 przecina sie z linia pionowa" << endl;
+					dekompozycjaKrzyzowa((*itr), l3);
+				}
+				liniePionowe.push_back(l3);
+			}
 		for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
 			Punkt* p =  *(itr);
 			while(p != nullptr) {

@@ -64,12 +64,17 @@ Punkt* Linia::getPunktR() const {
 }
 
 void Linia::setPunktL(Punkt* p) {
-	Punkt* p1 =this->getPunktL();
-	p1 = p;
-
+	if(p1->getX() < p2->getX()){
+		p1 = p;
+	} else {
+		p2 = p;
+	}
 }
 
 void Linia::setPunktR(Punkt* p) {
-	Punkt* p1 =this->getPunktR();
-	p1 = p;
+	if(p1->getX() < p2->getX()){
+		p2 = p;
+	} else {
+		p1 = p;
+	}
 }
