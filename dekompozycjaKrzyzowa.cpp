@@ -1,6 +1,7 @@
 #include"linia.h"
 #include"punkt.h"
-void dekompozcyajKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
+#include<set>
+Linia* dekompozcyajKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa, std::set<Linia*>& liniePionowe, std::set<Linia*>& liniePoziome) {
 	float x =0;
 	float y =0;
 
@@ -11,27 +12,34 @@ void dekompozcyajKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
 	Punkt* ps = dynamic_cast<Punkt*>(psq);
         // skróc linie pozioma do punktu przecia
         if(liniaPionowa->getSrodekPo() == "prawej") {
-		Linia* lgTmp = liniaPionowa->getNastepny();
-		Linia* lrTmp = liniaPozioma->getNastepny();
-		Punkt* pgTmp = liniaPionowa->getPunktDalejX()->getNastepny();
-		Punkt* prTmp = liniaPozioma->getPunktR()->getNastepny();
+		Linia* nextLG = dynamic_cast<Linia*> (liniaPionowa->getNastepny());
+		Linia* nextLR = dynamic_cast<Linia*> (liniaPozioma->getNastepny());
+		Punkt* nextPG = dynamic_cast<Punkt*> (liniaPionowa->getPunktDalejX()->getNastepny());
+		Punkt* nextPR = dynamic_cast<Punkt*> (liniaPozioma->getPunktR()->getNastepny());
+
 		Skasowac* nr = new Linia(ps, liniaPozioma->getPunktR(), "dol");
 		Linia* nowaLiniaPrawa = dynamic_cast<Linia*>(nr);
 		Skasowac* ng = new Linia(liniaPionowa->getPunktDalejX(), po, "prawej");
 		Linia* nowaLiniaGorna = dynamic_cast<Linia*>(ng);
+
         	liniaPozioma->setPunktR(po);
 		liniaPionowa->setPunktDalejX(ps);
 		//flow obwiedni
-////		Linia* lTmp = 
 		liniaPozioma->getPunktL()->setNastepny(po); // punkt
 		po->setNastepny(nowaLiniaGorna->getPunktDalejX()); //punkt
-		nowaLiniaLewa->setNastepny(nowaLiniaGorna); //linie
+		nowaLiniaGorna->getPunktDalejX()->setNastepny(nextPG); //punkt
+		liniaPozioma->setNastepny(nowaLiniaGorna); //linia
+		nowaLiniaGorna->setNastepny(nextLG); //linia
+		//dodanie lini poz i pion
+		liniePoziome.insert(nowaLiniaPrawa);
+		liniePionowe.insert(nowaLiniaGorna);
 		//flow do skasowania
 		liniaPionowa->getPunktBlizejX()->setNastepny(ps);//punkt
-		ps->setNastepny(liniaPozioma->getPunktR());//punkt
-		liniaPionowa->setNastepny(liniaPozioma); //linie
-		//dodaj linie do skasowania 	
-		//dodaj linie pionowe i poziome do obwiedni	
+		ps->setNastepny(nowaLiniaPrawa->getPunktR());//punkt
+		nowaLiniaPrawa->getPunktR()->setNastepny(nextPR);//punkt
+		liniaPionowa->setNastepny(nowaLiniaPrawa); //linie
+		nowaLiniaPrawa->setNastepny(nextLR); //linia
+		return nowaLiniaPrawa;
         } else {
         	liniaPozioma->setPunktL(po);
 		liniaPozioma->setNastepny(po);
