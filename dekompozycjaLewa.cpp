@@ -1,17 +1,14 @@
-#include"dekompozycjaKrzyzowa.h"
-Linia* dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa, std::set<Linia*>& liniePionowe, std::set<Linia*>& liniePoziome) {
+#include"dekompozycjaLewa.h"
+void dekompozycjaLewa(Linia* liniaPozioma, Linia* liniaPionowa) {
 	float x =0;
 	float y =0;
 
-	//utwórz dwa punkty - po(punkt obwiedni), ps(do skasowania)
-        Skasowac* poq = new Punkt(x, y);
+	//utwórz  punkt ps(do skasowania)
         Skasowac* psq = new Punkt(x, y);
-	Punkt* po = dynamic_cast<Punkt*>(poq);
 	Punkt* ps = dynamic_cast<Punkt*>(psq);
         // skróc linie pozioma do punktu przecia
         if(liniaPionowa->getSrodekPo() == "prawej") {
 		Linia* nextLG = dynamic_cast<Linia*> (liniaPionowa->getNastepny());
-		Linia* nextLR = dynamic_cast<Linia*> (liniaPozioma->getNastepny());
 		Punkt* nextPG = dynamic_cast<Punkt*> (liniaPionowa->getPunktDalejX()->getNastepny());
 		Punkt* nextPR = dynamic_cast<Punkt*> (liniaPozioma->getPunktR()->getNastepny());
 
