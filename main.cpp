@@ -6,16 +6,16 @@
 #include"punkt.h"
 #include"wierzcholek.h"
 #include"linia.h"
-
+#include"dekompozycjaKrzyzowa.h"
 
 using namespace std;
 
 int main() {
 	vector<Punkt*> pierwszyPunkt;
 	vector<Linia*> pierwszaLinia;
-	set<Linia*> liniePionowe;
-	set<Linia*> liniePoziome;
-	set<Linia*> linieDoSkasowania;
+	vector<Linia*> liniePionowe;
+	vector<Linia*> liniePoziome;
+	vector<Linia*> linieDoSkasowania;
 	char a[12];
 /*	float center, width, alarm;
 	while((scanf("%12s - %f, %f, %f", a, &center, &width, &alarm)) != EOF) {
@@ -54,58 +54,26 @@ int main() {
 		if(pierwszyPunkt.empty()) {
 			pierwszyPunkt.push_back(p1);
 			pierwszaLinia.push_back(l1);
-			liniePoziome.insert( l2 );
-			liniePionowe.insert( l1 );
-			liniePionowe.insert( l3 );
+			liniePoziome.push_back( l2 );
+			liniePionowe.push_back( l1 );
+			liniePionowe.push_back( l3 );
 		} else {
-			//rozpatruje linie l1
-			for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
-				if( l1->getP1()->getX() < (*itr)->getX() &&
-				    (*itr)->getX() < l3->getP1()->getX() ){
-					l1->setSkasowac('N');
-					l1->getPunktBlizejX()->setSkasowac('N');
-					(*itr)->setSkasowac('T');
-					// znajdz linie pionowa ktora zawiera x == 
-					for(auto it = liniePionowe.begin(); it != liniePionowe.end(); ++it) {
-						if((*it)->getP1()->getX() == (*itr)->getX()) {
-							(*it)->setSkasowac('T');
-						}
-					}
-					//cout << "Pierwszy punkt wielokata znajduj sie miedzy l1 i l3" << endl;
-				} else if( l1->getP1()->getX() == (*itr)->getX() ) {
-					l1->setSkasowac('T');
-					l1->getPunktBlizejX()->setSkasowac('T');
-					(*itr)->setSkasowac('N');
-					// znajdz linie pionowa ktora zawiera x == 
-					for(auto it = liniePionowe.begin(); it != liniePionowe.end(); ++it) {
-						if((*it)->getP1()->getX() == (*itr)->getX()) {
-							(*it)->setSkasowac('N');
-						}
-						cout << "Pierwszy Punkt pokrywa sie z l1" << endl;
-					}
-				} else {
-					Punkt* pKoncowy = (*itr);
-					while( pKoncowy->getNastepny() != nullptr) {
-						pKoncowy = dynamic_cast<Punkt*> (pKoncowy->getNastepny());
-					}
-					if( l1->getP1()->getX() < pKoncowy->getX() ) {
-						l1->setSkasowac('T');
-						l1->getPunktBlizejX()->setSkasowac('T');
-						(*itr)->setSkasowac('N');
-						// znajdz linie pionowa ktora zawiera x == 
-						for(auto it = liniePionowe.begin(); it != liniePionowe.end(); ++it) {
-							if((*it)->getP1()->getX() == (*itr)->getX()) {
-								(*it)->setSkasowac('N');
-							}
-						}
-					}
-					cout << "dddddddddddddddddddddddddd" << endl;
+			//rozpatruje linie pionowa l1
+			for( auto itr = liniePoziome.begin(); itr != liniePoziome.end(); ++itr) {
+				if( (*itr)->getPunktL()->getX() < l1->getPunktBlizejX()->getX() &&
+				    l1->getPunktBlizejX()->getX() < (*itr)->getPunktR()->getX() &&
+
+				    l1->getPunktBlizejX()->getY() < (*itr)->getPunktL()->getY() &&
+				    (*itr)->getPunktL()->getY() < l1->getPunktDalejX()->getY()	) {
+					cout << "rrrrrrrrrrrrrrrrrrrrrrrrrrl1 przecina sie z linia pionowa" << endl;
+					dekompozycjaKrzyzowa((*itr), l1);
+
 				}
 			}
 			// znajdz linie pionowe w zbiorze wielokata przeciecinajaca sie z linia pozioma l2
 			cout << "Linia pozima l2: " << l2->getP1()->getX() << "," << l2->getP1()->getY() << "        " << l2->getP2()->getX() << "," << l2->getP2()->getY()  << endl;
 			for(auto itr = liniePionowe.begin(); itr != liniePionowe.end(); ++itr) {
-				cout << "Rozpatruje teraz linie pionowa: " << (*itr)->getP1()->getX() << "," << (*itr)->getP1()->getY() << "        " << (*itr)->getP2()->getX() << "," << (*itr)->getP2()->getY()  << endl;
+				cout << "Rozpatruje teraz linie pionowa: " << (*itr)->getPunktBlizejX()->getX() << "," << (*itr)->getPunktBlizejX()->getY() << "        " << (*itr)->getPunktDalejX()->getX() << "," << (*itr)->getPunktDalejX()->getY()  << endl;
 				  if( ((*itr)->getP1()->getY() <= l2->getP1()->getY() &&
 				   l2->getP1()->getY() <= (*itr)->getP2()->getY() &&
 				   l2->getP1()->getX() <= (*itr)->getP1()->getX() &&
@@ -120,124 +88,27 @@ int main() {
 					float x = (*itr)->getP1()->getX();
 					float y = l2->getP1()->getY();
 					cout << "Punkt przeciecia: " << x << "  " << y << endl;
-					if(y == (*itr)->getP1()->getY()) {
-						if(x == (*itr)->getP1()->getX() ||
-						   x == (*itr)->getP2()->getX()	  ) {
-							cout << "Punkt przeciecia znajduje sie w punktcie P1 lub P2" << endl;
-							// zaznacz ktore linie i punkty maja zostac a ktora maja byc skasowane (wybor nie ma znaczenia)
-							if(l2->getPunktL()->getX() < x) {
-								if(l2->getPunktL()->getSkasowac() == 'T') {
-									l2->getPunktL()->setSkasowac('T');
-									l2->getPunktL()->getNastepny()->setSkasowac('T');
-									l2->getPunktL()->getNastepny()->getNastepny()->setSkasowac('T');
-									l2->setSkasowac('T');
-									l2->getNastepny()->setSkasowac('T');
-//									linieDoSkasowania.insert(nowaLiniaLewa);
-									(*itr)->getPunktDalejX()->setSkasowac('N');
-									(*itr)->getPunktBlizejX()->setSkasowac('N');
-									(*itr)->setSkasowac('N');
-								} else {
-									l2->getPunktL()->setSkasowac('N');
-									l2->getPunktL()->getNastepny()->setSkasowac('N');
-									l2->getPunktL()->getNastepny()->getNastepny()->setSkasowac('N');
-									l2->setSkasowac('N');
-									l2->getNastepny()->setSkasowac('N');
-//									linieDoSkasowania.insert(nowaLiniaLewa);
-									(*itr)->getPunktDalejX()->setSkasowac('T');
-									(*itr)->getPunktBlizejX()->setSkasowac('T');
-									(*itr)->setSkasowac('T');
-								}
-							} else {
-								Punkt* po = new Punkt(x, y);
-//								Punkt* ps = new Punkt(x, y);
-								if((*itr)->getSrodekPo() == "prawej") {
-									Skasowac* n1 = new Linia(po, (*itr)->getPunktDalejX(), "prawej");
-									Linia* nowaLiniaGorna = dynamic_cast<Linia*>(n1);
-									//flow obwiedni
-									l2->getPunktL()->setNastepny(po);
-									l2->getPunktL()->getNastepny()->setNastepny(nowaLiniaGorna->getPunktDalejX());
-									l2->setNastepny(nowaLiniaGorna);
-									//czy skasowac
-									l2->setSkasowac('N'); // linia
-									l2->getNastepny()->setSkasowac('N'); // linia
-									l2->getPunktL()->setSkasowac('N'); //reszta to punkty
-									l2->getPunktL()->getNastepny()->setSkasowac('N');
-									l2->getPunktL()->getNastepny()->getNastepny()->setSkasowac('N');
-									//flow do skasowania
-									(*itr)->getPunktBlizejX()->setNastepny( l3->getPunktDalejX() );
-//									(*itr)->getPunktBlizejX()->getNastepny()->setNastepny(l3->getPunktDalejX());
-									(*itr)->setNastepny(l3);
-									//czy skasowac
-									(*itr)->setSkasowac('T'); //linia
-									(*itr)->getNastepny()->setSkasowac('T'); //linia
-									(*itr)->getPunktBlizejX()->setSkasowac('T'); //reszta to punkty
-									(*itr)->getPunktBlizejX()->getNastepny()->setSkasowac('T');
-									(*itr)->getPunktBlizejX()->getNastepny()->getNastepny()->setSkasowac('T');
-								} else {
-									//nie trzeba zmieniac flow, tylko zaznaczyc czy skasowac
-										l2->getPunktL()->setSkasowac('T');
-										l2->getPunktL()->getNastepny()->setSkasowac('T');
-										l2->getPunktL()->getNastepny()->getNastepny()->setSkasowac('T');
-										//linie
-										l2->setSkasowac('T');
-										l2->getNastepny()->setSkasowac('T');
-										//obwiednia
-										(*itr)->getPunktDalejX()->setSkasowac('N');
-										(*itr)->getPunktBlizejX()->setSkasowac('N');
-										(*itr)->setSkasowac('N');
-
-								}
-							}
-						} else {
-						cout << "Punkt przeciecia znajduje sie na linii pionowej" << endl;
-						}
-					} else {
-						//utwórz dwa punkty - po(punkt obwiedni), ps(do skasowania)
-						Punkt* po = new Punkt(x, y);
-						Punkt* ps = new Punkt(x, y);
-						// skróc linie l2 do punktu przecia
-						if((*itr)->getPunktBlizejX() == (*itr)->getP1()) {
-							(*itr)->setP2(ps);
-						} else {
-							(*itr)->setP1(ps);
-						}
-
-						if((*itr)->getSrodekPo() == "prawej") {
-							Linia* nowaLiniaGorna = new Linia(po, (*itr)->getPunktDalejX(), "prawej");
-							Linia* nowaLiniaLewa = new Linia(l2->getP1(), po, "dol");
-							l2->setP1(po);
-							//flow
-							nowaLiniaLewa->getPunktL()->setNastepny(po);
-							po->setNastepny(nowaLiniaGorna->getPunktDalejX());
-							(*itr)->getPunktBlizejX()->setNastepny(ps);
-							ps->setNastepny(l2->getPunktR());
-							//dodaj punkty i linie
-							liniePionowe.insert(nowaLiniaGorna);
-							liniePoziome.insert(nowaLiniaLewa);
-
-						} else 	if((*itr)->getSrodekPo() == "lewej") {
-							Linia* nowaLiniaGorna = new Linia(po, (*itr)->getPunktDalejX(), "lewej");
-							Linia* nowaLiniaLewa = new Linia(l2->getP1(), ps, "dol");
-							l2->setP1(ps);
-							//flow
-							nowaLiniaLewa->getPunktL()->setNastepny(ps);
-							ps->setNastepny((*itr)->getPunktBlizejX());
-							nowaLiniaGorna->getPunktDalejX()->setNastepny(po);
-							po->setNastepny(l2->getPunktR());
-							//dodaj punkty i linie
-							liniePionowe.insert(nowaLiniaGorna);
-							linieDoSkasowania.insert(nowaLiniaLewa);
-						}
+					l2 = dekompozycjaKrzyzowa(l2, (*itr));
+					if((*itr)->getSrodekPo() == "lewej") {
+						liniePoziome.push_back(l2);
 					}
 
-
-				} else { cout << "nie dodaje taj linii" << endl; } 
+				} else { cout << "nie dodaje tej linii" << endl; } 
 			}
 		// znajdz linie pioziome w zbiorze wielokata przeciecinajaca sie z linia pozioma l1
 		// znajdz linie pioziome w zbiorze wielokata przeciecinajaca sie z linia pozioma l3
 
-		}
-		cout << endl;
+		
+		for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
+			Punkt* p =  *(itr);
+			while(p != nullptr) {
+				cout << p->getX() << "    " << p->getY() << endl;
+				p = dynamic_cast<Punkt*> (p->getNastepny());
+			}
+		cout << "sdasdasdsa" << endl;
+
+		}}
+
 	}
 
 return 0;
