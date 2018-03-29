@@ -4,8 +4,9 @@
 
 #include"linia.h"
 #include"punkt.h"
+#include<set>
 
-void dekompozcyajLewa(Linia* liniaPozioma, Linia* liniaPionowa);
+void dekompozcyajLewa(Linia* liniaPozioma, Linia* liniaPionowa, std::set<Linia*>);
 
 
 #endif
