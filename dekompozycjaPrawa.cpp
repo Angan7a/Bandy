@@ -1,5 +1,5 @@
 #include"dekompozycjaPrawa.h"
-void dekompozycjaLewa(Linia* liniaPozioma, Linia* liniaPionowa, std::set<Linia*>& liniePionowe) {
+void dekompozycjaLewa(Linia* liniaPozioma, Linia* liniaPionowa,Linia* liniaDodatkowa, std::set<Linia*>& liniePionowe) {
 	float x =0;
 	float y =0;
 
@@ -15,7 +15,7 @@ void dekompozycjaLewa(Linia* liniaPozioma, Linia* liniaPionowa, std::set<Linia*>
 		Punkt* nextPD = dynamic_cast<Punkt*> (liniaPionowa->getPunktBlizejX()->getNastepny());
 //		Punkt* nextPD = dynamic_cast<Punkt*> (liniaPozioma->getPunktR()->getNastepny());
 
-		Skasowac* ng = new Linia(ps,liniaPionowa->getPunktblizejX(), "lewej");
+		Skasowac* ng = new Linia(ps,liniaPionowa->getPunktBlizejX(), "lewej");
 		Linia* nowaLiniaDolna = dynamic_cast<Linia*>(ng);
 
 //		liniaPozioma->setPunktDalejX(ps);
@@ -27,6 +27,10 @@ void dekompozycjaLewa(Linia* liniaPozioma, Linia* liniaPionowa, std::set<Linia*>
 		liniaPionowa->getPunktDalejX()->setNastepny(liniaPozioma->getPunktL());
 		liniaPionowa->setNastepny(liniaPozioma);
 		//flow do skasowania
+		liniaDodatkowa->getPunktDalejX()->setNastepny(nowaLiniaDolna->getPunktDalejX());
+		nowaLiniaDolna->getPunktDalejX()->setNastepny(nowaLiniaDolna->getPunktBlizejX());
+		nowaLiniaDolna->getPunktBlizejX()->setNastepny(nextPD);
+	
 //		liniaPionowa->getPunktBlizejX()->setNastepny(ps);//punkt
 //		ps->setNastepny(nextLD->getPunktBlizejX());//punkt
 //		liniaPionowa->setNastepny(nextLD); //linie
@@ -35,7 +39,7 @@ void dekompozycjaLewa(Linia* liniaPozioma, Linia* liniaPionowa, std::set<Linia*>
 	//
 	}
 
-*/
+
 
 }
 
