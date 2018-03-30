@@ -85,3 +85,10 @@ void Linia::setPunktR(Punkt* p) {
 		p1 = p;
 	}
 }
+
+bool Linia::czyPionowa() const {
+	if(this->getP1()->getX() == this->getP2()->getX()) {
+		return 1;
+	}
+	return 0;
+}

@@ -25,6 +25,7 @@ public:
 	Punkt* getPunktR() const;
 	void setPunktL(Punkt*);
 	void setPunktR(Punkt*);
+	bool czyPionowa() const;
 };
 
 #endif

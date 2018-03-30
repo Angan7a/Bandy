@@ -1,6 +1,7 @@
 #include<iostream>
 #include<stdio.h>
 #include<vector>
+#include<algorithm>
 #include<cstring>
 
 #include"punkt.h"
@@ -87,6 +88,7 @@ int main() {
 				      l2->getPunktL()->getY() < (*itr)->getPunktDalejX()->getY() ){
 					Linia** o = new Linia*[2];
 					o = dekompozycjaKrzyzowa(l2, (*itr));
+					l2 = o[0];
 					liniePoziome.push_back(o[0]);
 					vPionowe.push_back(o[1]);
 					delete []o;
@@ -111,8 +113,8 @@ int main() {
 				}
 
 			}
-			liniePoziome.insert(liniePoziome.end(), vPoziome.begin(), vPoziome.end());
-			//czyszczenie pamieci z niepotrzebnych punktow i linii
+			liniePoziome.insert(liniePoziome.end(), vvPoziome.begin(), vvPoziome.end());
+//czyszczenie pamieci z niepotrzebnych punktow i linii
 			for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
 				Punkt* pKoncowy =  (*itr);
 				while(pKoncowy->getNastepny() != nullptr) {
@@ -128,15 +130,32 @@ int main() {
 					//skasuj linie zaczynajace sie od punktu p1
 
 					//skasuj niepotrzebne linie
-//					Linia* lpom1 = l1;
 					while(l1 != nullptr) {
-
 						Linia* lnext = dynamic_cast<Linia*> (l1->getNastepny());
 			cout << "%%%%%%%%%%%%%%%%Kasuje: " << 
 l1->getP1()->getX() << "    "    <<
 l1->getP1()->getY() << "    "    << "                   "<<
 l1->getP2()->getX() << "    "    <<
 l1->getP2()->getY() << "    "    << endl;
+
+
+//***************************************************
+//***************************************************
+//***************************************************
+//***************************************************
+
+					if( l1->czyPionowa() ) {
+						auto e = find(liniePionowe.begin(), liniePionowe.end(), l1);
+						if(e != liniePionowe.end()) {
+							liniePionowe.erase(e);
+						}
+					} else {
+						auto e = find(liniePoziome.begin(), liniePoziome.end(), l1);
+						if(e != liniePoziome.end()) {
+							liniePoziome.erase(e);
+						}
+
+					}
 						delete l1;
 						l1 = lnext;
 					}
@@ -207,9 +226,9 @@ p->getY() << "    "    << endl;
 			if(byl) {
 				pierwszyPunkt.push_back(p1);
 				pierwszaLinia.push_back(l1);
-				liniePoziome.push_back( l2 );
-				liniePionowe.push_back( l1 );
-				liniePionowe.push_back( l3 );
+			//	liniePoziome.push_back( l2 );
+			//	liniePionowe.push_back( l1 );
+			//	liniePionowe.push_back( l3 );
 			}
 		//wyswietlanie wynikow
 		for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
