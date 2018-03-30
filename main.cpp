@@ -98,10 +98,16 @@ int main() {
 			}
 		//czyszczenie pamieci z niepotrzebnych punktow i linii
 			for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); itr++) {
-				Punkt* pKoncowy =  *(itr);
+				Punkt* pKoncowy =  (*itr);
 				while(pKoncowy->getNastepny() != nullptr) {
 					pKoncowy = dynamic_cast<Punkt*> (pKoncowy->getNastepny());
 				}
+
+				Punkt* p1Koncowy =  p1;
+				while(p1Koncowy->getNastepny() != nullptr) {
+					p1Koncowy = dynamic_cast<Punkt*> (p1Koncowy->getNastepny());
+				}
+
 
 				if( (*itr)->getX() < p1->getX() &&
 				    p1->getX() < pKoncowy->getX() ) {
@@ -110,6 +116,7 @@ int main() {
 					for(auto it = pierwszaLinia.begin(); it != pierwszaLinia.end(); it++) {
 						if(p1->getX() == (*it)->getPunktBlizejX()->getX()) {
 							liniaDoSkasowania = (*it);
+							pierwszaLinia.erase(it);
 						}
 					}
 					//skasuj niepotrzebne linie
@@ -126,8 +133,35 @@ int main() {
 							delete p1;
 						}
 					}
+				//(*itr) w srodku dodawanego bantu
+				} else if( p1->getX() < (*itr)->getX() &&
+					   (*itr)->getX() < p1Koncowy->getX() ){
+					//skasuj linie zaczynajace sie od punktu (*itr)
+					Linia* lDoSkasowania;
+					for(auto it = pierwszaLinia.begin(); it != pierwszaLinia.end(); it++) {
+						if((*it)->getPunktBlizejX()->getX() == (*itr)->getX() ) {
+	//////////						lDoSkasowania = static_cast<Linia*> (*it);
+							cout << "saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << (*it)->getPunktBlizejX()->getX() << endl;
+						}
+					}
+				/*	//skasuj niepotrzebne linie
+					while(liniaDoSkasowania->getNastepny() == nullptr) {
+						liniaDoSkasowania = dynamic_cast<Linia*> (liniaDoSkasowania->getNastepny());
+						if(liniaDoSkasowania) {
+							delete liniaDoSkasowania;
+						}
+					}
+					//skasuj niepotrzebne punkty
+					Punkt* p = (*itr);
+					while(p->getNastepny() == nullptr) {
+						p = dynamic_cast<Punkt*> (p->getNastepny());
+						if(p) {
+							delete p;
+						}
+					}*/
 				}
 			}
+		//wyswietlanie wynikow
 		for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
 			Punkt* p =  *(itr);
 			while(p != nullptr) {
