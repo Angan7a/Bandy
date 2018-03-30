@@ -1,7 +1,7 @@
 #include<iostream>
 #include<stdio.h>
 #include<vector>
-#include<set>
+#include<cstring>
 
 #include"punkt.h"
 #include"wierzcholek.h"
@@ -58,7 +58,6 @@ int main() {
 			liniePionowe.push_back( l1 );
 			liniePionowe.push_back( l3 );
 		} else {
-			pierwszyPunkt.push_back(p1);
 			//rozpatruje linie pionowa l1
 			for( auto itr = liniePoziome.begin(); itr != liniePoziome.end(); ++itr) {
 				if( (*itr)->getPunktL()->getX() < l1->getPunktBlizejX()->getX() &&
@@ -66,29 +65,23 @@ int main() {
 
 				    l1->getPunktBlizejX()->getY() < (*itr)->getPunktL()->getY() &&
 				    (*itr)->getPunktL()->getY() < l1->getPunktDalejX()->getY()	) {
-					cout << "rrrrrrrrrrrrrrrrrrrrrrrrrrl1 przecina sie z linia pionowa" << endl;
 					dekompozycjaKrzyzowa((*itr), l1);
 				}
 			}
 
 			// znajdz linie pionowe w zbiorze wielokata przeciecinajaca sie z linia pozioma l2
-			cout << "Linia pozima l2: " << l2->getP1()->getX() << "," << l2->getP1()->getY() << "        " << l2->getP2()->getX() << "," << l2->getP2()->getY()  << endl;
+		//	cout << "Linia pozima l2: " << l2->getP1()->getX() << "," << l2->getP1()->getY() << "        " << l2->getP2()->getX() << "," << l2->getP2()->getY()  << endl;
 			for(auto itr = liniePionowe.begin(); itr != liniePionowe.end(); ++itr) {
-				cout << "Rozpatruje teraz linie pionowa: " << (*itr)->getPunktBlizejX()->getX() << "," << (*itr)->getPunktBlizejX()->getY() << "        " << (*itr)->getPunktDalejX()->getX() << "," << (*itr)->getPunktDalejX()->getY()  << endl;
 				  if( l2->getPunktL()->getX() < (*itr)->getPunktBlizejX()->getX() &&
 				      (*itr)->getPunktBlizejX()->getX() < l2->getPunktR()->getX() &&
 
 				      (*itr)->getPunktBlizejX()->getY() < l2->getPunktL()->getY() &&
 				      l2->getPunktL()->getY() < (*itr)->getPunktDalejX()->getY() ){
-					cout << "dodaj ta linie" << endl;
 					// punkt przeciecia
-					float x = (*itr)->getP1()->getX();
-					float y = l2->getP1()->getY();
-					cout << "Punkt przeciecia: " << x << "  " << y << endl;
-					dekompozycjaKrzyzowa(l2, (*itr));
-//					if((*itr)->getSrodekPo() == "lewej") {
+					l2 = dekompozycjaKrzyzowa(l2, (*itr));
+					if(strcmp( (*itr)->getSrodekPo(), "lewej") == 0) {
 						liniePoziome.push_back(l2);
-//					}
+					}
 
 				} else { cout << "nie dodaje tej linii" << endl; } 
 			}
