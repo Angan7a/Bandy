@@ -27,7 +27,8 @@ int main() {
 
         float p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y;
         while((scanf("%12s - (%f, %f)(%f, %f)(%f, %f)(%f, %f)", a, &p1x, &p1y, &p2x, &p2y, &p3x, &p3y, &p4x, &p4y)) != EOF) {
-                Skasowac *p11 = new Punkt(p1x, p1y);
+                int byl = 0;
+		Skasowac *p11 = new Punkt(p1x, p1y);
                 Skasowac *p22 = new Punkt(p2x, p2y);
                 Skasowac *p33 = new Punkt(p3x, p3y);
                 Skasowac *p44 = new Punkt(p4x, p4y);
@@ -58,6 +59,13 @@ int main() {
 			liniePionowe.push_back( l1 );
 			liniePionowe.push_back( l3 );
 		} else {
+//					cout << p1->getX() << endl;
+//					pierwszyPunkt.push_back(p1);
+//					pierwszaLinia.push_back(l1);
+//					liniePoziome.push_back( l2 );
+//					liniePionowe.push_back( l1 );
+//					liniePionowe.push_back( l3 );
+
 			//rozpatruje linie pionowa l1
 			for( auto itr = liniePoziome.begin(); itr != liniePoziome.end(); ++itr) {
 				if( (*itr)->getPunktL()->getX() < l1->getPunktBlizejX()->getX() &&
@@ -181,7 +189,20 @@ p->getY() << "    "    << endl;
 					}
 
 
+				} else {
+				for (auto o = pierwszyPunkt.begin(); o != pierwszyPunkt.end(); ++o) {
+					cout << "to oznacza ze nowy bant jest poza obiwedniami, czyli dodaj go do pierwszych" << (*o)->getX() << endl;
 				}
+				byl =1;
+				}
+
+			}
+			if(byl) {
+				pierwszyPunkt.push_back(p1);
+				pierwszaLinia.push_back(l1);
+				liniePoziome.push_back( l2 );
+				liniePionowe.push_back( l1 );
+				liniePionowe.push_back( l3 );
 			}
 		//wyswietlanie wynikow
 		for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
