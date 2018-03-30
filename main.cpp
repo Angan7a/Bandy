@@ -66,6 +66,7 @@ int main() {
 				    l1->getPunktBlizejX()->getY() < (*itr)->getPunktL()->getY() &&
 				    (*itr)->getPunktL()->getY() < l1->getPunktDalejX()->getY()	) {
 					dekompozycjaKrzyzowa((*itr), l1);
+					cout << "teraz l1 to: " << l1->getPunktDalejX()->getY() <<endl;
 				}
 			}
 
@@ -97,33 +98,33 @@ int main() {
 				liniePionowe.push_back(l3);
 			}
 		//czyszczenie pamieci z niepotrzebnych punktow i linii
-			for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); itr++) {
+			for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
 				Punkt* pKoncowy =  (*itr);
 				while(pKoncowy->getNastepny() != nullptr) {
 					pKoncowy = dynamic_cast<Punkt*> (pKoncowy->getNastepny());
 				}
-
 				Punkt* p1Koncowy =  p1;
 				while(p1Koncowy->getNastepny() != nullptr) {
 					p1Koncowy = dynamic_cast<Punkt*> (p1Koncowy->getNastepny());
 				}
 
-
 				if( (*itr)->getX() < p1->getX() &&
 				    p1->getX() < pKoncowy->getX() ) {
 					//skasuj linie zaczynajace sie od punktu p1
-					Linia* liniaDoSkasowania;
-					for(auto it = pierwszaLinia.begin(); it != pierwszaLinia.end(); it++) {
-						if(p1->getX() == (*it)->getPunktBlizejX()->getX()) {
-							liniaDoSkasowania = (*it);
-							pierwszaLinia.erase(it);
-						}
-					}
+
 					//skasuj niepotrzebne linie
-					while(liniaDoSkasowania->getNastepny() == nullptr) {
-						liniaDoSkasowania = dynamic_cast<Linia*> (liniaDoSkasowania->getNastepny());
-						if(liniaDoSkasowania) {
-							delete liniaDoSkasowania;
+					while(l1->getNastepny() != nullptr) {
+
+						Linia* lpom1 = dynamic_cast<Linia*> (l1->getNastepny());
+			cout << "%%%%%%%%%%%%%%%%Kasuje: " << 
+l1->getP1()->getX() << "    "    <<
+l1->getP1()->getY() << "    "    << "                   "<<
+l1->getP2()->getX() << "    "    <<
+l1->getP2()->getY() << "    "    << endl;
+
+						if(lpom1) {
+							delete l1;
+						l1 = lpom1;
 						}
 					}
 					//skasuj niepotrzebne punkty
@@ -137,11 +138,12 @@ int main() {
 				} else if( p1->getX() < (*itr)->getX() &&
 					   (*itr)->getX() < p1Koncowy->getX() ){
 					//skasuj linie zaczynajace sie od punktu (*itr)
-					Linia* lDoSkasowania;
+					int lDoSkasowania;
 					for(auto it = pierwszaLinia.begin(); it != pierwszaLinia.end(); it++) {
 						if((*it)->getPunktBlizejX()->getX() == (*itr)->getX() ) {
-	//////////						lDoSkasowania = static_cast<Linia*> (*it);
-							cout << "saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << (*it)->getPunktBlizejX()->getX() << endl;
+							cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << (*it)->getPunktBlizejX()->getX() << endl;
+							//lDoSkasowania = (*it)->getPunktBlizejX()->getX();
+
 						}
 					}
 				/*	//skasuj niepotrzebne linie

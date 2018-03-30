@@ -40,13 +40,20 @@ Punkt* Linia::getPunktDalejX() const {
 }
 
 void Linia::setPunktBlizejX(Punkt* p) {
-	Punkt* p1 = this->getPunktBlizejX();
-	p1 = p;
+	if(p1->getY() < p2->getY()){
+		p1 = p;
+	} else {
+		p2 = p;
+	}
 }
 
 void Linia::setPunktDalejX(Punkt* p) {
-	Punkt* p1 =this->getPunktDalejX();
-	p1 = p;
+	if(p1->getY() < p2->getY()){
+		p2 = p;
+	} else {
+		p1 = p;
+	}
+
 }
 
 Punkt* Linia::getPunktL() const {
