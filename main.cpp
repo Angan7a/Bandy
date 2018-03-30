@@ -141,30 +141,46 @@ p1->getY() << "    "    << endl;
 				//(*itr) w srodku dodawanego bantu
 				} else if( p1->getX() < (*itr)->getX() &&
 					   (*itr)->getX() < p1Koncowy->getX() ){
-					//skasuj linie zaczynajace sie od punktu (*itr)
-					int lDoSkasowania;
+					//znajdz liniepierwsze ktora zawiera (*itr)
+					Linia* liniaDoSkasowania;
 					for(auto it = pierwszaLinia.begin(); it != pierwszaLinia.end(); it++) {
 						if((*it)->getPunktBlizejX()->getX() == (*itr)->getX() ) {
 							cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << (*it)->getPunktBlizejX()->getX() << endl;
-							//lDoSkasowania = (*it)->getPunktBlizejX()->getX();
-
+							liniaDoSkasowania = (*it);
+							pierwszaLinia.erase(it);
+							pierwszaLinia.push_back(l1);
 						}
 					}
-				/*	//skasuj niepotrzebne linie
-					while(liniaDoSkasowania->getNastepny() == nullptr) {
-						liniaDoSkasowania = dynamic_cast<Linia*> (liniaDoSkasowania->getNastepny());
-						if(liniaDoSkasowania) {
-							delete liniaDoSkasowania;
-						}
+					//skasuj niepotrzebne linie
+					while(liniaDoSkasowania != nullptr) {
+
+						Linia* lnext = dynamic_cast<Linia*> (liniaDoSkasowania->getNastepny());
+			cout << "%%%%%%%%%%%%%%%%Kasuje: " << 
+liniaDoSkasowania->getP1()->getX() << "    "    <<
+liniaDoSkasowania->getP1()->getY() << "    "    << "                   "<<
+liniaDoSkasowania->getP2()->getX() << "    "    <<
+liniaDoSkasowania->getP2()->getY() << "    "    << endl;
+						delete liniaDoSkasowania;
+						liniaDoSkasowania = lnext;
 					}
 					//skasuj niepotrzebne punkty
 					Punkt* p = (*itr);
-					while(p->getNastepny() == nullptr) {
-						p = dynamic_cast<Punkt*> (p->getNastepny());
-						if(p) {
-							delete p;
-						}
-					}*/
+					pierwszyPunkt.erase(itr);
+					pierwszyPunkt.push_back(p1);
+					while(p != nullptr) {
+						Punkt* pNext = dynamic_cast<Punkt*> (p->getNastepny());
+
+			cout << "%%%%%%%%%%%%%%%% Kasuje Punkt: " << 
+p->getX() << "    "    <<
+p->getY() << "    "    << "                   "<<
+p->getX() << "    "    <<
+p->getY() << "    "    << endl;
+
+						delete p;
+						p = pNext;
+					}
+
+
 				}
 			}
 		//wyswietlanie wynikow
