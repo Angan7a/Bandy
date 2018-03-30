@@ -52,60 +52,67 @@ int main() {
 		l1->setNastepny(l2);
 		l2->setNastepny(l3);
 
+		liniePoziome.push_back( l2 );
+		liniePionowe.push_back( l1 );
+		liniePionowe.push_back( l3 );
+
 		if(pierwszyPunkt.empty()) {
 			pierwszyPunkt.push_back(p1);
 			pierwszaLinia.push_back(l1);
-			liniePoziome.push_back( l2 );
-			liniePionowe.push_back( l1 );
-			liniePionowe.push_back( l3 );
 		} else {
-//					cout << p1->getX() << endl;
-//					pierwszyPunkt.push_back(p1);
-//					pierwszaLinia.push_back(l1);
-//					liniePoziome.push_back( l2 );
-//					liniePionowe.push_back( l1 );
-//					liniePionowe.push_back( l3 );
-
 			//rozpatruje linie pionowa l1
+			vector<Linia*> vPoziome;
 			for( auto itr = liniePoziome.begin(); itr != liniePoziome.end(); ++itr) {
 				if( (*itr)->getPunktL()->getX() < l1->getPunktBlizejX()->getX() &&
 				    l1->getPunktBlizejX()->getX() < (*itr)->getPunktR()->getX() &&
 
 				    l1->getPunktBlizejX()->getY() < (*itr)->getPunktL()->getY() &&
 				    (*itr)->getPunktL()->getY() < l1->getPunktDalejX()->getY()	) {
-					dekompozycjaKrzyzowa((*itr), l1);
-					cout << "teraz l1 to: " << l1->getPunktDalejX()->getY() <<endl;
+					Linia** o = new Linia*[2];
+					o = dekompozycjaKrzyzowa((*itr), l1);
+					vPoziome.push_back(o[0]);
+					liniePionowe.push_back(o[1]);
+					delete []o;
 				}
 			}
-
+			liniePoziome.insert(liniePoziome.end(), vPoziome.begin(), vPoziome.end());
 			// znajdz linie pionowe w zbiorze wielokata przeciecinajaca sie z linia pozioma l2
 		//	cout << "Linia pozima l2: " << l2->getP1()->getX() << "," << l2->getP1()->getY() << "        " << l2->getP2()->getX() << "," << l2->getP2()->getY()  << endl;
+			vector<Linia*> vPionowe;
 			for(auto itr = liniePionowe.begin(); itr != liniePionowe.end(); ++itr) {
 				  if( l2->getPunktL()->getX() < (*itr)->getPunktBlizejX()->getX() &&
 				      (*itr)->getPunktBlizejX()->getX() < l2->getPunktR()->getX() &&
 
 				      (*itr)->getPunktBlizejX()->getY() < l2->getPunktL()->getY() &&
 				      l2->getPunktL()->getY() < (*itr)->getPunktDalejX()->getY() ){
-					// punkt przeciecia
-					l2 = dekompozycjaKrzyzowa(l2, (*itr));
-					if(strcmp( (*itr)->getSrodekPo(), "lewej") == 0) {
-						liniePoziome.push_back(l2);
-					}
-
+					Linia** o = new Linia*[2];
+					o = dekompozycjaKrzyzowa(l2, (*itr));
+					liniePoziome.push_back(o[0]);
+					vPionowe.push_back(o[1]);
+					delete []o;
 				}
 			}
-		// rozpatruje linie pozioma l3
+			liniePionowe.insert(liniePionowe.end(), vPionowe.begin(), vPionowe.end());
+			// rozpatruje linie pozioma l3
+			vector<Linia*> vvPoziome;
 			for( auto itr = liniePoziome.begin(); itr != liniePoziome.end(); ++itr) {
+					cout << "Rozpatruje linie krzyzujaca sie z l3 -" << (*itr)->getPunktL()->getX() << "   " <<   (*itr)->getPunktL()->getY()  << "            " <<  (*itr)->getPunktR()->getX()  << "    " <<  (*itr)->getPunktR()->getY() << endl;
+
 				if( (*itr)->getPunktL()->getX() < l3->getPunktBlizejX()->getX() &&
 				    l3->getPunktBlizejX()->getX() < (*itr)->getPunktR()->getX() &&
 
 				    l3->getPunktBlizejX()->getY() < (*itr)->getPunktL()->getY() &&
 				    (*itr)->getPunktL()->getY() < l3->getPunktDalejX()->getY()	) {
-					dekompozycjaKrzyzowa((*itr), l3);
+					Linia** o = new Linia*[2];
+					o = dekompozycjaKrzyzowa((*itr), l3);
+					vvPoziome.push_back(o[0]);
+					liniePionowe.push_back(o[1]);
+					delete []o;
 				}
-				liniePionowe.push_back(l3);
+
 			}
-		//czyszczenie pamieci z niepotrzebnych punktow i linii
+			liniePoziome.insert(liniePoziome.end(), vPoziome.begin(), vPoziome.end());
+			//czyszczenie pamieci z niepotrzebnych punktow i linii
 			for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
 				Punkt* pKoncowy =  (*itr);
 				while(pKoncowy->getNastepny() != nullptr) {

@@ -1,11 +1,11 @@
 #include"dekompozycjaKrzyzowa.h"
 #include<iostream>
 #include<cstring>
-Linia* dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
+Linia** dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
 
 	float x =  liniaPionowa->getPunktBlizejX()->getX();
 	float y = liniaPozioma->getPunktL()->getY();
-
+	Linia* * out = new Linia*[2];
 	//utwórz dwa punkty - po(punkt obwiedni), ps(do skasowania)
         Skasowac* poq = new Punkt(x, y);
         Skasowac* psq = new Punkt(x, y);
@@ -42,7 +42,9 @@ std::cout << "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" << x << "    " << y << std::endl;
 		nowaLiniaPrawa->getPunktR()->setNastepny(nextPR);//punkt
 		liniaPionowa->setNastepny(nowaLiniaPrawa); //linie
 		nowaLiniaPrawa->setNastepny(nextLR); //linia
-		return nowaLiniaPrawa;
+		out[0] = nowaLiniaPrawa;
+		out[1] = nowaLiniaGorna;
+		return out;
           } else {
 
 		Linia* nextLD = dynamic_cast<Linia*> (liniaPionowa->getNastepny());
@@ -77,10 +79,10 @@ std::cout << "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" << x << "    " << y << std::endl;
 		nowaLiniaDolna->getPunktBlizejX()->setNastepny(nextPD);
 		liniaPozioma->setNastepny(nowaLiniaDolna);
 		nowaLiniaDolna->setNastepny(nextLD);
-
-
+		out[0] = nowaLiniaPrawa;
+		out[1] = nowaLiniaDolna;
 	//	liniePoziome->insert(nowaLiniaPrawa);
-		return nowaLiniaPrawa;
+		return out;
 
 	}
 
