@@ -83,7 +83,7 @@ int main() {
 						liniePoziome.push_back(l2);
 					}
 
-				} else { cout << "nie dodaje tej linii" << endl; } 
+				}
 			}
 		// rozpatruje linie pozioma l3
 			for( auto itr = liniePoziome.begin(); itr != liniePoziome.end(); ++itr) {
@@ -92,10 +92,41 @@ int main() {
 
 				    l3->getPunktBlizejX()->getY() < (*itr)->getPunktL()->getY() &&
 				    (*itr)->getPunktL()->getY() < l3->getPunktDalejX()->getY()	) {
-					cout << "A3    rrrrrrrrrrrrrrrrrrrrrrrrrrl1 przecina sie z linia pionowa" << endl;
 					dekompozycjaKrzyzowa((*itr), l3);
 				}
 				liniePionowe.push_back(l3);
+			}
+		//czyszczenie pamieci z niepotrzebnych punktow i linii
+			for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); itr++) {
+				Punkt* pKoncowy =  *(itr);
+				while(pKoncowy->getNastepny() != nullptr) {
+					pKoncowy = dynamic_cast<Punkt*> (pKoncowy->getNastepny());
+				}
+
+				if( (*itr)->getX() < p1->getX() &&
+				    p1->getX() < pKoncowy->getX() ) {
+					//skasuj linie zaczynajace sie od punktu p1
+					Linia* liniaDoSkasowania;
+					for(auto it = pierwszaLinia.begin(); it != pierwszaLinia.end(); it++) {
+						if(p1->getX() == (*it)->getPunktBlizejX()->getX()) {
+							liniaDoSkasowania = (*it);
+						}
+					}
+					//skasuj niepotrzebne linie
+					while(liniaDoSkasowania->getNastepny() == nullptr) {
+						liniaDoSkasowania = dynamic_cast<Linia*> (liniaDoSkasowania->getNastepny());
+						if(liniaDoSkasowania) {
+							delete liniaDoSkasowania;
+						}
+					}
+					//skasuj niepotrzebne punkty
+					while(p1->getNastepny() == nullptr) {
+						p1 = dynamic_cast<Punkt*> (p1->getNastepny());
+						if(p1) {
+							delete p1;
+						}
+					}
+				}
 			}
 		for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
 			Punkt* p =  *(itr);
