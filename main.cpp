@@ -113,26 +113,30 @@ int main() {
 					//skasuj linie zaczynajace sie od punktu p1
 
 					//skasuj niepotrzebne linie
-					while(l1->getNastepny() != nullptr) {
+//					Linia* lpom1 = l1;
+					while(l1 != nullptr) {
 
-						Linia* lpom1 = dynamic_cast<Linia*> (l1->getNastepny());
+						Linia* lnext = dynamic_cast<Linia*> (l1->getNastepny());
 			cout << "%%%%%%%%%%%%%%%%Kasuje: " << 
 l1->getP1()->getX() << "    "    <<
 l1->getP1()->getY() << "    "    << "                   "<<
 l1->getP2()->getX() << "    "    <<
 l1->getP2()->getY() << "    "    << endl;
-
-						if(lpom1) {
-							delete l1;
-						l1 = lpom1;
-						}
+						delete l1;
+						l1 = lnext;
 					}
 					//skasuj niepotrzebne punkty
-					while(p1->getNastepny() == nullptr) {
-						p1 = dynamic_cast<Punkt*> (p1->getNastepny());
-						if(p1) {
-							delete p1;
-						}
+					while(p1 != nullptr) {
+						Punkt* pNext = dynamic_cast<Punkt*> (p1->getNastepny());
+
+			cout << "%%%%%%%%%%%%%%%% Kasuje Punkt: " << 
+p1->getX() << "    "    <<
+p1->getY() << "    "    << "                   "<<
+p1->getX() << "    "    <<
+p1->getY() << "    "    << endl;
+
+						delete p1;
+						p1 = pNext;
 					}
 				//(*itr) w srodku dodawanego bantu
 				} else if( p1->getX() < (*itr)->getX() &&
