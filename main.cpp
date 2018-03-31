@@ -13,10 +13,13 @@
 using namespace std;
 
 int main() {
-	set<Punkt*> pierwszyPunkt;
-	set<Linia*> pierwszaLinia;
-	set<Linia*> liniePionowe;
-	set<Linia*> liniePoziome;
+	auto cmpPionowe = [](Linia* a, Linia* b) { return a->getPunktBlizejX()->getX() < b->getPunktBlizejX()->getX() || a->getPunktDalejX()->getY() < b->getPunktDalejX()->getY(); };
+	auto cmpPoziome = [](Linia* a, Linia* b) { return a->getPunktL()->getX() < b->getPunktL()->getX() ||  a->getPunktL()->getY() < b->getPunktL()->getY(); };
+	auto cmpPunkty = [](Punkt* a, Punkt* b) { return a->getX() < b->getX(); };
+	set<Punkt*, decltype(cmpPunkty)> pierwszyPunkt(cmpPunkty);
+	set<Linia*, decltype(cmpPionowe)> pierwszaLinia(cmpPionowe);
+	set<Linia*, decltype(cmpPionowe)> liniePionowe(cmpPionowe);
+	set<Linia*, decltype(cmpPoziome)> liniePoziome(cmpPoziome);
 	char a[12];
 /*	float center, width, alarm;
 	while((scanf("%12s - %f, %f, %f", a, &center, &width, &alarm)) != EOF) {
@@ -71,6 +74,7 @@ int main() {
 				    (*itr)->getPunktL()->getY() < l1->getPunktDalejX()->getY()	) {
 					Linia** o = new Linia*[2];
 					o = dekompozycjaKrzyzowa((*itr), l1);
+			cout << "Linia na prawo od l1 to: " << o[0]->getPunktL()->getX() << "   " <<   o[0]->getPunktL()->getY()  << "            " <<  o[0]->getPunktR()->getX()  << "    " <<  o[0]->getPunktR()->getY() << endl;
 					vPoziome.insert(o[0]);
 					liniePionowe.insert(o[1]);
 					delete []o;
@@ -78,6 +82,9 @@ int main() {
 			}
 			for(auto itter = vPoziome.begin(); itter != vPoziome.end(); ++itter) {
 				liniePoziome.insert(*itter);
+			}
+			for(auto itter = liniePoziome.begin(); itter != liniePoziome.end(); ++itter) {
+				cout << "Linia poziome to: " << (*itter)->getPunktL()->getX() << "   " <<   (*itter)->getPunktL()->getY()  << "            " <<  (*itter)->getPunktR()->getX()  << "    " <<  (*itter)->getPunktR()->getY() << endl;
 			}
 			// znajdz linie pionowe w zbiorze wielokata przeciecinajaca sie z linia pozioma l2
 		//	cout << "Linia pozima l2: " << l2->getP1()->getX() << "," << l2->getP1()->getY() << "        " << l2->getP2()->getX() << "," << l2->getP2()->getY()  << endl;
@@ -233,6 +240,11 @@ int main() {
 				pierwszyPunkt.insert(p1);
 				pierwszaLinia.insert(l1);
 			}
+		//wyswietl punkty czy sa w kolejnosci
+		for(auto i = liniePionowe.begin(); i != liniePionowe.end(); ++i) {
+			cout << "wyswietl punkty czy sa w kolejnosci " << (*i)->getPunktBlizejX()->getX() << endl;
+		}
+//////////////
 		//wyswietlanie wynikow
 		for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
 			Punkt* p =  *(itr);
@@ -241,6 +253,7 @@ int main() {
 				p = dynamic_cast<Punkt*> (p->getNastepny());
 			}
 		cout << "sdasdasdsa" << endl;
+
 
 		}}
 
