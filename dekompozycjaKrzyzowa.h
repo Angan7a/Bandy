@@ -4,7 +4,7 @@
 
 #include"linia.h"
 #include"punkt.h"
-#include<vector>
+//#include<vector>
 
 Linia** dekompozycjaKrzyzowa(Linia*, Linia*);
 

@@ -1,6 +1,7 @@
 #include<iostream>
 #include<stdio.h>
 #include<vector>
+#include<set>
 #include<algorithm>
 #include<cstring>
 
@@ -12,11 +13,10 @@
 using namespace std;
 
 int main() {
-	vector<Punkt*> pierwszyPunkt;
-	vector<Linia*> pierwszaLinia;
-	vector<Linia*> liniePionowe;
-	vector<Linia*> liniePoziome;
-	vector<Linia*> linieDoSkasowania;
+	set<Punkt*> pierwszyPunkt;
+	set<Linia*> pierwszaLinia;
+	set<Linia*> liniePionowe;
+	set<Linia*> liniePoziome;
 	char a[12];
 /*	float center, width, alarm;
 	while((scanf("%12s - %f, %f, %f", a, &center, &width, &alarm)) != EOF) {
@@ -53,16 +53,16 @@ int main() {
 		l1->setNastepny(l2);
 		l2->setNastepny(l3);
 
-		liniePoziome.push_back( l2 );
-		liniePionowe.push_back( l1 );
-		liniePionowe.push_back( l3 );
+		liniePoziome.insert( l2 );
+		liniePionowe.insert( l1 );
+		liniePionowe.insert( l3 );
 
 		if(pierwszyPunkt.empty()) {
-			pierwszyPunkt.push_back(p1);
-			pierwszaLinia.push_back(l1);
+			pierwszyPunkt.insert(p1);
+			pierwszaLinia.insert(l1);
 		} else {
 			//rozpatruje linie pionowa l1
-			vector<Linia*> vPoziome;
+			set<Linia*> vPoziome;
 			for( auto itr = liniePoziome.begin(); itr != liniePoziome.end(); ++itr) {
 				if( (*itr)->getPunktL()->getX() < l1->getPunktBlizejX()->getX() &&
 				    l1->getPunktBlizejX()->getX() < (*itr)->getPunktR()->getX() &&
@@ -71,15 +71,17 @@ int main() {
 				    (*itr)->getPunktL()->getY() < l1->getPunktDalejX()->getY()	) {
 					Linia** o = new Linia*[2];
 					o = dekompozycjaKrzyzowa((*itr), l1);
-					vPoziome.push_back(o[0]);
-					liniePionowe.push_back(o[1]);
+					vPoziome.insert(o[0]);
+					liniePionowe.insert(o[1]);
 					delete []o;
 				}
 			}
-			liniePoziome.insert(liniePoziome.end(), vPoziome.begin(), vPoziome.end());
+			for(auto itter = vPoziome.begin(); itter != vPoziome.end(); ++itter) {
+				liniePoziome.insert(*itter);
+			}
 			// znajdz linie pionowe w zbiorze wielokata przeciecinajaca sie z linia pozioma l2
 		//	cout << "Linia pozima l2: " << l2->getP1()->getX() << "," << l2->getP1()->getY() << "        " << l2->getP2()->getX() << "," << l2->getP2()->getY()  << endl;
-			vector<Linia*> vPionowe;
+			set<Linia*> vPionowe;
 			for(auto itr = liniePionowe.begin(); itr != liniePionowe.end(); ++itr) {
 				  if( l2->getPunktL()->getX() < (*itr)->getPunktBlizejX()->getX() &&
 				      (*itr)->getPunktBlizejX()->getX() < l2->getPunktR()->getX() &&
@@ -89,14 +91,17 @@ int main() {
 					Linia** o = new Linia*[2];
 					o = dekompozycjaKrzyzowa(l2, (*itr));
 					l2 = o[0];
-					liniePoziome.push_back(o[0]);
-					vPionowe.push_back(o[1]);
+		cout << "Teraz l2 to: " << l2->getPunktL()->getX() << "   " <<   l2->getPunktL()->getY()  << "            " <<  l2->getPunktR()->getX()  << "    " <<  l2->getPunktR()->getY() << endl;
+					liniePoziome.insert(o[0]);
+					vPionowe.insert(o[1]);
 					delete []o;
 				}
 			}
-			liniePionowe.insert(liniePionowe.end(), vPionowe.begin(), vPionowe.end());
+			for(auto itter = vPionowe.begin(); itter != vPionowe.end(); ++itter) {
+				liniePionowe.insert(*itter);
+			}
 			// rozpatruje linie pozioma l3
-			vector<Linia*> vvPoziome;
+			set<Linia*> vvPoziome;
 			for( auto itr = liniePoziome.begin(); itr != liniePoziome.end(); ++itr) {
 					cout << "Rozpatruje linie krzyzujaca sie z l3 -" << (*itr)->getPunktL()->getX() << "   " <<   (*itr)->getPunktL()->getY()  << "            " <<  (*itr)->getPunktR()->getX()  << "    " <<  (*itr)->getPunktR()->getY() << endl;
 
@@ -107,13 +112,15 @@ int main() {
 				    (*itr)->getPunktL()->getY() < l3->getPunktDalejX()->getY()	) {
 					Linia** o = new Linia*[2];
 					o = dekompozycjaKrzyzowa((*itr), l3);
-					vvPoziome.push_back(o[0]);
-					liniePionowe.push_back(o[1]);
+					vvPoziome.insert(o[0]);
+					liniePionowe.insert(o[1]);
 					delete []o;
 				}
 
 			}
-			liniePoziome.insert(liniePoziome.end(), vvPoziome.begin(), vvPoziome.end());
+			for(auto itter = vvPoziome.begin(); itter != vvPoziome.end(); ++itter) {
+				liniePoziome.insert(*itter);
+			}
 //czyszczenie pamieci z niepotrzebnych punktow i linii
 			for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
 				Punkt* pKoncowy =  (*itr);
@@ -132,18 +139,12 @@ int main() {
 					//skasuj niepotrzebne linie
 					while(l1 != nullptr) {
 						Linia* lnext = dynamic_cast<Linia*> (l1->getNastepny());
-			cout << "%%%%%%%%%%%%%%%%Kasuje: " << 
-l1->getP1()->getX() << "    "    <<
-l1->getP1()->getY() << "    "    << "                   "<<
-l1->getP2()->getX() << "    "    <<
-l1->getP2()->getY() << "    "    << endl;
-
-
+						cout << "%%%%%%%%%%%%%%%%Kasuje: " << 
+						l1->getP1()->getX() << "    "    <<
+						l1->getP1()->getY() << "    "    << "                   "<<
+						l1->getP2()->getX() << "    "    <<
+						l1->getP2()->getY() << "    "    << endl;
 //***************************************************
-//***************************************************
-//***************************************************
-//***************************************************
-
 					if( l1->czyPionowa() ) {
 						auto e = find(liniePionowe.begin(), liniePionowe.end(), l1);
 						if(e != liniePionowe.end()) {
@@ -162,13 +163,11 @@ l1->getP2()->getY() << "    "    << endl;
 					//skasuj niepotrzebne punkty
 					while(p1 != nullptr) {
 						Punkt* pNext = dynamic_cast<Punkt*> (p1->getNastepny());
-
-			cout << "%%%%%%%%%%%%%%%% Kasuje Punkt: " << 
-p1->getX() << "    "    <<
-p1->getY() << "    "    << "                   "<<
-p1->getX() << "    "    <<
-p1->getY() << "    "    << endl;
-
+						cout << "%%%%%%%%%%%%%%%% Kasuje Punkt: " << 
+						p1->getX() << "    "    <<
+						p1->getY() << "    "    << "                   "<<
+						p1->getX() << "    "    <<
+						p1->getY() << "    "    << endl;
 						delete p1;
 						p1 = pNext;
 					}
@@ -182,53 +181,57 @@ p1->getY() << "    "    << endl;
 							cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << (*it)->getPunktBlizejX()->getX() << endl;
 							liniaDoSkasowania = (*it);
 							pierwszaLinia.erase(it);
-							pierwszaLinia.push_back(l1);
+							//pierwszaLinia.push_back(l1);
 						}
 					}
 					//skasuj niepotrzebne linie
 					while(liniaDoSkasowania != nullptr) {
-
 						Linia* lnext = dynamic_cast<Linia*> (liniaDoSkasowania->getNastepny());
-			cout << "%%%%%%%%%%%%%%%%Kasuje: " << 
-liniaDoSkasowania->getP1()->getX() << "    "    <<
-liniaDoSkasowania->getP1()->getY() << "    "    << "                   "<<
-liniaDoSkasowania->getP2()->getX() << "    "    <<
-liniaDoSkasowania->getP2()->getY() << "    "    << endl;
+						cout << "%%%%%%%%%%%%%%%%Kasuje: " << 
+						liniaDoSkasowania->getP1()->getX() << "    "    <<
+						liniaDoSkasowania->getP1()->getY() << "    "    << "                   "<<
+						liniaDoSkasowania->getP2()->getX() << "    "    <<
+						liniaDoSkasowania->getP2()->getY() << "    "    << endl;
+						if( liniaDoSkasowania->czyPionowa() ) {
+							auto e = find(liniePionowe.begin(), liniePionowe.end(), liniaDoSkasowania);
+							if(e != liniePionowe.end()) {
+								liniePionowe.erase(e);
+							}
+						} else {
+							auto e = find(liniePoziome.begin(), liniePoziome.end(), liniaDoSkasowania);
+							if(e != liniePoziome.end()) {
+								liniePoziome.erase(e);
+							}
+						}
+
 						delete liniaDoSkasowania;
 						liniaDoSkasowania = lnext;
 					}
 					//skasuj niepotrzebne punkty
 					Punkt* p = (*itr);
 					pierwszyPunkt.erase(itr);
-					pierwszyPunkt.push_back(p1);
+					pierwszyPunkt.insert(p1);
+					pierwszaLinia.insert(l1);
 					while(p != nullptr) {
 						Punkt* pNext = dynamic_cast<Punkt*> (p->getNastepny());
-
-			cout << "%%%%%%%%%%%%%%%% Kasuje Punkt: " << 
-p->getX() << "    "    <<
-p->getY() << "    "    << "                   "<<
-p->getX() << "    "    <<
-p->getY() << "    "    << endl;
-
+						cout << "%%%%%%%%%%%%%%%% Kasuje Punkt: " << 
+						p->getX() << "    "    <<
+						p->getY() << "    "    << "                   "<<
+						p->getX() << "    "    <<
+						p->getY() << "    "    << endl;
 						delete p;
 						p = pNext;
 					}
-
-
 				} else {
-				for (auto o = pierwszyPunkt.begin(); o != pierwszyPunkt.end(); ++o) {
-					cout << "to oznacza ze nowy bant jest poza obiwedniami, czyli dodaj go do pierwszych" << (*o)->getX() << endl;
+					for (auto o = pierwszyPunkt.begin(); o != pierwszyPunkt.end(); ++o) {
+						cout << "to oznacza ze nowy bant jest poza obiwedniami, czyli dodaj go do pierwszych" << (*o)->getX() << endl;
+					}
+					byl =1;
 				}
-				byl =1;
-				}
-
 			}
 			if(byl) {
-				pierwszyPunkt.push_back(p1);
-				pierwszaLinia.push_back(l1);
-			//	liniePoziome.push_back( l2 );
-			//	liniePionowe.push_back( l1 );
-			//	liniePionowe.push_back( l3 );
+				pierwszyPunkt.insert(p1);
+				pierwszaLinia.insert(l1);
 			}
 		//wyswietlanie wynikow
 		for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
