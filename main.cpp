@@ -10,6 +10,7 @@
 #include"linia.h"
 #include"dekompozycjaKrzyzowa.h"
 #include"dekompozycjaPrawa.h"
+#include"dekompozycjaLewa.h"
 
 using namespace std;
 
@@ -105,13 +106,31 @@ int main() {
 				} else if((*itr)->getPunktBlizejX()->getX() == l2->getPunktL()->getX() &&
 					  (*itr)->getPunktDalejX()->getY() < l2->getPunktL()->getY() &&
 					  std::strcmp((*itr)->getSrodekPo(), "prawej") == 0 ) {
-						dekompozycjaPrawa(l1, (*itr));
+						 dekompozycjaPrawa(l1, (*itr));
 				} else if((*itr)->getPunktBlizejX()->getX() == l2->getPunktL()->getX() &&
 					  (*itr)->getPunktBlizejX()->getY() < l2->getPunktL()->getY() &&
 					  l2->getPunktL()->getY() < (*itr)->getPunktDalejX()->getY() &&
 					  std::strcmp((*itr)->getSrodekPo(), "lewej") == 0 ) {
 						dekompozycjaPrawa(l1, (*itr));
-					cout << "KKKKKKKKKKKKKKKKKKKKKKKKKK" << endl;
+				} else if((*itr)->getPunktBlizejX()->getX() == l2->getPunktL()->getX() &&
+					  (*itr)->getPunktDalejX()->getY() < l2->getPunktL()->getY() &&
+					  std::strcmp((*itr)->getSrodekPo(), "lewej") == 0 ) {
+						//znajdz linie pozioma ktora ma prawy punkt rowny punktowi dalej x (*itr)
+						Linia* liniaDoPrzekazania;
+						for(auto iter = liniePoziome.begin(); iter != liniePoziome.end(); ++iter) {
+							if((*iter)->getPunktR()->getX() == (*itr)->getPunktDalejX()->getX() &&
+							   (*iter)->getPunktR()->getY() == (*itr)->getPunktDalejX()->getY() ) {
+								liniaDoPrzekazania = (*iter);
+							}
+						}
+						liniePionowe.insert(dekompozycjaLewa(l1, liniaDoPrzekazania));
+				} else if((*itr)->getPunktBlizejX()->getX() == l2->getPunktL()->getX() &&
+					  (*itr)->getPunktBlizejX()->getY() < l2->getPunktL()->getY() &&
+					  l2->getPunktL()->getY() < (*itr)->getPunktDalejX()->getY() &&
+					  std::strcmp((*itr)->getSrodekPo(), "lewej") == 0 ) {
+//						dekompozycjaPrawa(l1, (*itr));
+				cout << "KKKKKKKKKKKKKKKKKKKKKKKKKK" << endl;
+
 				}
 			}
 			for(auto itter = vPionowe.begin(); itter != vPionowe.end(); ++itter) {
@@ -183,7 +202,6 @@ int main() {
 					Linia* liniaDoSkasowania;
 					for(auto it = pierwszaLinia.begin(); it != pierwszaLinia.end(); it++) {
 						if((*it)->getPunktBlizejX()->getX() == (*itr)->getX() ) {
-							cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%saaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" << (*it)->getPunktBlizejX()->getX() << endl;
 							liniaDoSkasowania = (*it);
 							pierwszaLinia.erase(it);
 							//pierwszaLinia.push_back(l1);

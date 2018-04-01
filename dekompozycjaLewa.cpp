@@ -1,45 +1,77 @@
 #include"dekompozycjaLewa.h"
-void dekompozycjaLewa(Linia* liniaPozioma, Linia* liniaPionowa, std::set<Linia*>& liniePionowe) {
-	float x =0;
-	float y =0;
+#include<cstring>
 
-	//utwórz dwa punkty - po(punkt obwiedni), ps(do skasowania)
-//        Skasowac* poq = new Punkt(x, y);
-        Skasowac* psq = new Punkt(x, y);
-//	Punkt* po = dynamic_cast<Punkt*>(poq);
-	Punkt* ps = dynamic_cast<Punkt*>(psq);
-        // skróc linie pozioma do punktu przecia
-        if(liniaPionowa->getSrodekPo() == "prawej") {
-		Linia* nextLG = dynamic_cast<Linia*> (liniaPionowa->getNastepny());
-		Linia* nextLD = dynamic_cast<Linia*> (liniaPozioma->getNastepny());
-		Punkt* nextPG = dynamic_cast<Punkt*> (liniaPionowa->getPunktDalejX()->getNastepny());
-//		Punkt* nextPD = dynamic_cast<Punkt*> (liniaPozioma->getPunktR()->getNastepny());
 
-		Skasowac* ng = new Linia(liniaPozioma->getPunktR(),liniaPionowa->getPunktDalejX(), "prawej");
-		Linia* nowaLiniaGorna = dynamic_cast<Linia*>(ng);
+Linia* dekompozycjaLewa(Linia* l1, Linia* itr) {
+//        if(std::strcmp(liniaWyzsza->getSrodekPo(), "prawej") == 0 &&
+//	   std::strcmp(liniaNizsza->getSrodekPo(), "lewej") == 0 ) {
 
-		liniaPozioma->setPunktDalejX(ps);
-		liniaPionowa->setPunktDalejX(ps);
-		liniaPionowa->setNastepny(liniaPozioma->getNastepny());
-		nextLD->setPunktDalejX(ps);
+	      	float x = itr->getPunktR()->getX();
+       		float y = itr->getPunktR()->getY();
+
+	        Skasowac* poq = new Punkt(x, y);
+        	Punkt* po = dynamic_cast<Punkt*>(poq);
+                Skasowac* ng = new Linia(po, l1->getPunktDalejX(), "prawej");
+                Linia* nowaLiniaGorna = dynamic_cast<Linia*>(ng);
+
+
+
+
+		Linia* nextLP = dynamic_cast<Linia*> (l1->getNastepny());
+		Linia* nextLD = dynamic_cast<Linia*> (itr->getNastepny());
+		Punkt* nextPP = dynamic_cast<Punkt*> (l1->getPunktDalejX()->getNastepny());
+		Punkt* nextPD = dynamic_cast<Punkt*> (itr->getPunktR()->getNastepny());
+
+		Punkt* punktW = dynamic_cast<Punkt*> (l1->getPunktDalejX());
+		Punkt* punktN = dynamic_cast<Punkt*> (itr->getPunktR());
+
+		l1->setPunktDalejX(itr->getPunktR());
+		itr->setPunktR(po);
+
 		//flow obwiedni
-//		liniaPozioma->getPunktL()->setNastepny(po); // punkt
-		liniaPozioma->getPunktR()->setNastepny(nowaLiniaGorna->getPunktDalejX()); //punkt
-		nowaLiniaGorna->getPunktDalejX()->setNastepny(nextPG); //punkt
-		liniaPozioma->setNastepny(nowaLiniaGorna); //linia
-		nowaLiniaGorna->setNastepny(nextLG); //linia
-		//dodanie lini poz i pion
-		liniePionowe.insert(nowaLiniaGorna);
+		itr->getPunktL()->setNastepny(po); // punkt
+		po->setNastepny(punktW);   //punkt
+		punktW->setNastepny(nextPP);   //punkt
+		itr->setNastepny(nowaLiniaGorna);  //linia
+		nowaLiniaGorna->setNastepny(nextLP);  //linia
+
 		//flow do skasowania
-		liniaPionowa->getPunktBlizejX()->setNastepny(ps);//punkt
-		ps->setNastepny(nextLD->getPunktBlizejX());//punkt
-		liniaPionowa->setNastepny(nextLD); //linie
-        } else {
+		l1->getPunktBlizejX()->setNastepny(punktN); // punkt
+		punktN->setNastepny(nextPD);  //punkt
+		l1->setNastepny(nextLD);  //linia
+
+		return nowaLiniaGorna;
+  /*      } else if(std::strcmp(liniaWyzsza->getSrodekPo(), "prawej") == 0 &&
+	          std::strcmp(liniaNizsza->getSrodekPo(), "lewej") == 0 ) {
+
+		Linia* l1 = liniaWyzsza;
+		Linia* itr = liniaNizsza;
+
+		Linia* nextLPW = dynamic_cast<Linia*> (l1->getNastepny());
+		Linia* nextLPN = dynamic_cast<Linia*> (itr->getNastepny());
+		Punkt* nextPPW = dynamic_cast<Punkt*> (l1->getPunktDalejX()->getNastepny());
+		Punkt* nextPPN = dynamic_cast<Punkt*> (itr->getPunktBlizejX()->getNastepny());
+
+		Punkt* punktW = dynamic_cast<Punkt*> (l1->getPunktDalejX());
+		Punkt* punktN = dynamic_cast<Punkt*> (itr->getPunktBlizejX());
+
+		itr->setPunktBlizejX(punktW);
+		l1->setPunktDalejX(punktN);
+
+		//flow obwiedni
+		itr->getPunktDalejX()->setNastepny(punktW); // punkt
+		punktW->setNastepny(nextPPW);  //punkt
+		itr->setNastepny(nextLPW);  //linia
+		//flow do skasowania
+		l1->getPunktBlizejX()->setNastepny(punktN); // punkt
+		punktN->setNastepny(nextPPN);   //punkt
+		l1->setNastepny(nextLPN);  //linia
+
 
 	//
 	}
 
-
+*/
 
 }
 
