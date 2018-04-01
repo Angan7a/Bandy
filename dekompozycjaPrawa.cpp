@@ -31,6 +31,14 @@ void dekompozycjaPrawa(Linia* liniaWyzsza, Linia* liniaNizsza) {
 		Linia* l1 = liniaWyzsza;
 		Linia* itr = liniaNizsza;
 
+                float x = l1->getPunktDalejX()->getX();
+                float y = l1->getPunktDalejX()->getY();
+
+                Skasowac* psq = new Punkt(x, y);
+                Punkt* ps = dynamic_cast<Punkt*>(psq);
+                Skasowac* ng = new Linia(ps, itr->getPunktBlizejX(), "lewej");
+                Linia* nowaLiniaDolna = dynamic_cast<Linia*>(ng);
+
 		Linia* nextLPW = dynamic_cast<Linia*> (l1->getNastepny());
 		Linia* nextLPN = dynamic_cast<Linia*> (itr->getNastepny());
 		Punkt* nextPPW = dynamic_cast<Punkt*> (l1->getPunktDalejX()->getNastepny());
@@ -40,22 +48,19 @@ void dekompozycjaPrawa(Linia* liniaWyzsza, Linia* liniaNizsza) {
 		Punkt* punktN = dynamic_cast<Punkt*> (itr->getPunktBlizejX());
 
 		itr->setPunktBlizejX(punktW);
-		l1->setPunktDalejX(punktN);
+		l1->setPunktDalejX(ps);
 
 		//flow obwiedni
-		itr->getPunktDalejX()->setNastepny(punktW); // punkt
+		itr->getPunktBlizejX()->setNastepny(punktW); // punkt
 		punktW->setNastepny(nextPPW);  //punkt
 		itr->setNastepny(nextLPW);  //linia
 		//flow do skasowania
-		l1->getPunktBlizejX()->setNastepny(punktN); // punkt
+		l1->getPunktBlizejX()->setNastepny(ps); // punkt
+		ps->setNastepny(punktN); //punkt
 		punktN->setNastepny(nextPPN);   //punkt
-		l1->setNastepny(nextLPN);  //linia
-
-
-	//
+		l1->setNastepny(nowaLiniaDolna);  //linia
+		nowaLiniaDolna->setNastepny(nextLPN);  //linia
 	}
-
-
 
 }
 
