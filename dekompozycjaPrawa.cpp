@@ -25,7 +25,32 @@ void dekompozycjaPrawa(Linia* liniaWyzsza, Linia* liniaNizsza) {
 		liniaWyzsza->getPunktBlizejX()->setNastepny(punktN); // punkt
 		punktN->setNastepny(nextPPN);   //punkt
 		liniaWyzsza->setNastepny(nextLPN);  //linia
-        } else {
+        } else if(std::strcmp(liniaWyzsza->getSrodekPo(), "prawej") == 0 &&
+	          std::strcmp(liniaNizsza->getSrodekPo(), "lewej") == 0 ) {
+
+		Linia* l1 = liniaWyzsza;
+		Linia* itr = liniaNizsza;
+
+		Linia* nextLPW = dynamic_cast<Linia*> (l1->getNastepny());
+		Linia* nextLPN = dynamic_cast<Linia*> (itr->getNastepny());
+		Punkt* nextPPW = dynamic_cast<Punkt*> (l1->getPunktDalejX()->getNastepny());
+		Punkt* nextPPN = dynamic_cast<Punkt*> (itr->getPunktBlizejX()->getNastepny());
+
+		Punkt* punktW = dynamic_cast<Punkt*> (l1->getPunktDalejX());
+		Punkt* punktN = dynamic_cast<Punkt*> (itr->getPunktBlizejX());
+
+		itr->setPunktBlizejX(punktW);
+		l1->setPunktDalejX(punktN);
+
+		//flow obwiedni
+		itr->getPunktDalejX()->setNastepny(punktW); // punkt
+		punktW->setNastepny(nextPPW);  //punkt
+		itr->setNastepny(nextLPW);  //linia
+		//flow do skasowania
+		l1->getPunktBlizejX()->setNastepny(punktN); // punkt
+		punktN->setNastepny(nextPPN);   //punkt
+		l1->setNastepny(nextLPN);  //linia
+
 
 	//
 	}
