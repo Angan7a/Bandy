@@ -9,6 +9,7 @@
 #include"wierzcholek.h"
 #include"linia.h"
 #include"dekompozycjaKrzyzowa.h"
+#include"dekompozycjaPrawa.h"
 
 using namespace std;
 
@@ -87,8 +88,8 @@ int main() {
 				cout << "Linia poziome to: " << (*itter)->getPunktL()->getX() << "   " <<   (*itter)->getPunktL()->getY()  << "            " <<  (*itter)->getPunktR()->getX()  << "    " <<  (*itter)->getPunktR()->getY() << endl;
 			}
 			// znajdz linie pionowe w zbiorze wielokata przeciecinajaca sie z linia pozioma l2
-		//	cout << "Linia pozima l2: " << l2->getP1()->getX() << "," << l2->getP1()->getY() << "        " << l2->getP2()->getX() << "," << l2->getP2()->getY()  << endl;
 			set<Linia*> vPionowe;
+		cout << "Teraz l2 to: " << l2->getPunktL()->getX() << "   " <<   l2->getPunktL()->getY()  << "            " <<  l2->getPunktR()->getX()  << "    " <<  l2->getPunktR()->getY() << endl;
 			for(auto itr = liniePionowe.begin(); itr != liniePionowe.end(); ++itr) {
 				  if( l2->getPunktL()->getX() < (*itr)->getPunktBlizejX()->getX() &&
 				      (*itr)->getPunktBlizejX()->getX() < l2->getPunktR()->getX() &&
@@ -98,11 +99,14 @@ int main() {
 					Linia** o = new Linia*[2];
 					o = dekompozycjaKrzyzowa(l2, (*itr));
 					l2 = o[0];
-		cout << "Teraz l2 to: " << l2->getPunktL()->getX() << "   " <<   l2->getPunktL()->getY()  << "            " <<  l2->getPunktR()->getX()  << "    " <<  l2->getPunktR()->getY() << endl;
 					liniePoziome.insert(o[0]);
 					vPionowe.insert(o[1]);
 					delete []o;
-				}
+				} else if((*itr)->getPunktBlizejX()->getX() == l2->getPunktL()->getX() &&
+					  (*itr)->getPunktDalejX()->getY() < l2->getPunktL()->getY() ) {
+						dekompozycjaPrawa(l1, (*itr));
+					cout << "KKKKKKKKKKKKKKKKKKKKKKKKKK" << endl;
+				} 
 			}
 			for(auto itter = vPionowe.begin(); itter != vPionowe.end(); ++itter) {
 				liniePionowe.insert(*itter);
@@ -139,7 +143,7 @@ int main() {
 					p1Koncowy = dynamic_cast<Punkt*> (p1Koncowy->getNastepny());
 				}
 
-				if( (*itr)->getX() < p1->getX() &&
+				if( (*itr)->getX() <= p1->getX() &&
 				    p1->getX() < pKoncowy->getX() ) {
 					//skasuj linie zaczynajace sie od punktu p1
 					//skasuj niepotrzebne linie
@@ -207,7 +211,7 @@ int main() {
 						delete p;
 						p = pNext;
 					}
-				} else if ((*itr)->getX() == p1->getX()) {
+			/*	} else if ((*itr)->getX() == p1->getX()) {
 					//znajdz liniepierwsze ktora zawiera (*itr)
 					Linia* liniaDoSkasowania;
 					for(auto it = pierwszaLinia.begin(); it != pierwszaLinia.end(); it++) {
@@ -243,14 +247,10 @@ int main() {
 
 							cout << "linie sie pokrywaja" << endl;
 					} else {
-cout << pierwszyPunkt.size() << endl;
 						pierwszaLinia.insert(l1);
 						pierwszyPunkt.erase((*itr));
 						pierwszaLinia.erase(liniaDoSkasowania);
 						pierwszyPunkt.insert(p1);
-
-cout << pierwszyPunkt.size() << endl;
-
 						//skasuj niepotrzebne linie
 						while(liniaDoSkasowania != nullptr) {
 							Linia* lnext = dynamic_cast<Linia*> (liniaDoSkasowania->getNastepny());
@@ -270,9 +270,6 @@ cout << pierwszyPunkt.size() << endl;
 						}
 						//skasuj niepotrzebne punkty
 						Punkt* p = (*itr);
-					//	pierwszyPunkt.erase(itr);
-					//	pierwszyPunkt.insert(p1);
-					//	pierwszaLinia.insert(l1);
 						while(p != nullptr) {
 							Punkt* pNext = dynamic_cast<Punkt*> (p->getNastepny());
 							delete p;
@@ -282,8 +279,9 @@ cout << pierwszyPunkt.size() << endl;
 					}
 
 
-				}
-				else {
+				} else if(p1->getX() == pKoncowy->getX()) {
+					cout << "p1 i pKoncowy pokrywaja sie" << endl;
+		*/		} else {
 					byl =1;
 				}
 			}
