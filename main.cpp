@@ -11,6 +11,8 @@
 #include"dekompozycjaKrzyzowa.h"
 #include"dekompozycjaPrawa.h"
 #include"dekompozycjaLewa.h"
+#include"dekompozycjaDolna.h"
+#include"dekompozycjaDolnaPojedyncza.h"
 
 using namespace std;
 
@@ -69,7 +71,21 @@ int main() {
 			//rozpatruje linie pionowa l1
 			set<Linia*> vPoziome;
 			for( auto itr = liniePoziome.begin(); itr != liniePoziome.end(); ++itr) {
-				if( (*itr)->getPunktL()->getX() < l1->getPunktBlizejX()->getX() &&
+
+
+				Linia* l22 = dynamic_cast<Linia*>((*itr)->getNastepny());
+
+				if(((*itr)->getPunktR()->getX()) == (l1->getPunktDalejX()->getX() )&&
+				  ( (*itr)->getPunktR()->getY()) == (l1->getPunktDalejX()->getY() )&&
+  				   (std::strcmp(l22->getSrodekPo(), "lewej") == 0) ) {
+					cout << "LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL" << endl;
+			//	cout << ((*itr)->getPunktL()->getX()) << "   " << (l1->getPunktDalejX()->getX()) << endl;
+			//	  cout <<( (*itr)->getPunktL()->getY()) << "swwwww" << (l1->getPunktDalejX()->getY() ) << endl;
+					liniePionowe.erase(dynamic_cast<Linia*> ((*itr)->getNastepny()));
+					liniePionowe.erase(l1);
+					dekompozycjaDolna((*itr), l1);
+
+				} else if( (*itr)->getPunktL()->getX() < l1->getPunktBlizejX()->getX() &&
 				    l1->getPunktBlizejX()->getX() < (*itr)->getPunktR()->getX() &&
 
 				    l1->getPunktBlizejX()->getY() < (*itr)->getPunktL()->getY() &&
@@ -80,6 +96,11 @@ int main() {
 					vPoziome.insert(o[0]);
 					liniePionowe.insert(o[1]);
 					delete []o;
+				} else if((*itr)->getPunktR()->getY() == l1->getPunktDalejX()->getY() &&
+					  (*itr)->getPunktL()->getX() < l1->getPunktDalejX()->getX() &&
+					  l1->getPunktDalejX()->getX() < (*itr)->getPunktR()->getX() ){
+						liniePionowe.erase(l1);
+						dekompozycjaDolnaPojedyncza((*itr), l1);
 				}
 			}
 			for(auto itter = vPoziome.begin(); itter != vPoziome.end(); ++itter) {
@@ -112,6 +133,7 @@ int main() {
 					  l2->getPunktL()->getY() < (*itr)->getPunktDalejX()->getY() &&
 					  std::strcmp((*itr)->getSrodekPo(), "lewej") == 0 ) {
 						dekompozycjaPrawa(l1, (*itr));
+						cout << "Jestem w dekompozycji Prawej" << endl;
 				} else if((*itr)->getPunktBlizejX()->getX() == l2->getPunktL()->getX() &&
 					  (*itr)->getPunktDalejX()->getY() < l2->getPunktL()->getY() &&
 					  std::strcmp((*itr)->getSrodekPo(), "lewej") == 0 ) {
@@ -167,6 +189,7 @@ int main() {
 				while(p1Koncowy->getNastepny() != nullptr) {
 					p1Koncowy = dynamic_cast<Punkt*> (p1Koncowy->getNastepny());
 				}
+				cout <<"Punkt koncowy: " << pKoncowy->getX()    <<  "    " << pKoncowy->getY();
 
 				if( (*itr)->getX() <= p1->getX() &&
 				    p1->getX() < pKoncowy->getX() ) {
@@ -189,16 +212,22 @@ int main() {
 						delete l1;
 						l1 = lnext;
 					}
+
+
 					//skasuj niepotrzebne punkty
 					while(p1 != nullptr) {
 						Punkt* pNext = dynamic_cast<Punkt*> (p1->getNastepny());
 						delete p1;
 						p1 = pNext;
 					}
+								cout << "Doszedlem tutaj----------------------------------------------------" << endl;
+
+
 				//(*itr) w srodku dodawanego bantu
 				} else if( p1->getX() < (*itr)->getX() &&
 					   (*itr)->getX() < p1Koncowy->getX() ){
 					//znajdz liniepierwsze ktora zawiera (*itr)
+
 					Linia* liniaDoSkasowania;
 					for(auto it = pierwszaLinia.begin(); it != pierwszaLinia.end(); it++) {
 						if((*it)->getPunktBlizejX()->getX() == (*itr)->getX() ) {
@@ -207,6 +236,8 @@ int main() {
 							//pierwszaLinia.push_back(l1);
 						}
 					}
+
+
 					//skasuj niepotrzebne linie
 					while(liniaDoSkasowania != nullptr) {
 						Linia* lnext = dynamic_cast<Linia*> (liniaDoSkasowania->getNastepny());
@@ -314,6 +345,8 @@ int main() {
 				pierwszaLinia.insert(l1);
 			}
 		//wyswietlanie wynikow
+
+
 		for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
 			Punkt* p =  *(itr);
 			while(p != nullptr) {
@@ -323,7 +356,8 @@ int main() {
 		cout << "sdasdasdsa" << endl;
 
 
-		}}
+		}  
+		}
 
 	}
 

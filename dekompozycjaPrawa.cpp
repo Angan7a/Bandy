@@ -51,7 +51,7 @@ void dekompozycjaPrawa(Linia* liniaWyzsza, Linia* liniaNizsza) {
 		l1->setPunktDalejX(ps);
 
 		//flow obwiedni
-		itr->getPunktBlizejX()->setNastepny(punktW); // punkt
+		itr->getPunktDalejX()->setNastepny(punktW); // punkt
 		punktW->setNastepny(nextPPW);  //punkt
 		itr->setNastepny(nextLPW);  //linia
 		//flow do skasowania
