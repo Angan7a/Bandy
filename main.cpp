@@ -366,22 +366,25 @@ int main() {
 				pierwszyPunkt.insert(p1);
 				pierwszaLinia.insert(l1);
 			}
-		//wyswietlanie wynikow
-
-
-		for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
-			Punkt* p =  *(itr);
-			while(p != nullptr) {
-				cout << p->getX() << "    " << p->getY() << endl;
-				p = dynamic_cast<Punkt*> (p->getNastepny());
-			}
-		cout << "sdasdasdsa" << endl;
-
-
-		}  
 		}
 
 	}
+		//wyswietlanie wynikow
+
+		cout << "Wynik koncowy:" << endl;
+		int x = 1;
+		for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
+			Punkt* p =  *(itr);
+			cout << "Seria_punktów_" << x << ":" << endl;
+			int y =1;
+			while(p != nullptr) {
+				cout << "Punkt_" << y++ << " - " << p->getX() << "," << p->getY() << endl;
+				p = dynamic_cast<Punkt*> (p->getNastepny());
+			}
+			x++;
+
+
+		}  
 
 return 0;
 }
