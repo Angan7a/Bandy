@@ -1,7 +1,6 @@
 
 #include"dekompozycjaDolna.h"
 #include<cstring>
-#include<iostream>
 
 
 void dekompozycjaDolna(Linia* itr, Linia* l1) {
@@ -43,8 +42,6 @@ void dekompozycjaDolna(Linia* itr, Linia* l1) {
 	l1->setNastepny(liniaR);
 	liniaR->setNastepny(liniaD);
 	liniaD->setNastepny(nextLD);
-
-	std::cout << "jestem w dekompopzycji Dolnej" <<std::endl;
 
 }
 

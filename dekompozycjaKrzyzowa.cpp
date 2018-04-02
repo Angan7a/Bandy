@@ -1,5 +1,4 @@
 #include"dekompozycjaKrzyzowa.h"
-#include<iostream>
 #include<cstring>
 Linia** dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
 
@@ -12,8 +11,6 @@ Linia** dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
 	Punkt* po = dynamic_cast<Punkt*>(poq);
 	Punkt* ps = dynamic_cast<Punkt*>(psq);
         // skróc linie pozioma do punktu przecia
-std::cout << "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" << x << "    " << y << std::endl; 
-
         if(std::strcmp(liniaPionowa->getSrodekPo(), "prawej") == 0) {
 		Linia* nextLG = dynamic_cast<Linia*> (liniaPionowa->getNastepny());
 		Linia* nextLR = dynamic_cast<Linia*> (liniaPozioma->getNastepny());
@@ -28,7 +25,6 @@ std::cout << "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" << x << "    " << y << std::endl;
         	liniaPozioma->setPunktR(po);
 		liniaPionowa->setPunktDalejX(ps);
 		//flow obwiedni
-		std::cout << "punkt dalej X : " << nextPG->getX() << "    " << nextPG->getY() << std::endl;
 		liniaPozioma->getPunktL()->setNastepny(po); // punkt
 		po->setNastepny(nowaLiniaGorna->getPunktDalejX()); //punkt
 		nowaLiniaGorna->getPunktDalejX()->setNastepny(nextPG); //punkt
@@ -71,10 +67,6 @@ std::cout << "qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq" << x << "    " << y << std::endl;
 
 		//flow do skasowania
 		liniaPozioma->getPunktL()->setNastepny(ps);
-
-		std::cout << "LiniaPozioma->getPunktL() " << liniaPozioma->getPunktL()->getX()  << "     " << liniaPozioma->getPunktL()->getY() << std::endl;
-		std::cout << "LiniaPozioma->getPunktR() " << liniaPozioma->getPunktR()->getX()  << "     " << liniaPozioma->getPunktR()->getY() << std::endl;
-
 		ps->setNastepny(nowaLiniaDolna->getPunktBlizejX());
 		nowaLiniaDolna->getPunktBlizejX()->setNastepny(nextPD);
 		liniaPozioma->setNastepny(nowaLiniaDolna);
