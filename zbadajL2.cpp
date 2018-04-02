@@ -70,6 +70,8 @@ void Wielokat::zbadajL2(Linia* l1, Linia* l2,Linia* l3) {
 		}
 	        for(auto itter = vPionowe.begin(); itter != vPionowe.end(); ++itter) {
                 	liniePionowe.insert(*itter);
+			VPionowe.push_back((*itter));
+			sortPionowe();
                 }
 	}
 }

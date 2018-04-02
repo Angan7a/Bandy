@@ -14,7 +14,9 @@ void Wielokat::zbadajL1(Linia* l1) {
 		   (std::strcmp(l22->getSrodekPo(), "lewej") == 0) ) {
 			liniePionowe.erase(dynamic_cast<Linia*> ((*itr)->getNastepny()));
 			liniePionowe.erase(l1);
-			dekompozycjaDolna((*itr), l1);
+			//VPionowe.erase(l1)
+		
+	dekompozycjaDolna((*itr), l1);
 		} else if( (*itr)->getPunktL()->getX() < l1->getPunktBlizejX()->getX() &&
 			   l1->getPunktBlizejX()->getX() < (*itr)->getPunktR()->getX() &&
 			   l1->getPunktBlizejX()->getY() < (*itr)->getPunktL()->getY() &&

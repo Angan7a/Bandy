@@ -1,12 +1,12 @@
 #ifndef wielokat_hpp
 #define wielokat_hpp
 #include<set>
+#include<vector>
 #include"linia.h"
 #include"punkt.h"
 #include"skasowac.h"
 
 using namespace std;
-
 
 
 
@@ -33,17 +33,19 @@ struct cmpPunkty {
     }
 };
 
-
+//  std::set<int,bool(*)(int,int)> sixth (fn_pt);  // function pointer as Compare
+//	static  constexpr auto cmp = [](Linia* a, Linia* b) { return a->getPunktBlizejX()->getX() < b->getPunktBlizejX()->getX() || a->getPunktDalejX()->getY() < b->getPunktDalejX()->getY(); };
+	vector<Punkt*> pierwPunkt;
+	vector<Linia*> VPionowe;
         set<Punkt*, cmpPunkty> pierwszyPunkt;
-        set<Linia*, cmpPionowe> pierwszaLinia;
+        set<Linia*, cmpPionowe > pierwszaLinia;
         set<Linia*, cmpPionowe> liniePionowe;
         set<Linia*, cmpPoziome> liniePoziome;
 public:
-/*bool fncomp (Linia* a, Linia* b) {
-	return a->getPunktBlizejX()->getX() < b->getPunktBlizejX()->getX() || a->getPunktDalejX()->getY() < b->getPunktDalejX()->getY();}
-	 bool(*fn_pt)(Linia*,Linia*) = fncomp;
-*/
+
 	Wielokat();
+	void sortPionowe();
+	bool cmpPunkt(Punkt*, Punkt*);
 	void dodaj(int, int, int, int, int, int, int, int);
 	void zbadajL1(Linia*);
 	void zbadajL2(Linia*, Linia*, Linia*);

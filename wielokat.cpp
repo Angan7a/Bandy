@@ -1,9 +1,14 @@
 #include "wielokat.h"
 #include <iostream>
-
+#include <algorithm>
+#include<iostream>
 Wielokat::Wielokat() {
 
 }
+void Wielokat::sortPionowe() {
+	std::sort(VPionowe.begin(), VPionowe.end(), [](Linia* a, Linia* b) { return a->getPunktBlizejX()->getX() < b->getPunktBlizejX()->getX() || a->getPunktDalejX()->getY() < b->getPunktDalejX()->getY(); });
+}
+
 
 void Wielokat::dodaj(int p1x, int p1y, int p2x, int p2y, int p3x, int p3y, int p4x, int p4y) {
 
@@ -34,9 +39,14 @@ void Wielokat::dodaj(int p1x, int p1y, int p2x, int p2y, int p3x, int p3y, int p
         liniePoziome.insert( l2 );
         liniePionowe.insert( l1 );
         liniePionowe.insert( l3 );
-
+	
+	VPionowe.push_back(l1);
+	VPionowe.push_back(l2);
+	sortPionowe();
 	if(pierwszyPunkt.empty()) {
         	pierwszyPunkt.insert(p1);
+		pierwPunkt.push_back(p1);
+//		sort(pierwPunkt.begin(), pierwPunkt, cmpPunkt);
                 pierwszaLinia.insert(l1);
 	} else {
 		for(auto it = liniePionowe.begin(); it != liniePionowe.end(); ++it) {
@@ -51,12 +61,20 @@ void Wielokat::dodaj(int p1x, int p1y, int p2x, int p2y, int p3x, int p3y, int p
 		std::cout << "Sakuje punkty i linie" << std::endl;
 		skasujNiepotrzebneLIP(l1, p1);
 	}
+	sortPionowe();
+	for(auto it = VPionowe.begin(); it != VPionowe.end(); ++it) {
+		std::cout << (*it)->getPunktBlizejX()->getX() << std::endl;
+	}
 //	wyswietlWynik();
 
 }
 
 
 
+
+bool Wielokat::cmpPunkt(Punkt* a, Punkt* b) {
+	return a->getX() < b->getX();
+}
 Wielokat::~Wielokat() {
 
 }
