@@ -10,6 +10,7 @@ void dekompozycjaDolna(Linia* itr, Linia* l1) {
         Punkt* punktL = dynamic_cast<Punkt*> (itr->getPunktR());
 
         Linia* liniaD = dynamic_cast<Linia*> (itr->getNastepny());
+        Linia* liniaR = dynamic_cast<Linia*> (l1->getNastepny());
 
 	Linia* nextLP = dynamic_cast<Linia*> (l1->getNastepny()->getNastepny());
         Linia* nextLD = dynamic_cast<Linia*> (itr->getNastepny()->getNastepny());
@@ -35,10 +36,13 @@ void dekompozycjaDolna(Linia* itr, Linia* l1) {
         itr->setNastepny(nextLP);  //linia
 
 	//flow do skasowania
-	l1->getPunktDalejX()->setNastepny(psR);
-	psR->setNastepny(psL);
-	psL->setNastepny(liniaD->getPunktBlizejX());
-	liniaD->getPunktBlizejX()->setNastepny(nextPD);
+	l1->getPunktDalejX()->setNastepny(psR); //punkt
+	psR->setNastepny(psL); //punkt
+	psL->setNastepny(liniaD->getPunktBlizejX());  //punkt
+	liniaD->getPunktBlizejX()->setNastepny(nextPD);  //punkt
+	l1->setNastepny(liniaR);
+	liniaR->setNastepny(liniaD);
+	liniaD->setNastepny(nextLD);
 
 	std::cout << "jestem w dekompopzycji Dolnej" <<std::endl;
 
