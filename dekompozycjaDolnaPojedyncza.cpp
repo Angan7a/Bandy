@@ -4,43 +4,41 @@
 #include<iostream>
 
 
-Linia* dekompozycjaDolnaPojedyncza(Linia* itr, Linia* l1) {
-
-	Punkt* punktR = dynamic_cast<Punkt*> ((dynamic_cast<Linia*> (l1->getNastepny()))->getPunktR());
-        Punkt* punktL = dynamic_cast<Punkt*> (itr->getPunktR());
-
-        Linia* liniaD = dynamic_cast<Linia*> (itr->getNastepny());
-
-	Linia* nextLP = dynamic_cast<Linia*> (l1->getNastepny()->getNastepny());
-        Linia* nextLD = dynamic_cast<Linia*> (itr->getNastepny()->getNastepny());
-        Punkt* nextPP = dynamic_cast<Punkt*> (punktR->getNastepny());
-        Punkt* nextPD = dynamic_cast<Punkt*> (punktL->getNastepny()->getNastepny());
+void dekompozycjaDolnaPojedyncza(Linia* itr, Linia* l2) {
 
 
-        Skasowac* psqL = new Punkt(punktL->getX(), punktL->getY());
-        Punkt* psL = dynamic_cast<Punkt*>(psqL);
-        Skasowac* psqR = new Punkt(punktR->getX(), punktR->getY());
-        Punkt* psR = dynamic_cast<Punkt*>(psqR);
-        Skasowac* ng = new Linia(psL, psL, "dole");
-        Linia* nowaLiniaGorna = dynamic_cast<Linia*>(ng);
+	Linia* nextLP = dynamic_cast<Linia*> (itr->getNastepny()->getNastepny());
+	Linia* nextLD = dynamic_cast<Linia*> (l2->getNastepny()->getNastepny());
+	Punkt* nextPP = dynamic_cast<Punkt*> (itr->getPunktDalejX()->getNastepny()->getNastepny());
+	Punkt* nextPD = dynamic_cast<Punkt*> (l2->getPunktR()->getNastepny()->getNastepny());
 
-	dynamic_cast<Linia*> (l1->getNastepny())->setPunktR(psR);
+	Linia* liniaGornaDoSkas = dynamic_cast<Linia*> (itr->getNastepny());
+	Linia* liniaDolnaDoSkas = dynamic_cast<Linia*> (l2->getNastepny());
 
-	liniaD->setPunktDalejX(psL);
-        itr->setPunktR(punktR);
+	Punkt* punktLW = dynamic_cast<Punkt*> (itr->getPunktDalejX());
+	Punkt* punktPW = dynamic_cast<Punkt*> (liniaDolnaDoSkas->getPunktDalejX());
+	Punkt* punktPD = dynamic_cast<Punkt*> (liniaDolnaDoSkas->getPunktBlizejX());
+	Punkt* punktPZ = dynamic_cast<Punkt*> (itr->getPunktDalejX()->getNastepny());
+
+
+	liniaGornaDoSkas->setPunktR(punktPW);
+	liniaGornaDoSkas->setPunktL(punktLW);
+	liniaDolnaDoSkas->setPunktDalejX(punktPW);
+	liniaDolnaDoSkas->setPunktBlizejX(punktPD);
+	l2->setPunktR(punktPZ);
 
 	//flow obwiedni
-        itr->getPunktL()->setNastepny(punktR); // punkt
-        punktR->setNastepny(nextPP);   //punkt
-        itr->setNastepny(nextLP);  //linia
-
+	l2->getPunktL()->setNastepny(punktPZ); // punkt
+	punktPZ->setNastepny(nextPP);  //punkt
+	l2->setNastepny(nextLP);  //linia
 	//flow do skasowania
-	l1->getPunktDalejX()->setNastepny(psR);
-	psR->setNastepny(psL);
-	psL->setNastepny(liniaD->getPunktBlizejX());
-	liniaD->getPunktBlizejX()->setNastepny(nextPD);
-
-	std::cout << "jestem w dekompopzycji Dolnej" <<std::endl;
+	itr->getPunktBlizejX()->setNastepny(punktLW); // punkt
+	punktLW->setNastepny(punktPW);   //punkt
+	punktPW->setNastepny(punktPD);   //punkt
+	punktPD->setNastepny(nextPD);   //punkt
+	itr->setNastepny(liniaGornaDoSkas);  //linia
+	liniaGornaDoSkas->setNastepny(liniaDolnaDoSkas); //linia
+	liniaDolnaDoSkas->setNastepny(nextLD); //linia
 
 }
 

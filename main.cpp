@@ -96,11 +96,6 @@ int main() {
 					vPoziome.insert(o[0]);
 					liniePionowe.insert(o[1]);
 					delete []o;
-				} else if((*itr)->getPunktR()->getY() == l1->getPunktDalejX()->getY() &&
-					  (*itr)->getPunktL()->getX() < l1->getPunktDalejX()->getX() &&
-					  l1->getPunktDalejX()->getX() < (*itr)->getPunktR()->getX() ){
-						liniePionowe.erase(l1);
-						dekompozycjaDolnaPojedyncza((*itr), l1);
 				}
 			}
 			for(auto itter = vPoziome.begin(); itter != vPoziome.end(); ++itter) {
@@ -152,7 +147,33 @@ int main() {
 					  std::strcmp((*itr)->getSrodekPo(), "lewej") == 0 ) {
 //						dekompozycjaPrawa(l1, (*itr));
 				cout << "KKKKKKKKKKKKKKKKKKKKKKKKKK" << endl;
+				} else if((*itr)->getPunktDalejX()->getY() == l2->getPunktL()->getY() &&
+					  l2->getPunktL()->getX() < (*itr)->getPunktDalejX()->getX() &&
+					  (*itr)->getPunktDalejX()->getX() < l2->getPunktR()->getX() ){
+						if(std::strcmp((*itr)->getSrodekPo(), "prawej") == 0 ) {
+							liniePionowe.erase((*itr));
+							liniePionowe.erase(l3);
+			cout << "Jestem w dekompozycji Pojedynczej ++++++++++++++++++++++" << endl;
 
+					cout << "Rozpatruje linie krzyzujaca sie z l2 -" << (*itr)->getPunktBlizejX()->getX() << "   " <<   (*itr)->getPunktBlizejX()->getY()  << "            " <<  (*itr)->getPunktDalejX()->getX()  << "    " <<  (*itr)->getPunktDalejX()->getY() << endl;
+							dekompozycjaDolnaPojedyncza((*itr), l2);
+			cout <<  " 9999999999999999999999999999999999   "  << endl;
+
+						} else {
+							liniePionowe.erase((*itr));
+							liniePionowe.erase(l1);
+							//znajdz linie pozioma ktora ma prawy punkt rowny punktowi dalej x (*itr)
+							Linia* liniaDoPrzekazania;
+							for(auto iter = liniePoziome.begin(); iter != liniePoziome.end(); ++iter) {
+								if((*iter)->getPunktR()->getX() == (*itr)->getPunktDalejX()->getX() &&
+								   (*iter)->getPunktR()->getY() == (*itr)->getPunktDalejX()->getY() ) {
+									liniaDoPrzekazania = (*iter);
+								}
+
+							}
+
+							dekompozycjaDolnaPojedyncza(l1, liniaDoPrzekazania);
+						}
 				}
 			}
 			for(auto itter = vPionowe.begin(); itter != vPionowe.end(); ++itter) {
@@ -179,6 +200,7 @@ int main() {
 			for(auto itter = vvPoziome.begin(); itter != vvPoziome.end(); ++itter) {
 				liniePoziome.insert(*itter);
 			}
+
 //czyszczenie pamieci z niepotrzebnych punktow i linii
 			for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
 				Punkt* pKoncowy =  (*itr);
@@ -189,7 +211,7 @@ int main() {
 				while(p1Koncowy->getNastepny() != nullptr) {
 					p1Koncowy = dynamic_cast<Punkt*> (p1Koncowy->getNastepny());
 				}
-				cout <<"Punkt koncowy: " << pKoncowy->getX()    <<  "    " << pKoncowy->getY();
+				cout <<"Punkt koncowy: " << pKoncowy->getX()    <<  "    " << pKoncowy->getY() << endl;
 
 				if( (*itr)->getX() <= p1->getX() &&
 				    p1->getX() < pKoncowy->getX() ) {
