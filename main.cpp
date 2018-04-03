@@ -7,7 +7,6 @@
 //#include <memory>
 
 #include"punkt.h"
-#include"wierzcholek.h"
 #include"linia.h"
 #include"dekompozycjaKrzyzowa.h"
 #include"dekompozycjaPrawa.h"
