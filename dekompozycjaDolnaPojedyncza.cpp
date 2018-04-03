@@ -7,18 +7,18 @@
 void dekompozycjaDolnaPojedyncza(Linia* itr, Linia* l2) {
 
 
-	Linia* nextLP = dynamic_cast<Linia*> (itr->getNastepny()->getNastepny());
-	Linia* nextLD = dynamic_cast<Linia*> (l2->getNastepny()->getNastepny());
-	Punkt* nextPP = dynamic_cast<Punkt*> (itr->getPunktDalejX()->getNastepny()->getNastepny());
-	Punkt* nextPD = dynamic_cast<Punkt*> (l2->getPunktR()->getNastepny()->getNastepny());
+	Linia* nextLP = itr->getNastepny()->getNastepny();
+	Linia* nextLD = l2->getNastepny()->getNastepny();
+	Punkt* nextPP = itr->getPunktDalejX()->getNastepny()->getNastepny();
+	Punkt* nextPD = l2->getPunktR()->getNastepny()->getNastepny();
 
-	Linia* liniaGornaDoSkas = dynamic_cast<Linia*> (itr->getNastepny());
-	Linia* liniaDolnaDoSkas = dynamic_cast<Linia*> (l2->getNastepny());
+	Linia* liniaGornaDoSkas = itr->getNastepny();
+	Linia* liniaDolnaDoSkas = l2->getNastepny();
 
-	Punkt* punktLW = dynamic_cast<Punkt*> (itr->getPunktDalejX());
-	Punkt* punktPW = dynamic_cast<Punkt*> (liniaDolnaDoSkas->getPunktDalejX());
-	Punkt* punktPD = dynamic_cast<Punkt*> (liniaDolnaDoSkas->getPunktBlizejX());
-	Punkt* punktPZ = dynamic_cast<Punkt*> (itr->getPunktDalejX()->getNastepny());
+	Punkt* punktLW = itr->getPunktDalejX();
+	Punkt* punktPW = liniaDolnaDoSkas->getPunktDalejX();
+	Punkt* punktPD = liniaDolnaDoSkas->getPunktBlizejX();
+	Punkt* punktPZ = itr->getPunktDalejX()->getNastepny();
 
 
 	liniaGornaDoSkas->setPunktR(punktPW);

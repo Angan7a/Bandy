@@ -5,26 +5,26 @@
 
 void dekompozycjaDolna(Linia* itr, Linia* l1) {
 
-	Punkt* punktR = dynamic_cast<Punkt*> ((dynamic_cast<Linia*> (l1->getNastepny()))->getPunktR());
-        Punkt* punktL = dynamic_cast<Punkt*> (itr->getPunktR());
+	Punkt* punktR = l1->getNastepny()->getPunktR();
+        Punkt* punktL = itr->getPunktR();
 
-        Linia* liniaD = dynamic_cast<Linia*> (itr->getNastepny());
-        Linia* liniaR = dynamic_cast<Linia*> (l1->getNastepny());
+        Linia* liniaD = itr->getNastepny();
+        Linia* liniaR = l1->getNastepny();
 
-	Linia* nextLP = dynamic_cast<Linia*> (l1->getNastepny()->getNastepny());
-        Linia* nextLD = dynamic_cast<Linia*> (itr->getNastepny()->getNastepny());
-        Punkt* nextPP = dynamic_cast<Punkt*> (punktR->getNastepny());
-        Punkt* nextPD = dynamic_cast<Punkt*> (punktL->getNastepny()->getNastepny());
+	Linia* nextLP = l1->getNastepny()->getNastepny();
+        Linia* nextLD = itr->getNastepny()->getNastepny();
+        Punkt* nextPP = punktR->getNastepny();
+        Punkt* nextPD = punktL->getNastepny()->getNastepny();
 
 
-        Skasowac* psqL = new Punkt(punktL->getX(), punktL->getY());
-        Punkt* psL = dynamic_cast<Punkt*>(psqL);
-        Skasowac* psqR = new Punkt(punktR->getX(), punktR->getY());
-        Punkt* psR = dynamic_cast<Punkt*>(psqR);
-        Skasowac* ng = new Linia(psL, psL, "dole");
-        Linia* nowaLiniaGorna = dynamic_cast<Linia*>(ng);
+//        Skasowac* psqL = new Punkt(punktL->getX(), punktL->getY());
+        Punkt* psL = new Punkt(punktL->getX(), punktL->getY());
+//        Skasowac* psqR = new Punkt(punktR->getX(), punktR->getY());
+        Punkt* psR = new Punkt(punktR->getX(), punktR->getY());
+  //      Skasowac* ng = new Linia(psL, psL, "dole");
+        Linia* nowaLiniaGorna = new Linia(psL, psL, "dole");
 
-	dynamic_cast<Linia*> (l1->getNastepny())->setPunktR(psR);
+	l1->getNastepny()->setPunktR(psR);
 
 	liniaD->setPunktDalejX(psL);
         itr->setPunktR(punktR);

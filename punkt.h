@@ -1,12 +1,12 @@
 #ifndef punkt_hpp
 #define punkt_hpp
 
-#include"skasowac.h"
+//#include"skasowac.h"
 
-class Punkt : public Skasowac {
+class Punkt {
 	float x;
 	float y;
-//	Punkt* nastepny;
+	Punkt* nastepny;
 //	Punkt* poprzedni;
 public:
 	Punkt(float , float, Punkt* nastepny = nullptr);
@@ -14,7 +14,8 @@ public:
 	float getY() const;
 
 
-//	Punkt* getNastepny() const;
+	Punkt* getNastepny() const;
+	void setNastepny(Punkt*);
 //	void setNastepny(Punkt*);
 //	void setPoprzedni(Punkt*);
 };

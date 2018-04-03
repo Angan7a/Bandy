@@ -9,21 +9,21 @@ Linia* dekompozycjaLewa(Linia* l1, Linia* itr) {
 	      	float x = itr->getPunktR()->getX();
        		float y = itr->getPunktR()->getY();
 
-	        Skasowac* poq = new Punkt(x, y);
-        	Punkt* po = dynamic_cast<Punkt*>(poq);
-                Skasowac* ng = new Linia(po, l1->getPunktDalejX(), "prawej");
-                Linia* nowaLiniaGorna = dynamic_cast<Linia*>(ng);
+//	        Skasowac* poq = new Punkt(x, y);
+        	Punkt* po = new Punkt(x, y);
+         //       Skasowac* ng = new Linia(po, l1->getPunktDalejX(), "prawej");
+                Linia* nowaLiniaGorna = new Linia(po, l1->getPunktDalejX(), "prawej");
 
 
 
 
-		Linia* nextLP = dynamic_cast<Linia*> (l1->getNastepny());
-		Linia* nextLD = dynamic_cast<Linia*> (itr->getNastepny());
-		Punkt* nextPP = dynamic_cast<Punkt*> (l1->getPunktDalejX()->getNastepny());
-		Punkt* nextPD = dynamic_cast<Punkt*> (itr->getPunktR()->getNastepny());
+		Linia* nextLP = l1->getNastepny();
+		Linia* nextLD = itr->getNastepny();
+		Punkt* nextPP = l1->getPunktDalejX()->getNastepny();
+		Punkt* nextPD = itr->getPunktR()->getNastepny();
 
-		Punkt* punktW = dynamic_cast<Punkt*> (l1->getPunktDalejX());
-		Punkt* punktN = dynamic_cast<Punkt*> (itr->getPunktR());
+		Punkt* punktW = l1->getPunktDalejX();
+		Punkt* punktN = itr->getPunktR();
 
 		l1->setPunktDalejX(itr->getPunktR());
 		itr->setPunktR(po);

@@ -1,7 +1,7 @@
 #include"linia.h"
 
 
-Linia::Linia(Punkt* p1, Punkt* p2, const char* kierunek) : p1(p1), p2(p2), kierunek(kierunek) {
+Linia::Linia(Punkt* p1, Punkt* p2, const char* kierunek, Linia* nastepny) : p1(p1), p2(p2), kierunek(kierunek), nastepny(nastepny) {
 
 }
 
@@ -91,4 +91,12 @@ bool Linia::czyPionowa() const {
 		return 1;
 	}
 	return 0;
+}
+
+Linia* Linia::getNastepny() const{
+	return nastepny;
+}
+
+void Linia::setNastepny(Linia* linia){
+	nastepny = linia;
 }

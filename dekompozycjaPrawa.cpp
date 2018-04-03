@@ -6,13 +6,13 @@ void dekompozycjaPrawa(Linia* liniaWyzsza, Linia* liniaNizsza) {
         if(std::strcmp(liniaWyzsza->getSrodekPo(), "prawej") == 0 &&
 	   std::strcmp(liniaNizsza->getSrodekPo(), "prawej") == 0 ) {
 
-		Linia* nextLPN = dynamic_cast<Linia*> (liniaNizsza->getNastepny());
-		Linia* nextLPW = dynamic_cast<Linia*> (liniaWyzsza->getNastepny());
-		Punkt* nextPPN = dynamic_cast<Punkt*> (liniaNizsza->getPunktDalejX()->getNastepny());
-		Punkt* nextPPW = dynamic_cast<Punkt*> (liniaWyzsza->getPunktDalejX()->getNastepny());
+		Linia* nextLPN = liniaNizsza->getNastepny();
+		Linia* nextLPW = liniaWyzsza->getNastepny();
+		Punkt* nextPPN = liniaNizsza->getPunktDalejX()->getNastepny();
+		Punkt* nextPPW = liniaWyzsza->getPunktDalejX()->getNastepny();
 
-		Punkt* punktW = dynamic_cast<Punkt*> (liniaWyzsza->getPunktDalejX());
-		Punkt* punktN = dynamic_cast<Punkt*> (liniaNizsza->getPunktDalejX());
+		Punkt* punktW = liniaWyzsza->getPunktDalejX();
+		Punkt* punktN = liniaNizsza->getPunktDalejX();
 
 		liniaNizsza->setPunktDalejX(punktW);
 		liniaWyzsza->setPunktDalejX(punktN);
@@ -34,18 +34,18 @@ void dekompozycjaPrawa(Linia* liniaWyzsza, Linia* liniaNizsza) {
                 float x = l1->getPunktDalejX()->getX();
                 float y = l1->getPunktDalejX()->getY();
 
-                Skasowac* psq = new Punkt(x, y);
-                Punkt* ps = dynamic_cast<Punkt*>(psq);
-                Skasowac* ng = new Linia(ps, itr->getPunktBlizejX(), "lewej");
-                Linia* nowaLiniaDolna = dynamic_cast<Linia*>(ng);
+           //     Skasowac* psq = new Punkt(x, y);
+                Punkt* ps = new Punkt(x, y);
+         //       Skasowac* ng = new Linia(ps, itr->getPunktBlizejX(), "lewej");
+                Linia* nowaLiniaDolna = new Linia(ps, itr->getPunktBlizejX(), "lewej");
 
-		Linia* nextLPW = dynamic_cast<Linia*> (l1->getNastepny());
-		Linia* nextLPN = dynamic_cast<Linia*> (itr->getNastepny());
-		Punkt* nextPPW = dynamic_cast<Punkt*> (l1->getPunktDalejX()->getNastepny());
-		Punkt* nextPPN = dynamic_cast<Punkt*> (itr->getPunktBlizejX()->getNastepny());
+		Linia* nextLPW = l1->getNastepny();
+		Linia* nextLPN = itr->getNastepny();
+		Punkt* nextPPW = l1->getPunktDalejX()->getNastepny();
+		Punkt* nextPPN = itr->getPunktBlizejX()->getNastepny();
 
-		Punkt* punktW = dynamic_cast<Punkt*> (l1->getPunktDalejX());
-		Punkt* punktN = dynamic_cast<Punkt*> (itr->getPunktBlizejX());
+		Punkt* punktW = l1->getPunktDalejX();
+		Punkt* punktN = itr->getPunktBlizejX();
 
 		itr->setPunktBlizejX(punktW);
 		l1->setPunktDalejX(ps);

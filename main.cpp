@@ -4,6 +4,7 @@
 #include<set>
 #include<algorithm>
 #include<cstring>
+//#include <memory>
 
 #include"punkt.h"
 #include"wierzcholek.h"
@@ -36,22 +37,22 @@ int main() {
         float p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y;
         while((scanf("%12s - (%f, %f)(%f, %f)(%f, %f)(%f, %f)", a, &p1x, &p1y, &p2x, &p2y, &p3x, &p3y, &p4x, &p4y)) != EOF) {
                 int byl = 0;
-		Skasowac *p11 = new Punkt(p1x, p1y);
-                Skasowac *p22 = new Punkt(p2x, p2y);
-                Skasowac *p33 = new Punkt(p3x, p3y);
-                Skasowac *p44 = new Punkt(p4x, p4y);
-		Punkt* p1 = dynamic_cast<Punkt*>(p11);
-		Punkt* p2 = dynamic_cast<Punkt*>(p22);
-		Punkt* p3 = dynamic_cast<Punkt*>(p33);
-		Punkt* p4 = dynamic_cast<Punkt*>(p44);
+	//	Skasowac *p11 = new Punkt(p1x, p1y);
+          //      Skasowac *p22 = new Punkt(p2x, p2y);
+            //    Skasowac *p33 = new Punkt(p3x, p3y);
+             //   Skasowac *p44 = new Punkt(p4x, p4y);
+		Punkt* p1 = new Punkt(p1x, p1y);
+		Punkt* p2 = new Punkt(p2x, p2y);
+		Punkt* p3 = new Punkt(p3x, p3y);
+		Punkt* p4 = new Punkt(p4x, p4y);
 
 
-		Skasowac *l11 = new Linia(p1, p2, "prawej");
-		Skasowac *l22 = new Linia(p2, p3, "dol");
-		Skasowac *l33 = new Linia(p3, p4, "lewej");
-		Linia* l1 = dynamic_cast<Linia*>(l11);
-		Linia* l2 = dynamic_cast<Linia*>(l22);
-		Linia* l3 = dynamic_cast<Linia*>(l33);
+//		Skasowac *l11 = new Linia(p1, p2, "prawej");
+//		Skasowac *l22 = new Linia(p2, p3, "dol");
+//		Skasowac *l33 = new Linia(p3, p4, "lewej");
+		Linia* l1 = new Linia(p1, p2, "prawej");
+		Linia* l2 = new Linia(p2, p3, "dol");
+		Linia* l3 = new Linia(p3, p4, "lewej");
 
 		p1->setNastepny(p2);
 		p2->setNastepny(p3);
@@ -73,12 +74,12 @@ int main() {
 			for( auto itr = liniePoziome.begin(); itr != liniePoziome.end(); ++itr) {
 
 
-				Linia* l22 = dynamic_cast<Linia*>((*itr)->getNastepny());
+				Linia* l22 = (*itr)->getNastepny();
 
 				if(((*itr)->getPunktR()->getX()) == (l1->getPunktDalejX()->getX() )&&
 				  ( (*itr)->getPunktR()->getY()) == (l1->getPunktDalejX()->getY() )&&
   				   (std::strcmp(l22->getSrodekPo(), "lewej") == 0) ) {
-					liniePionowe.erase(dynamic_cast<Linia*> ((*itr)->getNastepny()));
+					liniePionowe.erase((*itr)->getNastepny());
 					liniePionowe.erase(l1);
 					dekompozycjaDolna((*itr), l1);
 
@@ -188,18 +189,18 @@ int main() {
 			for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
 				Punkt* pKoncowy =  (*itr);
 				while(pKoncowy->getNastepny() != nullptr) {
-					pKoncowy = dynamic_cast<Punkt*> (pKoncowy->getNastepny());
+					pKoncowy = pKoncowy->getNastepny();
 				}
 				Punkt* p1Koncowy =  p1;
 				while(p1Koncowy->getNastepny() != nullptr) {
-					p1Koncowy = dynamic_cast<Punkt*> (p1Koncowy->getNastepny());
+					p1Koncowy = p1Koncowy->getNastepny();
 				}
 				if( (*itr)->getX() <= p1->getX() &&
 				    p1->getX() < pKoncowy->getX() ) {
 					//skasuj linie zaczynajace sie od punktu p1
 					//skasuj niepotrzebne linie
 					while(l1 != nullptr) {
-						Linia* lnext = dynamic_cast<Linia*> (l1->getNastepny());
+						Linia* lnext = l1->getNastepny();
 						if( l1->czyPionowa() ) {
 							auto e = find(liniePionowe.begin(), liniePionowe.end(), l1);
 							if(e != liniePionowe.end()) {
@@ -219,7 +220,7 @@ int main() {
 
 					//skasuj niepotrzebne punkty
 					while(p1 != nullptr) {
-						Punkt* pNext = dynamic_cast<Punkt*> (p1->getNastepny());
+						Punkt* pNext = p1->getNastepny();
 						delete p1;
 						p1 = pNext;
 					}
@@ -239,7 +240,7 @@ int main() {
 
 					//skasuj niepotrzebne linie
 					while(liniaDoSkasowania != nullptr) {
-						Linia* lnext = dynamic_cast<Linia*> (liniaDoSkasowania->getNastepny());
+						Linia* lnext = liniaDoSkasowania->getNastepny();
 						if( liniaDoSkasowania->czyPionowa() ) {
 							auto e = find(liniePionowe.begin(), liniePionowe.end(), liniaDoSkasowania);
 							if(e != liniePionowe.end()) {
@@ -261,7 +262,7 @@ int main() {
 					pierwszyPunkt.insert(p1);
 					pierwszaLinia.insert(l1);
 					while(p != nullptr) {
-						Punkt* pNext = dynamic_cast<Punkt*> (p->getNastepny());
+						Punkt* pNext = p->getNastepny();
 						delete p;
 						p = pNext;
 					}
@@ -361,7 +362,7 @@ int main() {
 			int y = 1;
 			while(p != nullptr) {
 				cout << "Punkt_" << y++ << " - "  << p->getX() << "," << p->getY() << endl;
-				p = dynamic_cast<Punkt*> (p->getNastepny());
+				p = p->getNastepny();
 			}
 
 
@@ -370,7 +371,7 @@ int main() {
 		for(auto itr = pierwszaLinia.begin(); itr != pierwszaLinia.end(); ++itr) {
 			Linia* liniaDoSkasowania = (*itr);
 			while(liniaDoSkasowania != nullptr) {
-				Linia* lnext = dynamic_cast<Linia*> (liniaDoSkasowania->getNastepny());
+				Linia* lnext = liniaDoSkasowania->getNastepny();
 				if( liniaDoSkasowania->czyPionowa() ) {
 					auto e = find(liniePionowe.begin(), liniePionowe.end(), liniaDoSkasowania);
 					if(e != liniePionowe.end()) {
@@ -391,7 +392,7 @@ int main() {
 			//skasuj niepotrzebne punkty
 			Punkt* p = (*itr);
 			while(p != nullptr) {
-				Punkt* pNext = dynamic_cast<Punkt*> (p->getNastepny());
+				Punkt* pNext = p->getNastepny();
 				delete p;
 				p = pNext;
 		}

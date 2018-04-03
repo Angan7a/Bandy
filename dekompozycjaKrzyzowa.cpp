@@ -6,21 +6,21 @@ Linia** dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
 	float y = liniaPozioma->getPunktL()->getY();
 	Linia* * out = new Linia*[2];
 	//utwórz dwa punkty - po(punkt obwiedni), ps(do skasowania)
-        Skasowac* poq = new Punkt(x, y);
-        Skasowac* psq = new Punkt(x, y);
-	Punkt* po = dynamic_cast<Punkt*>(poq);
-	Punkt* ps = dynamic_cast<Punkt*>(psq);
+      //  Skasowac* poq = new Punkt(x, y);
+      //  Skasowac* psq = new Punkt(x, y);
+	Punkt* po = new Punkt(x, y);
+	Punkt* ps = new Punkt(x, y);
         // skróc linie pozioma do punktu przecia
         if(std::strcmp(liniaPionowa->getSrodekPo(), "prawej") == 0) {
-		Linia* nextLG = dynamic_cast<Linia*> (liniaPionowa->getNastepny());
-		Linia* nextLR = dynamic_cast<Linia*> (liniaPozioma->getNastepny());
-		Punkt* nextPG = dynamic_cast<Punkt*> (liniaPionowa->getPunktDalejX()->getNastepny());
-		Punkt* nextPR = dynamic_cast<Punkt*> (liniaPozioma->getPunktR()->getNastepny());
+		Linia* nextLG = liniaPionowa->getNastepny();
+		Linia* nextLR = liniaPozioma->getNastepny();
+		Punkt* nextPG = liniaPionowa->getPunktDalejX()->getNastepny();
+		Punkt* nextPR = liniaPozioma->getPunktR()->getNastepny();
 
-		Skasowac* nr = new Linia(ps, liniaPozioma->getPunktR(), "dol");
-		Linia* nowaLiniaPrawa = dynamic_cast<Linia*>(nr);
-		Skasowac* ng = new Linia(po, liniaPionowa->getPunktDalejX(), "prawej");
-		Linia* nowaLiniaGorna = dynamic_cast<Linia*>(ng);
+//		Skasowac* nr = new Linia(ps, liniaPozioma->getPunktR(), "dol");
+		Linia* nowaLiniaPrawa = new Linia(ps, liniaPozioma->getPunktR(), "dol");
+//		Skasowac* ng = new Linia(po, liniaPionowa->getPunktDalejX(), "prawej");
+		Linia* nowaLiniaGorna =  new Linia(po, liniaPionowa->getPunktDalejX(), "prawej");
 
         	liniaPozioma->setPunktR(po);
 		liniaPionowa->setPunktDalejX(ps);
@@ -43,15 +43,15 @@ Linia** dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
 		return out;
           } else {
 
-		Linia* nextLD = dynamic_cast<Linia*> (liniaPionowa->getNastepny());
-		Linia* nextLR = dynamic_cast<Linia*> (liniaPozioma->getNastepny());
-		Punkt* nextPD = dynamic_cast<Punkt*> (liniaPionowa->getPunktBlizejX()->getNastepny());
-		Punkt* nextPR = dynamic_cast<Punkt*> (liniaPozioma->getPunktR()->getNastepny());
+		Linia* nextLD = liniaPionowa->getNastepny();
+		Linia* nextLR = liniaPozioma->getNastepny();
+		Punkt* nextPD = liniaPionowa->getPunktBlizejX()->getNastepny();
+		Punkt* nextPR = liniaPozioma->getPunktR()->getNastepny();
 
-		Skasowac* nr = new Linia(liniaPozioma->getPunktR(), po, "dol");
-		Linia* nowaLiniaPrawa = dynamic_cast<Linia*>(nr);
-		Skasowac* nd = new Linia(ps, liniaPionowa->getPunktBlizejX(), "lewej");
-		Linia* nowaLiniaDolna = dynamic_cast<Linia*>(nd);
+//		Skasowac* nr = new Linia(liniaPozioma->getPunktR(), po, "dol");
+		Linia* nowaLiniaPrawa = new Linia(liniaPozioma->getPunktR(), po, "dol");
+//		Skasowac* nd = new Linia(ps, liniaPionowa->getPunktBlizejX(), "lewej");
+		Linia* nowaLiniaDolna = new Linia(ps, liniaPionowa->getPunktBlizejX(), "lewej");
 
 
         	liniaPozioma->setPunktR(ps);
