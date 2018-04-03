@@ -3,7 +3,7 @@
 #include<memory>
 using namespace std;
 
-Linia* dekompozycjaLewa(Linia* l1, Linia* itr) {
+shared_ptr<Linia> dekompozycjaLewa(shared_ptr<Linia> l1, shared_ptr<Linia> itr) {
 //        if(std::strcmp(liniaWyzsza->getSrodekPo(), "prawej") == 0 &&
 //	   std::strcmp(liniaNizsza->getSrodekPo(), "lewej") == 0 ) {
 
@@ -12,14 +12,14 @@ Linia* dekompozycjaLewa(Linia* l1, Linia* itr) {
 
 //	        Skasowac* poq = new Punkt(x, y);
         	shared_ptr<Punkt> po = make_shared<Punkt>(x, y);
-         //       Skasowac* ng = new Linia(po, l1->getPunktDalejX(), "prawej");
-                Linia* nowaLiniaGorna = new Linia(po, l1->getPunktDalejX(), "prawej");
+         //       Skasowac* ng = make_shared<Linia>(po, l1->getPunktDalejX(), "prawej");
+                shared_ptr<Linia> nowaLiniaGorna = make_shared<Linia>(po, l1->getPunktDalejX(), "prawej");
 
 
 
 
-		Linia* nextLP = l1->getNastepny();
-		Linia* nextLD = itr->getNastepny();
+		shared_ptr<Linia> nextLP = l1->getNastepny();
+		shared_ptr<Linia> nextLD = itr->getNastepny();
 		shared_ptr<Punkt> nextPP = l1->getPunktDalejX()->getNastepny();
 		shared_ptr<Punkt> nextPD = itr->getPunktR()->getNastepny();
 
@@ -45,11 +45,11 @@ Linia* dekompozycjaLewa(Linia* l1, Linia* itr) {
   /*      } else if(std::strcmp(liniaWyzsza->getSrodekPo(), "prawej") == 0 &&
 	          std::strcmp(liniaNizsza->getSrodekPo(), "lewej") == 0 ) {
 
-		Linia* l1 = liniaWyzsza;
-		Linia* itr = liniaNizsza;
+		shared_ptr<Linia> l1 = liniaWyzsza;
+		shared_ptr<Linia> itr = liniaNizsza;
 
-		Linia* nextLPW = dynamic_cast<Linia*> (l1->getNastepny());
-		Linia* nextLPN = dynamic_cast<Linia*> (itr->getNastepny());
+		shared_ptr<Linia> nextLPW = dynamic_cast<shared_ptr<Linia>> (l1->getNastepny());
+		shared_ptr<Linia> nextLPN = dynamic_cast<shared_ptr<Linia>> (itr->getNastepny());
 		shared_ptr<Punkt> nextPPW = dynamic_cast<shared_ptr<Punkt>> (l1->getPunktDalejX()->getNastepny());
 		shared_ptr<Punkt> nextPPN = dynamic_cast<shared_ptr<Punkt>> (itr->getPunktBlizejX()->getNastepny());
 

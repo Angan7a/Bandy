@@ -3,11 +3,11 @@
 #include<memory>
 
 using namespace std;
-Linia** dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
+Przekaz* dekompozycjaKrzyzowa(shared_ptr<Linia> liniaPozioma, shared_ptr<Linia> liniaPionowa) {
 
 	float x =  liniaPionowa->getPunktBlizejX()->getX();
 	float y = liniaPozioma->getPunktL()->getY();
-	Linia* * out = new Linia*[2];
+	Przekaz *przekaz = new Przekaz();
 	//utwórz dwa punkty - po(punkt obwiedni), ps(do skasowania)
       //  Skasowac* poq = new Punkt(x, y);
       //  Skasowac* psq = new Punkt(x, y);
@@ -15,15 +15,15 @@ Linia** dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
 	shared_ptr<Punkt> ps = make_shared<Punkt>(x, y);
         // skróc linie pozioma do punktu przecia
         if(std::strcmp(liniaPionowa->getSrodekPo(), "prawej") == 0) {
-		Linia* nextLG = liniaPionowa->getNastepny();
-		Linia* nextLR = liniaPozioma->getNastepny();
+		shared_ptr<Linia> nextLG = liniaPionowa->getNastepny();
+		shared_ptr<Linia> nextLR = liniaPozioma->getNastepny();
 		shared_ptr<Punkt> nextPG = liniaPionowa->getPunktDalejX()->getNastepny();
 		shared_ptr<Punkt> nextPR = liniaPozioma->getPunktR()->getNastepny();
 
-//		Skasowac* nr = new Linia(ps, liniaPozioma->getPunktR(), "dol");
-		Linia* nowaLiniaPrawa = new Linia(ps, liniaPozioma->getPunktR(), "dol");
-//		Skasowac* ng = new Linia(po, liniaPionowa->getPunktDalejX(), "prawej");
-		Linia* nowaLiniaGorna =  new Linia(po, liniaPionowa->getPunktDalejX(), "prawej");
+//		Skasowac* nr = make_shared<Linia>(ps, liniaPozioma->getPunktR(), "dol");
+		shared_ptr<Linia> nowaLiniaPrawa = make_shared<Linia>(ps, liniaPozioma->getPunktR(), "dol");
+//		Skasowac* ng = make_shared<Linia>(po, liniaPionowa->getPunktDalejX(), "prawej");
+		shared_ptr<Linia> nowaLiniaGorna =  make_shared<Linia>(po, liniaPionowa->getPunktDalejX(), "prawej");
 
         	liniaPozioma->setPunktR(po);
 		liniaPionowa->setPunktDalejX(ps);
@@ -41,20 +41,20 @@ Linia** dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
 		nowaLiniaPrawa->getPunktR()->setNastepny(nextPR);//punkt
 		liniaPionowa->setNastepny(nowaLiniaPrawa); //linie
 		nowaLiniaPrawa->setNastepny(nextLR); //linia
-		out[0] = nowaLiniaPrawa;
-		out[1] = nowaLiniaGorna;
-		return out;
+		przekaz->setPrzekazPierwszy(nowaLiniaPrawa);
+		przekaz->setPrzekazDrugi(nowaLiniaGorna);
+		return przekaz;
           } else {
 
-		Linia* nextLD = liniaPionowa->getNastepny();
-		Linia* nextLR = liniaPozioma->getNastepny();
+		shared_ptr<Linia> nextLD = liniaPionowa->getNastepny();
+		shared_ptr<Linia> nextLR = liniaPozioma->getNastepny();
 		shared_ptr<Punkt> nextPD = liniaPionowa->getPunktBlizejX()->getNastepny();
 		shared_ptr<Punkt> nextPR = liniaPozioma->getPunktR()->getNastepny();
 
-//		Skasowac* nr = new Linia(liniaPozioma->getPunktR(), po, "dol");
-		Linia* nowaLiniaPrawa = new Linia(liniaPozioma->getPunktR(), po, "dol");
-//		Skasowac* nd = new Linia(ps, liniaPionowa->getPunktBlizejX(), "lewej");
-		Linia* nowaLiniaDolna = new Linia(ps, liniaPionowa->getPunktBlizejX(), "lewej");
+//		Skasowac* nr = make_shared<Linia>(liniaPozioma->getPunktR(), po, "dol");
+		shared_ptr<Linia> nowaLiniaPrawa = make_shared<Linia>(liniaPozioma->getPunktR(), po, "dol");
+//		Skasowac* nd = make_shared<Linia>(ps, liniaPionowa->getPunktBlizejX(), "lewej");
+		shared_ptr<Linia> nowaLiniaDolna = make_shared<Linia>(ps, liniaPionowa->getPunktBlizejX(), "lewej");
 
 
         	liniaPozioma->setPunktR(ps);
@@ -74,10 +74,10 @@ Linia** dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
 		nowaLiniaDolna->getPunktBlizejX()->setNastepny(nextPD);
 		liniaPozioma->setNastepny(nowaLiniaDolna);
 		nowaLiniaDolna->setNastepny(nextLD);
-		out[0] = nowaLiniaPrawa;
-		out[1] = nowaLiniaDolna;
+		przekaz->setPrzekazPierwszy(nowaLiniaPrawa);
+		przekaz->setPrzekazDrugi(nowaLiniaDolna);
 	//	liniePoziome->insert(nowaLiniaPrawa);
-		return out;
+		return przekaz;
 
 	}
 

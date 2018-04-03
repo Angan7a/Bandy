@@ -1,7 +1,7 @@
 #include"linia.h"
 using namespace std;
 
-Linia::Linia(shared_ptr<Punkt> p1, shared_ptr<Punkt> p2, const char* kierunek, Linia* nastepny) : p1(p1), p2(p2), kierunek(kierunek), nastepny(nastepny) {
+Linia::Linia(shared_ptr<Punkt> p1, shared_ptr<Punkt> p2, const char* kierunek, shared_ptr<Linia> nastepny) : p1(p1), p2(p2), kierunek(kierunek), nastepny(nastepny) {
 
 }
 
@@ -93,10 +93,10 @@ bool Linia::czyPionowa() const {
 	return 0;
 }
 
-Linia* Linia::getNastepny() const{
+shared_ptr<Linia> Linia::getNastepny() const{
 	return nastepny;
 }
 
-void Linia::setNastepny(Linia* linia){
+void Linia::setNastepny(shared_ptr<Linia> linia){
 	nastepny = linia;
 }

@@ -6,16 +6,16 @@
 using namespace std;
 
 
-void dekompozycjaDolna(Linia* itr, Linia* l1) {
+void dekompozycjaDolna(shared_ptr<Linia> itr, shared_ptr<Linia> l1) {
 
 	shared_ptr<Punkt> punktR = l1->getNastepny()->getPunktR();
         shared_ptr<Punkt> punktL = itr->getPunktR();
 
-        Linia* liniaD = itr->getNastepny();
-        Linia* liniaR = l1->getNastepny();
+        shared_ptr<Linia> liniaD = itr->getNastepny();
+        shared_ptr<Linia> liniaR = l1->getNastepny();
 
-	Linia* nextLP = l1->getNastepny()->getNastepny();
-        Linia* nextLD = itr->getNastepny()->getNastepny();
+	shared_ptr<Linia> nextLP = l1->getNastepny()->getNastepny();
+        shared_ptr<Linia> nextLD = itr->getNastepny()->getNastepny();
         shared_ptr<Punkt> nextPP = punktR->getNastepny();
         shared_ptr<Punkt> nextPD = punktL->getNastepny()->getNastepny();
 
@@ -24,8 +24,8 @@ void dekompozycjaDolna(Linia* itr, Linia* l1) {
         shared_ptr<Punkt> psL = make_shared<Punkt> (punktL->getX(), punktL->getY());
 //        Skasowac* psqR = new Punkt(punktR->getX(), punktR->getY());
         shared_ptr<Punkt> psR = make_shared<Punkt> (punktR->getX(), punktR->getY());
-  //      Skasowac* ng = new Linia(psL, psL, "dole");
-        Linia* nowaLiniaGorna = new Linia(psL, psL, "dole");
+  //      Skasowac* ng = make_shared<Linia>(psL, psL, "dole");
+        shared_ptr<Linia> nowaLiniaGorna = make_shared<Linia>(psL, psL, "dole");
 
 	l1->getNastepny()->setPunktR(psR);
 

@@ -3,12 +3,12 @@
 #include<memory>
 using namespace std;
 
-void dekompozycjaPrawa(Linia* liniaWyzsza, Linia* liniaNizsza) {
+void dekompozycjaPrawa(shared_ptr<Linia> liniaWyzsza, shared_ptr<Linia> liniaNizsza) {
         if(std::strcmp(liniaWyzsza->getSrodekPo(), "prawej") == 0 &&
 	   std::strcmp(liniaNizsza->getSrodekPo(), "prawej") == 0 ) {
 
-		Linia* nextLPN = liniaNizsza->getNastepny();
-		Linia* nextLPW = liniaWyzsza->getNastepny();
+		shared_ptr<Linia> nextLPN = liniaNizsza->getNastepny();
+		shared_ptr<Linia> nextLPW = liniaWyzsza->getNastepny();
 		shared_ptr<Punkt> nextPPN = liniaNizsza->getPunktDalejX()->getNastepny();
 		shared_ptr<Punkt> nextPPW = liniaWyzsza->getPunktDalejX()->getNastepny();
 
@@ -29,19 +29,19 @@ void dekompozycjaPrawa(Linia* liniaWyzsza, Linia* liniaNizsza) {
         } else if(std::strcmp(liniaWyzsza->getSrodekPo(), "prawej") == 0 &&
 	          std::strcmp(liniaNizsza->getSrodekPo(), "lewej") == 0 ) {
 
-		Linia* l1 = liniaWyzsza;
-		Linia* itr = liniaNizsza;
+		shared_ptr<Linia> l1 = liniaWyzsza;
+		shared_ptr<Linia> itr = liniaNizsza;
 
                 float x = l1->getPunktDalejX()->getX();
                 float y = l1->getPunktDalejX()->getY();
 
            //     Skasowac* psq = new Punkt(x, y);
                 shared_ptr<Punkt> ps = make_shared<Punkt>(x, y);
-         //       Skasowac* ng = new Linia(ps, itr->getPunktBlizejX(), "lewej");
-                Linia* nowaLiniaDolna = new Linia(ps, itr->getPunktBlizejX(), "lewej");
+         //       Skasowac* ng = make_shared<Linia>(ps, itr->getPunktBlizejX(), "lewej");
+                shared_ptr<Linia> nowaLiniaDolna = make_shared<Linia>(ps, itr->getPunktBlizejX(), "lewej");
 
-		Linia* nextLPW = l1->getNastepny();
-		Linia* nextLPN = itr->getNastepny();
+		shared_ptr<Linia> nextLPW = l1->getNastepny();
+		shared_ptr<Linia> nextLPN = itr->getNastepny();
 		shared_ptr<Punkt> nextPPW = l1->getPunktDalejX()->getNastepny();
 		shared_ptr<Punkt> nextPPN = itr->getPunktBlizejX()->getNastepny();
 

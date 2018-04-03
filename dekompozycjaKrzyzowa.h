@@ -4,9 +4,9 @@
 
 #include"linia.h"
 #include"punkt.h"
-//#include<vector>
+#include"przekaz.h"
 
-Linia** dekompozycjaKrzyzowa(Linia*, Linia*);
+Przekaz* dekompozycjaKrzyzowa(shared_ptr<Linia>, shared_ptr<Linia>);
 
 
 #endif

@@ -5,16 +5,16 @@
 #include<memory>
 using namespace std;
 
-void dekompozycjaDolnaPojedyncza(Linia* itr, Linia* l2) {
+void dekompozycjaDolnaPojedyncza(shared_ptr<Linia> itr, shared_ptr<Linia> l2) {
 
 
-	Linia* nextLP = itr->getNastepny()->getNastepny();
-	Linia* nextLD = l2->getNastepny()->getNastepny();
+	shared_ptr<Linia> nextLP = itr->getNastepny()->getNastepny();
+	shared_ptr<Linia> nextLD = l2->getNastepny()->getNastepny();
 	shared_ptr<Punkt> nextPP = itr->getPunktDalejX()->getNastepny()->getNastepny();
 	shared_ptr<Punkt> nextPD = l2->getPunktR()->getNastepny()->getNastepny();
 
-	Linia* liniaGornaDoSkas = itr->getNastepny();
-	Linia* liniaDolnaDoSkas = l2->getNastepny();
+	shared_ptr<Linia> liniaGornaDoSkas = itr->getNastepny();
+	shared_ptr<Linia> liniaDolnaDoSkas = l2->getNastepny();
 
 	shared_ptr<Punkt> punktLW = itr->getPunktDalejX();
 	shared_ptr<Punkt> punktPW = liniaDolnaDoSkas->getPunktDalejX();

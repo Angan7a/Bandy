@@ -4,7 +4,7 @@
 
 #include"linia.h"
 
-void dekompozycjaPrawa(Linia*, Linia*);
+void dekompozycjaPrawa(shared_ptr<Linia>, shared_ptr<Linia>);
 
 
 #endif

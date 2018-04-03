@@ -8,10 +8,10 @@ using namespace std;
 class Linia {
 	shared_ptr<Punkt> p1;
 	shared_ptr<Punkt> p2;
-	Linia* nastepny;
+	shared_ptr<Linia> nastepny;
 	const char* kierunek;
 public:
-	Linia(shared_ptr<Punkt>, shared_ptr<Punkt>, const char*, Linia* nastepny = nullptr);
+	Linia(shared_ptr<Punkt>, shared_ptr<Punkt>, const char*, shared_ptr<Linia> nastepny = nullptr);
 
 	shared_ptr<Punkt> getP1() const;
 	shared_ptr<Punkt> getP2() const;
@@ -27,8 +27,8 @@ public:
 	void setPunktL(shared_ptr<Punkt>);
 	void setPunktR(shared_ptr<Punkt>);
 	bool czyPionowa() const;
-	Linia* getNastepny() const;
-	void setNastepny(Linia*);
+	shared_ptr<Linia> getNastepny() const;
+	void setNastepny(shared_ptr<Linia>);
 };
 
 #endif

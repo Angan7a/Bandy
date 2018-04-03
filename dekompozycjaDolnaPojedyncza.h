@@ -4,7 +4,7 @@
 
 #include"linia.h"
 
-void dekompozycjaDolnaPojedyncza(Linia*, Linia*);
+void dekompozycjaDolnaPojedyncza(shared_ptr<Linia>, shared_ptr<Linia>);
 
 
 #endif

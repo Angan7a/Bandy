@@ -4,7 +4,7 @@
 
 #include"linia.h"
 
-Linia* dekompozycjaLewa(Linia*, Linia*);
+shared_ptr<Linia> dekompozycjaLewa(shared_ptr<Linia>, shared_ptr<Linia>);
 
 
 #endif
