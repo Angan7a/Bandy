@@ -2,23 +2,24 @@
 #include"dekompozycjaDolnaPojedyncza.h"
 #include<cstring>
 #include<iostream>
-
+#include<memory>
+using namespace std;
 
 void dekompozycjaDolnaPojedyncza(Linia* itr, Linia* l2) {
 
 
 	Linia* nextLP = itr->getNastepny()->getNastepny();
 	Linia* nextLD = l2->getNastepny()->getNastepny();
-	Punkt* nextPP = itr->getPunktDalejX()->getNastepny()->getNastepny();
-	Punkt* nextPD = l2->getPunktR()->getNastepny()->getNastepny();
+	shared_ptr<Punkt> nextPP = itr->getPunktDalejX()->getNastepny()->getNastepny();
+	shared_ptr<Punkt> nextPD = l2->getPunktR()->getNastepny()->getNastepny();
 
 	Linia* liniaGornaDoSkas = itr->getNastepny();
 	Linia* liniaDolnaDoSkas = l2->getNastepny();
 
-	Punkt* punktLW = itr->getPunktDalejX();
-	Punkt* punktPW = liniaDolnaDoSkas->getPunktDalejX();
-	Punkt* punktPD = liniaDolnaDoSkas->getPunktBlizejX();
-	Punkt* punktPZ = itr->getPunktDalejX()->getNastepny();
+	shared_ptr<Punkt> punktLW = itr->getPunktDalejX();
+	shared_ptr<Punkt> punktPW = liniaDolnaDoSkas->getPunktDalejX();
+	shared_ptr<Punkt> punktPD = liniaDolnaDoSkas->getPunktBlizejX();
+	shared_ptr<Punkt> punktPZ = itr->getPunktDalejX()->getNastepny();
 
 
 	liniaGornaDoSkas->setPunktR(punktPW);

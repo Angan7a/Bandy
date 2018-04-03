@@ -1,6 +1,7 @@
 #include"dekompozycjaPrawa.h"
 #include<cstring>
-
+#include<memory>
+using namespace std;
 
 void dekompozycjaPrawa(Linia* liniaWyzsza, Linia* liniaNizsza) {
         if(std::strcmp(liniaWyzsza->getSrodekPo(), "prawej") == 0 &&
@@ -8,11 +9,11 @@ void dekompozycjaPrawa(Linia* liniaWyzsza, Linia* liniaNizsza) {
 
 		Linia* nextLPN = liniaNizsza->getNastepny();
 		Linia* nextLPW = liniaWyzsza->getNastepny();
-		Punkt* nextPPN = liniaNizsza->getPunktDalejX()->getNastepny();
-		Punkt* nextPPW = liniaWyzsza->getPunktDalejX()->getNastepny();
+		shared_ptr<Punkt> nextPPN = liniaNizsza->getPunktDalejX()->getNastepny();
+		shared_ptr<Punkt> nextPPW = liniaWyzsza->getPunktDalejX()->getNastepny();
 
-		Punkt* punktW = liniaWyzsza->getPunktDalejX();
-		Punkt* punktN = liniaNizsza->getPunktDalejX();
+		shared_ptr<Punkt> punktW = liniaWyzsza->getPunktDalejX();
+		shared_ptr<Punkt> punktN = liniaNizsza->getPunktDalejX();
 
 		liniaNizsza->setPunktDalejX(punktW);
 		liniaWyzsza->setPunktDalejX(punktN);
@@ -35,17 +36,17 @@ void dekompozycjaPrawa(Linia* liniaWyzsza, Linia* liniaNizsza) {
                 float y = l1->getPunktDalejX()->getY();
 
            //     Skasowac* psq = new Punkt(x, y);
-                Punkt* ps = new Punkt(x, y);
+                shared_ptr<Punkt> ps = make_shared<Punkt>(x, y);
          //       Skasowac* ng = new Linia(ps, itr->getPunktBlizejX(), "lewej");
                 Linia* nowaLiniaDolna = new Linia(ps, itr->getPunktBlizejX(), "lewej");
 
 		Linia* nextLPW = l1->getNastepny();
 		Linia* nextLPN = itr->getNastepny();
-		Punkt* nextPPW = l1->getPunktDalejX()->getNastepny();
-		Punkt* nextPPN = itr->getPunktBlizejX()->getNastepny();
+		shared_ptr<Punkt> nextPPW = l1->getPunktDalejX()->getNastepny();
+		shared_ptr<Punkt> nextPPN = itr->getPunktBlizejX()->getNastepny();
 
-		Punkt* punktW = l1->getPunktDalejX();
-		Punkt* punktN = itr->getPunktBlizejX();
+		shared_ptr<Punkt> punktW = l1->getPunktDalejX();
+		shared_ptr<Punkt> punktN = itr->getPunktBlizejX();
 
 		itr->setPunktBlizejX(punktW);
 		l1->setPunktDalejX(ps);

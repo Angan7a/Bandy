@@ -1,6 +1,7 @@
 #include"punkt.h"
+using namespace std;
 
-Punkt::Punkt(float x, float y, Punkt* nastepny) : x(x), y(y), nastepny(nastepny) {
+Punkt::Punkt(float x, float y, shared_ptr<Punkt> nastepny) : x(x), y(y), nastepny(nastepny) {
 
 }
 
@@ -12,11 +13,11 @@ float Punkt::getY() const {
 	return y;
 }
 
-Punkt* Punkt::getNastepny() const {
+shared_ptr<Punkt> Punkt::getNastepny() const {
 	return nastepny;
 }
 
-void Punkt::setNastepny(Punkt* p) {
+void Punkt::setNastepny( shared_ptr<Punkt> p) {
 	nastepny = p;
 }
 /*

@@ -1,6 +1,7 @@
 #include"dekompozycjaLewa.h"
 #include<cstring>
-
+#include<memory>
+using namespace std;
 
 Linia* dekompozycjaLewa(Linia* l1, Linia* itr) {
 //        if(std::strcmp(liniaWyzsza->getSrodekPo(), "prawej") == 0 &&
@@ -10,7 +11,7 @@ Linia* dekompozycjaLewa(Linia* l1, Linia* itr) {
        		float y = itr->getPunktR()->getY();
 
 //	        Skasowac* poq = new Punkt(x, y);
-        	Punkt* po = new Punkt(x, y);
+        	shared_ptr<Punkt> po = make_shared<Punkt>(x, y);
          //       Skasowac* ng = new Linia(po, l1->getPunktDalejX(), "prawej");
                 Linia* nowaLiniaGorna = new Linia(po, l1->getPunktDalejX(), "prawej");
 
@@ -19,11 +20,11 @@ Linia* dekompozycjaLewa(Linia* l1, Linia* itr) {
 
 		Linia* nextLP = l1->getNastepny();
 		Linia* nextLD = itr->getNastepny();
-		Punkt* nextPP = l1->getPunktDalejX()->getNastepny();
-		Punkt* nextPD = itr->getPunktR()->getNastepny();
+		shared_ptr<Punkt> nextPP = l1->getPunktDalejX()->getNastepny();
+		shared_ptr<Punkt> nextPD = itr->getPunktR()->getNastepny();
 
-		Punkt* punktW = l1->getPunktDalejX();
-		Punkt* punktN = itr->getPunktR();
+		shared_ptr<Punkt> punktW = l1->getPunktDalejX();
+		shared_ptr<Punkt> punktN = itr->getPunktR();
 
 		l1->setPunktDalejX(itr->getPunktR());
 		itr->setPunktR(po);
@@ -49,11 +50,11 @@ Linia* dekompozycjaLewa(Linia* l1, Linia* itr) {
 
 		Linia* nextLPW = dynamic_cast<Linia*> (l1->getNastepny());
 		Linia* nextLPN = dynamic_cast<Linia*> (itr->getNastepny());
-		Punkt* nextPPW = dynamic_cast<Punkt*> (l1->getPunktDalejX()->getNastepny());
-		Punkt* nextPPN = dynamic_cast<Punkt*> (itr->getPunktBlizejX()->getNastepny());
+		shared_ptr<Punkt> nextPPW = dynamic_cast<shared_ptr<Punkt>> (l1->getPunktDalejX()->getNastepny());
+		shared_ptr<Punkt> nextPPN = dynamic_cast<shared_ptr<Punkt>> (itr->getPunktBlizejX()->getNastepny());
 
-		Punkt* punktW = dynamic_cast<Punkt*> (l1->getPunktDalejX());
-		Punkt* punktN = dynamic_cast<Punkt*> (itr->getPunktBlizejX());
+		shared_ptr<Punkt> punktW = dynamic_cast<shared_ptr<Punkt>> (l1->getPunktDalejX());
+		shared_ptr<Punkt> punktN = dynamic_cast<shared_ptr<Punkt>> (itr->getPunktBlizejX());
 
 		itr->setPunktBlizejX(punktW);
 		l1->setPunktDalejX(punktN);

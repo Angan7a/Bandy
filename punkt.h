@@ -1,21 +1,22 @@
 #ifndef punkt_hpp
 #define punkt_hpp
 
-//#include"skasowac.h"
+#include<memory>
+using namespace std;
 
 class Punkt {
 	float x;
 	float y;
-	Punkt* nastepny;
+	shared_ptr<Punkt> nastepny;
 //	Punkt* poprzedni;
 public:
-	Punkt(float , float, Punkt* nastepny = nullptr);
+	Punkt(float , float, shared_ptr<Punkt> nastepny = nullptr);
 	float getX() const;
 	float getY() const;
 
 
-	Punkt* getNastepny() const;
-	void setNastepny(Punkt*);
+	shared_ptr<Punkt> getNastepny() const;
+	void setNastepny(shared_ptr<Punkt>);
 //	void setNastepny(Punkt*);
 //	void setPoprzedni(Punkt*);
 };

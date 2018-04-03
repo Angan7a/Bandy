@@ -1,5 +1,8 @@
 #include"dekompozycjaKrzyzowa.h"
 #include<cstring>
+#include<memory>
+
+using namespace std;
 Linia** dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
 
 	float x =  liniaPionowa->getPunktBlizejX()->getX();
@@ -8,14 +11,14 @@ Linia** dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
 	//utwórz dwa punkty - po(punkt obwiedni), ps(do skasowania)
       //  Skasowac* poq = new Punkt(x, y);
       //  Skasowac* psq = new Punkt(x, y);
-	Punkt* po = new Punkt(x, y);
-	Punkt* ps = new Punkt(x, y);
+	shared_ptr<Punkt> po = make_shared<Punkt>(x, y);
+	shared_ptr<Punkt> ps = make_shared<Punkt>(x, y);
         // skróc linie pozioma do punktu przecia
         if(std::strcmp(liniaPionowa->getSrodekPo(), "prawej") == 0) {
 		Linia* nextLG = liniaPionowa->getNastepny();
 		Linia* nextLR = liniaPozioma->getNastepny();
-		Punkt* nextPG = liniaPionowa->getPunktDalejX()->getNastepny();
-		Punkt* nextPR = liniaPozioma->getPunktR()->getNastepny();
+		shared_ptr<Punkt> nextPG = liniaPionowa->getPunktDalejX()->getNastepny();
+		shared_ptr<Punkt> nextPR = liniaPozioma->getPunktR()->getNastepny();
 
 //		Skasowac* nr = new Linia(ps, liniaPozioma->getPunktR(), "dol");
 		Linia* nowaLiniaPrawa = new Linia(ps, liniaPozioma->getPunktR(), "dol");
@@ -45,8 +48,8 @@ Linia** dekompozycjaKrzyzowa(Linia* liniaPozioma, Linia* liniaPionowa) {
 
 		Linia* nextLD = liniaPionowa->getNastepny();
 		Linia* nextLR = liniaPozioma->getNastepny();
-		Punkt* nextPD = liniaPionowa->getPunktBlizejX()->getNastepny();
-		Punkt* nextPR = liniaPozioma->getPunktR()->getNastepny();
+		shared_ptr<Punkt> nextPD = liniaPionowa->getPunktBlizejX()->getNastepny();
+		shared_ptr<Punkt> nextPR = liniaPozioma->getPunktR()->getNastepny();
 
 //		Skasowac* nr = new Linia(liniaPozioma->getPunktR(), po, "dol");
 		Linia* nowaLiniaPrawa = new Linia(liniaPozioma->getPunktR(), po, "dol");

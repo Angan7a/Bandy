@@ -4,7 +4,7 @@
 #include<set>
 #include<algorithm>
 #include<cstring>
-//#include <memory>
+#include <memory>
 
 #include"punkt.h"
 #include"linia.h"
@@ -19,8 +19,11 @@ using namespace std;
 int main() {
 	auto cmpPionowe = [](Linia* a, Linia* b) { return a->getPunktBlizejX()->getX() < b->getPunktBlizejX()->getX() || a->getPunktDalejX()->getY() < b->getPunktDalejX()->getY(); };
 	auto cmpPoziome = [](Linia* a, Linia* b) { return a->getPunktL()->getX() < b->getPunktL()->getX() ||  a->getPunktL()->getY() < b->getPunktL()->getY(); };
-	auto cmpPunkty = [](Punkt* a, Punkt* b) { return a->getX() < b->getX(); };
-	set<Punkt*, decltype(cmpPunkty)> pierwszyPunkt(cmpPunkty);
+	auto cmpPunkty = [](shared_ptr<Punkt> a, shared_ptr<Punkt> b) { return a->getX() < b->getX(); };
+	auto cmp = [](shared_ptr<Punkt> a, shared_ptr<Punkt> b) { return a->getX() < b->getX(); };
+	set<shared_ptr<Punkt>, decltype(cmp)> sPunkt(cmp);
+
+	set<shared_ptr<Punkt>, decltype(cmpPunkty)> pierwszyPunkt(cmpPunkty);
 	set<Linia*, decltype(cmpPionowe)> pierwszaLinia(cmpPionowe);
 	set<Linia*, decltype(cmpPionowe)> liniePionowe(cmpPionowe);
 	set<Linia*, decltype(cmpPoziome)> liniePoziome(cmpPoziome);
@@ -36,19 +39,21 @@ int main() {
         float p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y;
         while((scanf("%12s - (%f, %f)(%f, %f)(%f, %f)(%f, %f)", a, &p1x, &p1y, &p2x, &p2y, &p3x, &p3y, &p4x, &p4y)) != EOF) {
                 int byl = 0;
-	//	Skasowac *p11 = new Punkt(p1x, p1y);
-          //      Skasowac *p22 = new Punkt(p2x, p2y);
-            //    Skasowac *p33 = new Punkt(p3x, p3y);
-             //   Skasowac *p44 = new Punkt(p4x, p4y);
-		Punkt* p1 = new Punkt(p1x, p1y);
-		Punkt* p2 = new Punkt(p2x, p2y);
-		Punkt* p3 = new Punkt(p3x, p3y);
-		Punkt* p4 = new Punkt(p4x, p4y);
+		shared_ptr<Punkt> sp1 = make_shared<Punkt>(p1x, p1y);
+		sPunkt.insert(sp1);
+
+		shared_ptr<Punkt> p1 = make_shared<Punkt>(p1x, p1y);
+		shared_ptr<Punkt> p2 = make_shared<Punkt>(p2x, p2y);
+		shared_ptr<Punkt> p3 = make_shared<Punkt>(p3x, p3y);
+		shared_ptr<Punkt> p4 = make_shared<Punkt>(p4x, p4y);
 
 
-//		Skasowac *l11 = new Linia(p1, p2, "prawej");
-//		Skasowac *l22 = new Linia(p2, p3, "dol");
-//		Skasowac *l33 = new Linia(p3, p4, "lewej");
+
+		//shared_ptr<Punkt> p1 = new Punkt(p1x, p1y);
+		//shared_ptr<Punkt> p2 = new Punkt(p2x, p2y);
+		//shared_ptr<Punkt> p3 = new Punkt(p3x, p3y);
+		//shared_ptr<Punkt> p4 = new Punkt(p4x, p4y);
+
 		Linia* l1 = new Linia(p1, p2, "prawej");
 		Linia* l2 = new Linia(p2, p3, "dol");
 		Linia* l3 = new Linia(p3, p4, "lewej");
@@ -186,11 +191,11 @@ int main() {
 
 //czyszczenie pamieci z niepotrzebnych punktow i linii
 			for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
-				Punkt* pKoncowy =  (*itr);
+				shared_ptr<Punkt> pKoncowy =  (*itr);
 				while(pKoncowy->getNastepny() != nullptr) {
 					pKoncowy = pKoncowy->getNastepny();
 				}
-				Punkt* p1Koncowy =  p1;
+				shared_ptr<Punkt> p1Koncowy =  p1;
 				while(p1Koncowy->getNastepny() != nullptr) {
 					p1Koncowy = p1Koncowy->getNastepny();
 				}
@@ -219,8 +224,8 @@ int main() {
 
 					//skasuj niepotrzebne punkty
 					while(p1 != nullptr) {
-						Punkt* pNext = p1->getNastepny();
-						delete p1;
+						shared_ptr<Punkt> pNext = p1->getNastepny();
+						//delete p1;
 						p1 = pNext;
 					}
 				//(*itr) w srodku dodawanego bantu
@@ -256,13 +261,13 @@ int main() {
 						liniaDoSkasowania = lnext;
 					}
 					//skasuj niepotrzebne punkty
-					Punkt* p = (*itr);
+					shared_ptr<Punkt> p = (*itr);
 					pierwszyPunkt.erase(itr);
 					pierwszyPunkt.insert(p1);
 					pierwszaLinia.insert(l1);
 					while(p != nullptr) {
-						Punkt* pNext = p->getNastepny();
-						delete p;
+						shared_ptr<Punkt> pNext = p->getNastepny();
+						//delete p;
 						p = pNext;
 					}
 			/*	} else if ((*itr)->getX() == p1->getX()) {
@@ -294,7 +299,7 @@ int main() {
 						}
 						//skasuj niepotrzebne punkty
 						while(p1 != nullptr) {
-							Punkt* pNext = dynamic_cast<Punkt*> (p1->getNastepny());
+							shared_ptr<Punkt> pNext = dynamic_cast<shared_ptr<Punkt>> (p1->getNastepny());
 							delete p1;
 							p1 = pNext;
 						}
@@ -323,9 +328,9 @@ int main() {
 							liniaDoSkasowania = lnext;
 						}
 						//skasuj niepotrzebne punkty
-						Punkt* p = (*itr);
+						shared_ptr<Punkt> p = (*itr);
 						while(p != nullptr) {
-							Punkt* pNext = dynamic_cast<Punkt*> (p->getNastepny());
+							shared_ptr<Punkt> pNext = dynamic_cast<shared_ptr<Punkt>> (p->getNastepny());
 							delete p;
 							p = pNext;
 						}
@@ -356,7 +361,7 @@ int main() {
 
 		int x =1;
 		for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
-			Punkt* p =  *(itr);
+			shared_ptr<Punkt> p =  *(itr);
 		cout << "Seria_punktów_" << x++ << endl;
 			int y = 1;
 			while(p != nullptr) {
@@ -389,10 +394,10 @@ int main() {
 
 		for(auto itr = pierwszyPunkt.begin(); itr != pierwszyPunkt.end(); ++itr) {
 			//skasuj niepotrzebne punkty
-			Punkt* p = (*itr);
+			shared_ptr<Punkt> p = (*itr);
 			while(p != nullptr) {
-				Punkt* pNext = p->getNastepny();
-				delete p;
+				shared_ptr<Punkt> pNext = p->getNastepny();
+				//delete p;
 				p = pNext;
 		}
 
